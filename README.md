@@ -1,2 +1,2 @@
 # OutreachAppWeb
-Connecting Outreach volunteers to unhoused Encampments 
+Connecting Outreach volunteers to unhoused Encampments.:
