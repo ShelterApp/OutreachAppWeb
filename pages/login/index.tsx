@@ -1,9 +1,22 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import styles from 'styles/Home.module.css'
-import TextInput from 'component/TextInput'
-import Button from 'component/Button';
+import type { NextPage } from "next";
+import Head from "next/head";
+import styles from "styles/Home.module.css";
+// import TextInput from "component/TextInput";
+// import Button from "component/Button";
+import { useForm, SubmitHandler } from "react-hook-form";
+import ErrorMessage from "component/ErrorMessage";
+import stylesComponent from 'component/Component.module.css';
+import Button from '@mui/material/Button';
+
+type Inputs = {
+  email: string,
+  password: string,
+};
+
 const Login: NextPage = () => {
+  const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
+  const onSubmit: SubmitHandler<Inputs> = data => console.log(data);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -14,13 +27,55 @@ const Login: NextPage = () => {
       <main className={styles.main}>
         <div className={styles.titleName}>OutreachApp</div>
         <div className={styles.grid}>
-         <TextInput placeholder='Email or Phone Number'/>
-         <TextInput placeholder='Password'/>
-<Button text='Login' link='/login'/>
+          <div className={stylesComponent.container}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <input
+                {...register(
+                  "email",
+                  {
+                    required: true,
+                    pattern: /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+                  }
+                )}
+                className={stylesComponent.input}
+                placeholder="Email or Phone Number"
+                type='email'
+              />
+              {errors.email && errors.email.type === "pattern" && (
+                <ErrorMessage>
+                  Email must be valid.
+                </ErrorMessage>
+              )}
+              {errors.email && errors.email.type === "required" && (
+                <ErrorMessage>
+                  Please input email.
+                </ErrorMessage>
+              )}
+              <input
+                {...register("password", { required: true, minLength: 6 })}
+                type="password"
+                placeholder="Password"
+                className={stylesComponent.input}
+              />
+              {errors.password && errors.password.type === "minLength" && (
+                <ErrorMessage>
+                  Password must be at least 6 characters long.
+                </ErrorMessage>
+              )}
+              {errors.password && errors.password.type === "required" && (
+                <ErrorMessage>
+                  Please input password.
+                </ErrorMessage>
+              )}
+              <Button type="submit" variant="outlined" size="large">
+                Login
+              </Button>
+            </form>
+          </div>
         </div>
       </main>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
