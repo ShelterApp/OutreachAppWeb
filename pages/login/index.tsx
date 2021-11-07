@@ -16,7 +16,7 @@ const Login: NextPage = () => {
         <div className={styles.grid}>
          <TextInput placeholder='Email or Phone Number'/>
          <TextInput placeholder='Password'/>
-<Button text='Login' link='/login'/>
+          <Button text='Login' link='/login'/>
         </div>
       </main>
     </div>

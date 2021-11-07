@@ -3,7 +3,7 @@ import React, {
   ButtonHTMLAttributes,
 } from 'react'
 import Link from 'next/link'
-import style from 'styles/Home.module.css'
+import style from './Component.module.css'
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   link?: string

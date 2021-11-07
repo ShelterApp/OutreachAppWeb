@@ -16,7 +16,7 @@ const Home: NextPage = () => {
         <div className={styles.titleName}>OutreachApp</div>
         <div className={styles.grid}>
           <Button text='Login' link='/login'></Button>
-          <Button text='Sign Up' link='#'></Button>
+          <Button text='Sign Up' link='/sign-up'></Button>
           <Button text='Request for Help' link='#'></Button>
         </div>
       </main>
