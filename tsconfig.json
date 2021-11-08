@@ -22,6 +22,6 @@
         "jsx": "preserve",
         "incremental": true
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "helpers/fetch-wrapper.js"],
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "helpers/fetch-wrapper.ts"],
     "exclude": ["node_modules"]
 }

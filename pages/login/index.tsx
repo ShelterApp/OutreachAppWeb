@@ -1,21 +1,39 @@
 import type { NextPage } from "next";
 import Head from 'component/Head';
 import styles from "styles/Home.module.css";
-// import TextInput from "component/TextInput";
-// import Button from "component/Button";
 import { useForm, SubmitHandler } from "react-hook-form";
 import ErrorMessage from "component/ErrorMessage";
-import stylesComponent from 'component/Component.module.css';
-import Button from '@mui/material/Button';
+import stylesComponent from "component/Component.module.css";
+import Button from "@mui/material/Button";
+import { userService, alertService } from "services";
+import { useRouter } from "next/router";
 
 type Inputs = {
-  email: string,
-  password: string,
+  email: string;
+  password: string;
 };
 
 const Login: NextPage = () => {
-  const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = data => console.log(data);
+  const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<Inputs>();
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    console.log(data);
+    console.log(userService)
+
+    return userService
+      .login(data.email, data.password)
+      .then(() => {
+        // get return url from query parameters or default to '/'
+        const returnUrl = router.query.returnUrl || "/";
+        router.push(returnUrl);
+      })
+      .catch(alertService.error);
+  };
 
   return (
     <div className={styles.container}>
@@ -26,26 +44,20 @@ const Login: NextPage = () => {
           <div className={stylesComponent.container}>
             <form onSubmit={handleSubmit(onSubmit)}>
               <input
-                {...register(
-                  "email",
-                  {
-                    required: true,
-                    pattern: /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
-                  }
-                )}
+                {...register("email", {
+                  required: true,
+                  pattern:
+                    /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
+                })}
                 className={stylesComponent.input}
                 placeholder="Email or Phone Number"
-                type='email'
+                type="email"
               />
               {errors.email && errors.email.type === "pattern" && (
-                <ErrorMessage>
-                  Email must be valid.
-                </ErrorMessage>
+                <ErrorMessage>Email must be valid.</ErrorMessage>
               )}
               {errors.email && errors.email.type === "required" && (
-                <ErrorMessage>
-                  Please input email.
-                </ErrorMessage>
+                <ErrorMessage>Please input email.</ErrorMessage>
               )}
               <input
                 {...register("password", { required: true, minLength: 6 })}
@@ -59,9 +71,7 @@ const Login: NextPage = () => {
                 </ErrorMessage>
               )}
               {errors.password && errors.password.type === "required" && (
-                <ErrorMessage>
-                  Please input password.
-                </ErrorMessage>
+                <ErrorMessage>Please input password.</ErrorMessage>
               )}
               <Button type="submit" variant="outlined" size="large" 
               className={stylesComponent.card}

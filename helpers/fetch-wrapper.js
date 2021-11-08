@@ -1,4 +1,5 @@
 import getConfig from "next/config";
+import { retry } from "rxjs";
 
 import { userService } from "services";
 
@@ -52,12 +53,13 @@ function _delete(url) {
 function authHeader(url) {
   // return auth header with jwt if user is logged in and request is to the api url
   const user = userService.userValue;
-  const isLoggedIn = user && user.token;
+  console.log(user)
+  const isLoggedIn = user && user.access_token;
   const isApiUrl = url.startsWith(publicRuntimeConfig.apiUrl);
   if (isLoggedIn && isApiUrl) {
-    return { Authorization: `Bearer ${user.token}` };
+    return { Authorization: `Bearer ${user.access_token}` };
   } else {
-    return {};
+    return {'accept': '*/*'};
   }
 }
 
