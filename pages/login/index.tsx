@@ -4,7 +4,9 @@ import styles from "styles/Home.module.css";
 import { useForm, SubmitHandler } from "react-hook-form";
 import ErrorMessage from "component/ErrorMessage";
 import stylesComponent from "component/Component.module.css";
-import Button from "@mui/material/Button";
+// import Button from "@mui/material/Button";
+import Button from "component/Button";
+
 import { userService, alertService } from "services";
 import { useRouter } from "next/router";
 
@@ -73,11 +75,9 @@ const Login: NextPage = () => {
               {errors.password && errors.password.type === "required" && (
                 <ErrorMessage>Please input password.</ErrorMessage>
               )}
-              <Button type="submit" variant="outlined" size="large" 
-              className={stylesComponent.card}
-              style={{textTransform:'none', borderRadius:50, backgroundColor:'#5952ff', color:'white'}}>
-                Login
-              </Button>
+                <div className={styles.grid}>
+                <Button text="Login" type='submit'></Button>
+              </div>
             </form>
           </div>
         </div>

@@ -10,8 +10,8 @@
     font-size: 19px;
 }
 .card {
-    margin: 1rem;
-    width: 100%;
+    margin: 10px 0px;
+    width: 90%;
     text-align: left;
     cursor: pointer;
     color: inherit;
@@ -20,6 +20,7 @@
     transition: color 0.15s ease, border-color 0.15s ease;
     background-color: #5952ff;
     color: white;
+    height: 50px;
 }
 .card:hover,
 .card:focus,

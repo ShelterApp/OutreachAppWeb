@@ -6,21 +6,26 @@ import Button from '@mui/material/Button';
 export interface ButtonProps {
   link?: string;
   text: string;
+  type:string;
   onClick?: Function;
 }
 
-const ButtonComp = ({link, text, onClick}: ButtonProps) => {
+const ButtonComp = ({link, text, onClick,type}: ButtonProps) => {
+  
   const clickButton = () => {
     if(typeof onClick != 'function') return;
-
     onClick()
   }
+
   return (
-    <Link href={link || "#"} passHref>
-      <Button variant="contained" className={style.card} onClick={clickButton}>
+    link? 
+    <Link href={"#"} passHref>
+      <Button  style={{textTransform:'none'}} variant="contained" className={style.card} onClick={clickButton} type='submit'>
         {text}
       </Button>
-    </Link>
+    </Link>:<Button  style={{textTransform:'none'}} variant="contained" className={style.card} onClick={clickButton} type='submit'>
+        {text}
+      </Button>
   )
 }
 
