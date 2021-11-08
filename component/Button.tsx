@@ -1,22 +1,27 @@
-import React, {
-  forwardRef,
-  ButtonHTMLAttributes,
-} from 'react'
-import Link from 'next/link'
-import style from './Component.module.css'
+import React from "react";
+import Link from "next/link";
+import style from "./Component.module.css";
+import Button from '@mui/material/Button';
 
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  link?: string
-  text?: string
+export interface ButtonProps {
+  link?: string;
+  text: string;
+  onClick?: Function;
 }
-const Button: React.FC<ButtonProps> = forwardRef((props, _buttonRef) => {
+
+const ButtonComp = ({link, text, onClick}: ButtonProps) => {
+  const clickButton = () => {
+    if(typeof onClick != 'function') return;
+
+    onClick()
+  }
   return (
-    <Link href={props.link|| '#'}>
-    <div  className={style.card}>
-      <h2>{props.text}</h2>
-    </div> 
+    <Link href={link || "#"} passHref>
+      <Button variant="contained" className={style.card} onClick={clickButton}>
+        {text}
+      </Button>
     </Link>
   )
-})
+}
 
-export default Button
+export default ButtonComp;
