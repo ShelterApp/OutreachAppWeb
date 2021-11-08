@@ -10,6 +10,10 @@ export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   style?: object
   text?: string
   placeholder?:string
+  options?:any
+  onChange?: (e:any)=>void
+  value?:any
+  label?:string
 }
 const SelectInput: React.FC<SelectProps> = forwardRef((props, _SelectRef) => {
   return (
@@ -20,7 +24,7 @@ const SelectInput: React.FC<SelectProps> = forwardRef((props, _SelectRef) => {
         onChange={props.onChange}
         styles={customStyles}
         placeholder={props.placeholder}
-        options={props.options}
+        options={props?.options}
         value={props.value}
     />
 </div>

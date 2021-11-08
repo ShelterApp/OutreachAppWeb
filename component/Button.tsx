@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 export interface ButtonProps {
   link?: string;
   text: string;
-  type:string;
+  type?:string;
   onClick?: Function;
 }
 

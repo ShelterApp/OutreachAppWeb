@@ -1,11 +1,11 @@
 import React, {
   forwardRef,
-  TextInputHTMLAttributes,
+  
 } from 'react'
 import Link from 'next/link'
 import styles from './Component.module.css'
 
-export interface TextInputProps extends TextInputHTMLAttributes<HTMLTextInputElement> {
+export interface TextInputProps   {
   style?: object;
   text?: string;
   placeholder?:string;

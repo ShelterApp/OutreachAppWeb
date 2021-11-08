@@ -20,7 +20,6 @@ const Home: NextPage = () => {
 
     return (
         <div className={styles.container}>
-            <Head />
             <main className={styles.main}>
                 <div className={styles.titleName}>OutreachApp</div>
                 <div className={styles.grid}>

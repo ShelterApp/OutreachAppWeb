@@ -1,10 +1,9 @@
 import React, {
   forwardRef,
-  HeadTagHTMLAttributes,
 } from 'react'
 import Head from 'next/head'
 
-export interface HeadTagProps extends HeadTagHTMLAttributes<HTMLHeadTagElement> {
+export interface HeadTagProps  {
   style?: object
   text?: string
   placeholder?:string

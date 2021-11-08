@@ -1,10 +1,8 @@
 import type { NextPage } from "next";
-import Head from "component/Head";
 import styles from "styles/Home.module.css";
 import { useForm, SubmitHandler } from "react-hook-form";
 import ErrorMessage from "component/ErrorMessage";
 import stylesComponent from "component/Component.module.css";
-// import Button from "@mui/material/Button";
 import Button from "component/Button";
 
 import { userService, alertService } from "services";
@@ -24,14 +22,12 @@ const Login: NextPage = () => {
     formState: { errors },
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
-    console.log(userService);
 
     return userService
       .login(data.email, data.password)
       .then(() => {
         // get return url from query parameters or default to '/'
-        const returnUrl = router.query.returnUrl || "/";
+        const returnUrl = router.query.returnUrl?.toString() || "/";
         router.push(returnUrl);
       })
       .catch(alertService.error);
@@ -39,7 +35,6 @@ const Login: NextPage = () => {
 
   return (
     <div className={styles.container}>
-      <Head/>
       <main className={styles.main}>
         <div className={styles.titleName}>OutreachApp</div>
         <div className={styles.grid}>

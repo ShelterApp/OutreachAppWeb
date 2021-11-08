@@ -50,13 +50,12 @@ const SignUp: NextPage = () => {
   const [region, setRegion] = useState(options[0]);
   const [message, setMessage] = useState('');
 
-  const onChangeCity = e => {
+  const onChangeCity = (e:any) => {
     setRegion(e)
   }
 
   return (
     <div className={styles.container}>
-      <Head />
       <main className={styles.main}>
         <div className={styles.titleName}>OutreachApp</div>
         <div className={styles.grid}>
