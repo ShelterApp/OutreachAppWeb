@@ -21,6 +21,7 @@ const SelectInput: React.FC<SelectProps> = forwardRef((props, _SelectRef) => {
         styles={customStyles}
         placeholder={props.placeholder}
         options={props.options}
+        value={props.value}
     />
 </div>
   )

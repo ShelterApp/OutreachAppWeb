@@ -1,9 +1,10 @@
 import styled from "styled-components";
 
-const ErrorMessage = styled.span`
+const ErrorMessage = styled.div`
   color: red;
   font-size: 12px;
-  margin-bottom: 20px;
+  margin:auto;
+  width:90%;
 `;
 
 export default ErrorMessage;

@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import Head from 'component/Head';
+import Head from "component/Head";
 import styles from "styles/Home.module.css";
 import { useForm, SubmitHandler } from "react-hook-form";
 import ErrorMessage from "component/ErrorMessage";
@@ -25,7 +25,7 @@ const Login: NextPage = () => {
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log(data);
-    console.log(userService)
+    console.log(userService);
 
     return userService
       .login(data.email, data.password)
@@ -77,7 +77,7 @@ const Login: NextPage = () => {
               )}
                 <div className={styles.grid}>
                 <Button text="Login" type='submit'></Button>
-              </div>
+                </div>
             </form>
           </div>
         </div>

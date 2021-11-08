@@ -19,8 +19,8 @@ const ButtonComp = ({link, text, onClick,type}: ButtonProps) => {
 
   return (
     link? 
-    <Link href={"#"} passHref>
-      <Button  style={{textTransform:'none'}} variant="contained" className={style.card} onClick={clickButton} type='submit'>
+    <Link href={link} passHref>
+      <Button  style={{textTransform:'none'}} variant="contained" className={style.card} onClick={clickButton} >
         {text}
       </Button>
     </Link>:<Button  style={{textTransform:'none'}} variant="contained" className={style.card} onClick={clickButton} type='submit'>
