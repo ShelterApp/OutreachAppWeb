@@ -44,7 +44,7 @@ function logout() {
 }
 
 function register(user) {
-  return fetchWrapper.post(`${baseUrl}/register`, user);
+  return fetchWrapper.post(`/api/auth/register`, user);
 }
 
 function getAll() {

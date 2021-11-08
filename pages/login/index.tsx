@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import Head from 'component/Head';
+import Head from "component/Head";
 import styles from "styles/Home.module.css";
 import { useForm, SubmitHandler } from "react-hook-form";
 import ErrorMessage from "component/ErrorMessage";
@@ -23,7 +23,7 @@ const Login: NextPage = () => {
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log(data);
-    console.log(userService)
+    console.log(userService);
 
     return userService
       .login(data.email, data.password)
@@ -73,9 +73,18 @@ const Login: NextPage = () => {
               {errors.password && errors.password.type === "required" && (
                 <ErrorMessage>Please input password.</ErrorMessage>
               )}
-              <Button type="submit" variant="outlined" size="large" 
-              className={stylesComponent.card}
-              style={{textTransform:'none', borderRadius:50, backgroundColor:'#5952ff', color:'white'}}>
+              <Button
+                type="submit"
+                variant="outlined"
+                size="large"
+                className={stylesComponent.card}
+                style={{
+                  textTransform: "none",
+                  borderRadius: 50,
+                  backgroundColor: "#5952ff",
+                  color: "white",
+                }}
+              >
                 Login
               </Button>
             </form>
