@@ -119,7 +119,11 @@ const SignUp: NextPage = () => {
             }
              <div className={styles.grid}>
                 <Button text="Sign Up" type='submit' onClick={()=>handleSubmit(onSubmit)}></Button>
-                </div>
+              </div>
+              <div className={styles.textNormal}>
+                If you don't have a verification code or don't see your Orgaization name listed, Please email us at 
+                <a href='mailto: shelterappinfo@gmail.com'> shelterappinfo@gmail.com </a>
+              </div>
           </form>
         </div>
       </main>

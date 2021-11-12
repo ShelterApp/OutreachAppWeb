@@ -76,12 +76,14 @@ const Login: NextPage = () => {
                 <Button text="Login" type='submit'></Button>
                 </div>
                 <div className={styles.forgotContainer}>
-                  <Link href='#'>
+                  <Link href='/forgot-password' passHref>
                     <div>
                     Forgot Password?
                     </div>
                      </Link>
-                  <div>Sign Up</div>
+                     <Link href='/sign-up' passHref>
+                     <div>Sign Up</div>
+                     </Link>
                 </div>
             </form>
           </div>
