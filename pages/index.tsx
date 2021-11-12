@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import styles from "styles/Home.module.css";
+import styles from "styles/Home.module.scss";
 import Button from "component/Button";
 import Head from "component/Head";
 import { userService } from "services";

@@ -33,7 +33,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const authCheck = (url: string) => {
     // redirect to login page if accessing a private page and not logged in
     setUser(userService.userValue);
-    const publicPaths = ["/login", "/sign-up", "/update-profile"];
+    const publicPaths = ["/" ,"/login", "/sign-up", "/update-profile"];
     const path = url.split("?")[0];
     if (!userService.userValue && !publicPaths.includes(path)) {
       setAuthorized(false);

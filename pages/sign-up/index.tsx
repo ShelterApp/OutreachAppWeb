@@ -2,11 +2,11 @@ import type { NextPage } from "next";
 import Head from "component/Head";
 import { useForm, SubmitHandler } from "react-hook-form";
 import ErrorMessage from "component/ErrorMessage";
-import styles from "styles/Home.module.css";
+import styles from "styles/Home.module.scss";
 import TextInput from "component/TextInput";
 import Select from "component/Select";
 import Button from "component/Button";
-import stylesComponent from "component/Component.module.css";
+import stylesComponent from "component/Component.module.scss";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { userService, alertService } from "services";
@@ -37,6 +37,8 @@ const SignUp: NextPage = () => {
       ...data,
       regionId: region ? region.value : ''
     }
+    console.log(user);
+    
     return userService
       .register(user)
       .then(() => {
@@ -62,7 +64,6 @@ const SignUp: NextPage = () => {
           <form onSubmit={handleSubmit(onSubmit)} style={{width:'100%'}}>
             <div className={styles.grid}>
             <Select placeholder="Choose Your City" options={options} value={region} onChange={(e) => onChangeCity(e)}/>
-
             </div>
             <TextInput
               placeholder="Verification Code"
@@ -117,23 +118,8 @@ const SignUp: NextPage = () => {
               message && <ErrorMessage>{message}</ErrorMessage>
             }
              <div className={styles.grid}>
-                <Button text="Sign Up" type='submit'></Button>
+                <Button text="Sign Up" type='submit' onClick={()=>handleSubmit(onSubmit)}></Button>
                 </div>
-
-            {/* <Button
-              type="submit"
-              variant="outlined"
-              size="large"
-              className={stylesComponent.card}
-              style={{
-                textTransform: "none",
-                borderRadius: 50,
-                backgroundColor: "#5952ff",
-                color: "white",
-              }}
-            >
-              Sign Up
-            </Button> */}
           </form>
         </div>
       </main>

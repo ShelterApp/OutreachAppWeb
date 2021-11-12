@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import style from "./Component.module.css";
+import style from "./Component.module.scss";
 import Button from '@mui/material/Button';
 
 export interface ButtonProps {

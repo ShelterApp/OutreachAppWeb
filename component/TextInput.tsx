@@ -3,7 +3,7 @@ import React, {
   
 } from 'react'
 import Link from 'next/link'
-import styles from './Component.module.css'
+import styles from './Component.module.scss'
 
 export interface TextInputProps   {
   style?: object;
@@ -15,7 +15,7 @@ export interface TextInputProps   {
 const TextInput: React.FC<TextInputProps> = forwardRef((props, _TextInputRef) => {
   return (
     <div className={styles.container}>
-      <input type={props.type || 'text'} className={styles.input} placeholder={props.placeholder} {...props.register}/>
+      <input type={props.type || 'text'} className={styles.input} placeholder={props.placeholder} {...props.register} autoComplete='off'/ >
     </div>
   )
 })

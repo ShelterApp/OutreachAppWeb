@@ -2,8 +2,7 @@ import React, {
   forwardRef,
   SelectHTMLAttributes,
 } from 'react'
-import Link from 'next/link'
-import styles from './Component.module.css'
+import styles from './Component.module.scss'
 import Select  from "react-select";
 
 export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {

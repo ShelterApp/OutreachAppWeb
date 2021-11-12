@@ -1,10 +1,10 @@
 import type { NextPage } from "next";
-import styles from "styles/Home.module.css";
+import styles from "styles/Home.module.scss";
 import { useForm, SubmitHandler } from "react-hook-form";
 import ErrorMessage from "component/ErrorMessage";
-import stylesComponent from "component/Component.module.css";
+import stylesComponent from "component/Component.module.scss";
 import Button from "component/Button";
-
+import Link from 'next/link'
 import { userService, alertService } from "services";
 import { useRouter } from "next/router";
 
@@ -49,6 +49,7 @@ const Login: NextPage = () => {
                 className={stylesComponent.input}
                 placeholder="Email or Phone Number"
                 type="email"
+                autoComplete='false'
               />
               {errors.email && errors.email.type === "pattern" && (
                 <ErrorMessage>Email must be valid.</ErrorMessage>
@@ -61,6 +62,7 @@ const Login: NextPage = () => {
                 type="password"
                 placeholder="Password"
                 className={stylesComponent.input}
+                autoComplete='false'
               />
               {errors.password && errors.password.type === "minLength" && (
                 <ErrorMessage>
@@ -72,6 +74,14 @@ const Login: NextPage = () => {
               )}
                 <div className={styles.grid}>
                 <Button text="Login" type='submit'></Button>
+                </div>
+                <div className={styles.forgotContainer}>
+                  <Link href='#'>
+                    <div>
+                    Forgot Password?
+                    </div>
+                     </Link>
+                  <div>Sign Up</div>
                 </div>
             </form>
           </div>
