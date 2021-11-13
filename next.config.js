@@ -8,6 +8,6 @@ module.exports = {
     apiUrl: process.env.NODE_ENV === 'development'
       ? 'http://beta-api.outreachapp.org' // development api
       : 'http://beta-api.outreachapp.org' // production api
-  }
-
+  },
+  trailingSlash: true
 }
