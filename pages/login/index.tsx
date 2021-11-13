@@ -22,7 +22,7 @@ const Login: NextPage = () => {
     watch,
     formState: { errors },
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
+  const onSubmit: SubmitHandler<Inputs> = (data: { email: any; password: any; }) => {
     return userService
       .login(data.email, data.password)
       .then((res) => {

@@ -5,8 +5,10 @@ import styles from "styles/Home.module.scss";
 import TextInput from "component/TextInput";
 import Select from "component/Select";
 import Button from "component/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { userService } from "services";
+import SuccessMessage from "component/SuccessMessage";
 
 const options = [
   { value: "618563c781a92408a00bd1aa", label: "Seattle" },
@@ -14,11 +16,9 @@ const options = [
 ];
 
 type Inputs = {
-  orgCode: string;
   name: string;
   phone: string;
   email: string;
-  password: string;
 };
 
 const UpdateProfile: NextPage = () => {
@@ -28,17 +28,36 @@ const UpdateProfile: NextPage = () => {
     handleSubmit,
     watch,
     formState: { errors },
+    reset
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data: any) => {
+  const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
     let user = {
       ...data,
       regionId: region ? region.value : ''
     }
-    console.log(user);
-
+    const res = await userService.update(user);
+    setMessage('')
+    if (res && res._id) {
+      setMessage('success')
+    } else {
+      setMessage('Have something wrong!')
+    }
   };
   const [region, setRegion] = useState(options[0]);
   const [message, setMessage] = useState('');
+  const [currentUser, setCurrentUser] = useState();
+  useEffect(() => {
+    if(!!userService.userValue) {
+      const user = userService.userValue.user;
+      setCurrentUser(user)
+      reset({
+        name: user.name,
+        phone: user.phone,
+        email: user.email
+      })
+      setRegion(options.find(opt => opt.value === user.regionId ))
+    }
+  }, [])
 
   return (
     <div className={styles.container}>
@@ -79,7 +98,11 @@ const UpdateProfile: NextPage = () => {
               <ErrorMessage>Please input email.</ErrorMessage>
             )}
             {
-              message && <ErrorMessage>{message}</ErrorMessage>
+              message && (
+                message === 'success' ?
+                <SuccessMessage>Your profile was updated successful.</SuccessMessage> :
+                <ErrorMessage>{message}</ErrorMessage>
+              )
             }
              <div className={styles.grid}>
                 <Button text="Save" type='submit' onClick={()=>handleSubmit(onSubmit)
