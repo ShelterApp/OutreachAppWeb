@@ -29,7 +29,7 @@ const UpdateProfile: NextPage = () => {
     watch,
     formState: { errors },
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
+  const onSubmit: SubmitHandler<Inputs> = (data: any) => {
     let user = {
       ...data,
       regionId: region ? region.value : ''

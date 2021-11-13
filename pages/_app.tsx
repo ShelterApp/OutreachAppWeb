@@ -4,6 +4,7 @@ import Head from "next/head";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { userService } from "services";
+import style from "component/Component.module.scss";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -77,7 +78,12 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {authorized && <Component {...pageProps} />}
+      {
+        authorized &&
+        <div className={style.custom}>
+          <Component {...pageProps} />
+        </div>
+      }
     </>
   );
 }

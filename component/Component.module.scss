@@ -1,15 +1,16 @@
-.container {
+.custom {
+  .container {
     width: 100%;
-}
-.input {
+  }
+  .input {
     height: 40px;
     width: 90%;
     margin: 10px 5%;
     padding: 16px 15px;
     border-radius: 9px;
     font-size: 19px;
-}
-.card {
+  }
+  .card {
     margin: 10px 0px;
     width: 90%;
     text-align: left;
@@ -21,26 +22,27 @@
     background-color: #5952ff;
     color: white;
     height: 50px;
-}
-.card:hover,
-.card:focus,
-.card:active {
+  }
+  .card:hover,
+  .card:focus,
+  .card:active {
     border-color: #0070f3;
-}
+  }
 
-.card h2 {
+  .card h2 {
     font-size: 1.3rem;
     text-align: center;
-}
+  }
 
-.card p {
+  .card p {
     margin: 0;
     font-size: 1.25rem;
     line-height: 1.5;
-}
-.selectContainer {
+  }
+  .selectContainer {
     width: 90%;
     border-radius: 100px;
     border-color: grey;
     border-width: 2px;
+  }
 }
