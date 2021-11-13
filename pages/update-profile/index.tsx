@@ -1,15 +1,12 @@
 import type { NextPage } from "next";
-import Head from "component/Head";
 import { useForm, SubmitHandler } from "react-hook-form";
 import ErrorMessage from "component/ErrorMessage";
 import styles from "styles/Home.module.scss";
 import TextInput from "component/TextInput";
 import Select from "component/Select";
 import Button from "component/Button";
-import stylesComponent from "component/Component.module.scss";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { userService, alertService } from "services";
 
 const options = [
   { value: "618563c781a92408a00bd1aa", label: "Seattle" },
@@ -38,7 +35,7 @@ const UpdateProfile: NextPage = () => {
       regionId: region ? region.value : ''
     }
     console.log(user);
-    
+
   };
   const [region, setRegion] = useState(options[0]);
   const [message, setMessage] = useState('');

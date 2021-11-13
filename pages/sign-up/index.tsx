@@ -7,9 +7,9 @@ import TextInput from "component/TextInput";
 import Select from "component/Select";
 import Button from "component/Button";
 import stylesComponent from "component/Component.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { userService, alertService } from "services";
+import { userService } from "services";
 
 const options = [
   { value: "618563c781a92408a00bd1aa", label: "Seattle" },
@@ -38,16 +38,21 @@ const SignUp: NextPage = () => {
       regionId: region ? region.value : ''
     }
     console.log(user);
-    
+
     return userService
       .register(user)
-      .then(() => {
+      .then((res) => {
+
+        if (res.statusCode && res.statusCode == '400') {
+          setMessage(res.message)
+          return;
+        }
+
         router.push('/login');
       })
-      .catch(e =>
-        // alertService.error
-        setMessage(e)
-      );
+      .catch(e => {
+        console.log(e)
+      });
   };
   const [region, setRegion] = useState(options[0]);
   const [message, setMessage] = useState('');
@@ -55,6 +60,15 @@ const SignUp: NextPage = () => {
   const onChangeCity = (e:any) => {
     setRegion(e)
   }
+
+  useEffect(() => {
+    // redirect to home if already logged in
+    if (userService.userValue) {
+      router.push('/');
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
 
   return (
     <div className={styles.container}>
@@ -121,7 +135,7 @@ const SignUp: NextPage = () => {
                 <Button text="Sign Up" type='submit' onClick={()=>handleSubmit(onSubmit)}></Button>
               </div>
               <div className={styles.textNormal}>
-                If you don't have a verification code or don't see your Orgaization name listed, Please email us at 
+                If you don't have a verification code or don't see your Orgaization name listed, Please email us at
                 <a href='mailto: shelterappinfo@gmail.com'> shelterappinfo@gmail.com </a>
               </div>
           </form>

@@ -1,25 +1,16 @@
 import type { NextPage } from "next";
 import { useForm, SubmitHandler } from "react-hook-form";
 import ErrorMessage from "component/ErrorMessage";
+import SuccessMessage from "component/SuccessMessage";
 import styles from "styles/Home.module.scss";
 import TextInput from "component/TextInput";
 import Button from "component/Button";
-import stylesComponent from "component/Component.module.scss";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { userService,  } from "services";
-
-const options = [
-  { value: "618563c781a92408a00bd1aa", label: "Seattle" },
-  { value: "618562de8f4e4f313fdc8111", label: "San Jose" },
-];
+import { userService } from "services";
 
 type Inputs = {
-  orgCode: string;
-  name: string;
-  phone: string;
   email: string;
-  password: string;
 };
 
 const ForgotPassword: NextPage = () => {
@@ -30,11 +21,13 @@ const ForgotPassword: NextPage = () => {
     watch,
     formState: { errors },
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    let user = {
-      ...data,
+  const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
+    const res = await userService.forgotPassword(data);
+    if (res && res.message) {
+      setMessage(res.message)
+    } else {
+      setMessage('success')
     }
-    console.log(user);
   };
   const [message, setMessage] = useState('');
 
@@ -62,7 +55,11 @@ const ForgotPassword: NextPage = () => {
               <ErrorMessage>Please input email.</ErrorMessage>
             )}
             {
-              message && <ErrorMessage>{message}</ErrorMessage>
+              message && (
+                message === 'success' ?
+                <SuccessMessage>Please check your email to reset password.</SuccessMessage> :
+                <ErrorMessage>{message}</ErrorMessage>
+              )
             }
              <div className={styles.grid}>
                 <Button text="Reset" type='submit'></Button>

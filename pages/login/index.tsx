@@ -4,9 +4,10 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import ErrorMessage from "component/ErrorMessage";
 import stylesComponent from "component/Component.module.scss";
 import Button from "component/Button";
-import Link from 'next/link'
-import { userService, alertService } from "services";
+import Link from "next/link";
+import { userService } from "services";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 type Inputs = {
   email: string;
@@ -22,16 +23,32 @@ const Login: NextPage = () => {
     formState: { errors },
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-
     return userService
       .login(data.email, data.password)
-      .then(() => {
+      .then((res) => {
+        if (res.statusCode && res.statusCode == '401') {
+          setMessage(res.message);
+          return;
+        }
         // get return url from query parameters or default to '/'
         const returnUrl = router.query.returnUrl?.toString() || "/";
         router.push(returnUrl);
       })
-      .catch(alertService.error);
+      .catch((e) => {
+        console.log(e);
+      });
   };
+
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    // redirect to home if already logged in
+    if (userService.userValue) {
+      router.push('/');
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
 
   return (
     <div className={styles.container}>
@@ -49,7 +66,7 @@ const Login: NextPage = () => {
                 className={stylesComponent.input}
                 placeholder="Email or Phone Number"
                 type="email"
-                autoComplete='false'
+                autoComplete="false"
               />
               {errors.email && errors.email.type === "pattern" && (
                 <ErrorMessage>Email must be valid.</ErrorMessage>
@@ -62,7 +79,7 @@ const Login: NextPage = () => {
                 type="password"
                 placeholder="Password"
                 className={stylesComponent.input}
-                autoComplete='false'
+                autoComplete="false"
               />
               {errors.password && errors.password.type === "minLength" && (
                 <ErrorMessage>
@@ -72,19 +89,20 @@ const Login: NextPage = () => {
               {errors.password && errors.password.type === "required" && (
                 <ErrorMessage>Please input password.</ErrorMessage>
               )}
-                <div className={styles.grid}>
-                <Button text="Login" type='submit'></Button>
-                </div>
-                <div className={styles.forgotContainer}>
-                  <Link href='/forgot-password' passHref>
-                    <div>
-                    Forgot Password?
-                    </div>
-                     </Link>
-                     <Link href='/sign-up' passHref>
-                     <div>Sign Up</div>
-                     </Link>
-                </div>
+              {
+                message && <ErrorMessage>{message}</ErrorMessage>
+              }
+              <div className={styles.grid}>
+                <Button text="Login" type="submit"></Button>
+              </div>
+              <div className={styles.forgotContainer}>
+                <Link href="/forgot-password" passHref>
+                  <div>Forgot Password?</div>
+                </Link>
+                <Link href="/sign-up" passHref>
+                  <div>Sign Up</div>
+                </Link>
+              </div>
             </form>
           </div>
         </div>
