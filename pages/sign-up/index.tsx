@@ -35,74 +35,69 @@ const SignUp: NextPage = () => {
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     let user = {
       ...data,
-      regionId: region ? region.value : ''
-    }
+      regionId: region ? region.value : "",
+    };
     console.log(user);
 
     return userService
       .register(user)
       .then((res) => {
-
-        if (res.statusCode && res.statusCode == '400') {
-          setMessage(res.message)
+        if (res.statusCode && res.statusCode == "400") {
+          setMessage(res.message);
           return;
         }
 
-        router.push('/login');
+        router.push("/login");
       })
-      .catch(e => {
-        console.log(e)
+      .catch((e) => {
+        console.log(e);
       });
   };
   const [region, setRegion] = useState(options[0]);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
 
-  const onChangeCity = (e:any) => {
-    setRegion(e)
-  }
-
-  useEffect(() => {
-    // redirect to home if already logged in
-    if (userService.userValue) {
-      router.push('/');
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-}, []);
+  const onChangeCity = (e: any) => {
+    setRegion(e);
+  };
 
   return (
     <div className={styles.container}>
       <main className={styles.main}>
         <div className={styles.titleName}>OutreachApp</div>
         <div className={styles.grid}>
-          <form onSubmit={handleSubmit(onSubmit)} style={{width:'100%'}}>
+          <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
             <div className={styles.grid}>
-            <Select placeholder="Choose Your City" options={options} value={region} onChange={(e) => onChangeCity(e)}/>
+              <Select
+                placeholder="Choose Your City"
+                options={options}
+                value={region}
+                onChange={(e) => onChangeCity(e)}
+              />
             </div>
             <TextInput
               placeholder="Verification Code"
-              register = {register("orgCode", { required: true })}
+              register={register("orgCode", { required: true })}
             />
             {errors.orgCode && errors.orgCode.type === "required" && (
               <ErrorMessage>Please input orgCode.</ErrorMessage>
             )}
             <TextInput
               placeholder="Your Name"
-              register = {register("name", { required: true })}
+              register={register("name", { required: true })}
             />
             {errors.name && errors.name.type === "required" && (
               <ErrorMessage>Please input name.</ErrorMessage>
             )}
             <TextInput
               placeholder="Phone Number"
-              register = {register("phone", { required: true })}
+              register={register("phone", { required: true })}
             />
             {errors.phone && errors.phone.type === "required" && (
               <ErrorMessage>Please input phone.</ErrorMessage>
             )}
             <TextInput
               type="email"
-              register = {register("email", {
+              register={register("email", {
                 required: true,
                 pattern:
                   /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
@@ -117,7 +112,7 @@ const SignUp: NextPage = () => {
             )}
             <TextInput
               placeholder="Password"
-              register = {register("password", { required: true, minLength: 6 })}
+              register={register("password", { required: true, minLength: 6 })}
               type="password"
             />
             {errors.password && errors.password.type === "minLength" && (
@@ -128,16 +123,22 @@ const SignUp: NextPage = () => {
             {errors.password && errors.password.type === "required" && (
               <ErrorMessage>Please input password.</ErrorMessage>
             )}
-            {
-              message && <ErrorMessage>{message}</ErrorMessage>
-            }
-             <div className={styles.grid}>
-                <Button text="Sign Up" type='submit' onClick={()=>handleSubmit(onSubmit)}></Button>
-              </div>
-              <div className={styles.textNormal}>
-                If you don't have a verification code or don't see your Orgaization name listed, Please email us at
-                <a href='mailto: shelterappinfo@gmail.com'> shelterappinfo@gmail.com </a>
-              </div>
+            {message && <ErrorMessage>{message}</ErrorMessage>}
+            <div className={styles.grid}>
+              <Button
+                text="Sign Up"
+                type="submit"
+                onClick={() => handleSubmit(onSubmit)}
+              ></Button>
+            </div>
+            <div className={styles.textNormal}>
+              If you don't have a verification code or don't see your
+              Orgaization name listed, Please email us at
+              <a href="mailto: shelterappinfo@gmail.com">
+                {" "}
+                shelterappinfo@gmail.com{" "}
+              </a>
+            </div>
           </form>
         </div>
       </main>

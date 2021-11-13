@@ -33,17 +33,40 @@ function MyApp({ Component, pageProps }: AppProps) {
   const authCheck = (url: string) => {
     // redirect to login page if accessing a private page and not logged in
     setUser(userService.userValue);
-    const publicPaths = ["/" ,"/login", "/sign-up", "/update-profile","/forgot-password"];
+    // const publicPaths = ["/" ,"/login", "/sign-up", "/update-profile" ,"/forgot-password"];
     const path = url.split("?")[0];
-    if (!userService.userValue && !publicPaths.includes(path)) {
-      setAuthorized(false);
-      router.push({
-        pathname: "/login",
-        query: { returnUrl: router.asPath },
-      });
-    } else {
+    const notAuthorizedPath = ["/login", "/sign-up", "/forgot-password"];
+    const authorizedPath = ["/update-profile"];
+    const publicPaths = ["/"];
+
+    if (publicPaths.includes(path)) {
       setAuthorized(true);
+      return;
     }
+
+    if (!userService.userValue) {
+      // user not login
+      if (authorizedPath.includes(path)) {
+        // user must login
+        setAuthorized(false);
+        router.push({
+          pathname: "/login",
+          query: { returnUrl: router.asPath },
+        });
+        return;
+      }
+    } else {
+      // user login
+      if (notAuthorizedPath.includes(path)) {
+        // redirect to home page
+        setAuthorized(false);
+        router.push({
+          pathname: "/",
+        });
+        return;
+      }
+    }
+    setAuthorized(true);
   };
   return (
     <>
@@ -54,7 +77,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Component {...pageProps} />
+      {authorized && <Component {...pageProps} />}
     </>
   );
 }

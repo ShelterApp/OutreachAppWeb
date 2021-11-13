@@ -26,7 +26,7 @@ const Login: NextPage = () => {
     return userService
       .login(data.email, data.password)
       .then((res) => {
-        if (res.statusCode && res.statusCode == '401') {
+        if (res.statusCode && res.statusCode == "401") {
           setMessage(res.message);
           return;
         }
@@ -40,15 +40,6 @@ const Login: NextPage = () => {
   };
 
   const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    // redirect to home if already logged in
-    if (userService.userValue) {
-      router.push('/');
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-}, []);
 
   return (
     <div className={styles.container}>
@@ -89,9 +80,7 @@ const Login: NextPage = () => {
               {errors.password && errors.password.type === "required" && (
                 <ErrorMessage>Please input password.</ErrorMessage>
               )}
-              {
-                message && <ErrorMessage>{message}</ErrorMessage>
-              }
+              {message && <ErrorMessage>{message}</ErrorMessage>}
               <div className={styles.grid}>
                 <Button text="Login" type="submit"></Button>
               </div>
