@@ -43,7 +43,7 @@ const UpdateProfile: NextPage = () => {
       setMessage('Have something wrong!')
     }
   };
-  const [region, setRegion] = useState(options[0]);
+  const [region, setRegion] = useState<any>(options[0]);
   const [message, setMessage] = useState('');
   const [currentUser, setCurrentUser] = useState();
   useEffect(() => {

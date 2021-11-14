@@ -11,7 +11,9 @@ import { userService } from "services";
 import stylesComponent from "component/Component.module.scss";
 
 type Inputs = {
-  email: string;
+  currentPassword: string;
+  confirmPassword: string;
+  confirmPasswordAgain: string;
 };
 
 const ForgotPassword: NextPage = () => {
@@ -23,7 +25,7 @@ const ForgotPassword: NextPage = () => {
     formState: { errors },
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
-    const {currentPassword,confirmPassword,confirmPasswordAgain}=data;
+    const {currentPassword, confirmPassword, confirmPasswordAgain}=data;
     data.token=router.query.code;
     if(confirmPassword!==confirmPasswordAgain)setMessage('Please make sure your paswords match.');
     else if(!data.token){
@@ -39,7 +41,7 @@ const ForgotPassword: NextPage = () => {
     //   setMessage('success')
     // }
     }
-  
+
   };
   const [message, setMessage] = useState('');
 
