@@ -1,12 +1,10 @@
-import axios from "axios";
+import axios from "helpers/configApi";
 import { BehaviorSubject } from "rxjs";
 import getConfig from "next/config";
 import Router from "next/router";
 
 import { fetchWrapper } from "helpers";
 
-const { publicRuntimeConfig } = getConfig();
-const baseUrl = `${publicRuntimeConfig.apiUrl}`;
 const userSubject = new BehaviorSubject(
   process.browser && JSON.parse(localStorage.getItem("user"))
 );
@@ -21,14 +19,14 @@ export const userService = {
   register,
   // getAll,
   // getById,
-  // update,
+  update,
   // delete: _delete,
   forgotPassword,
 };
 
 async function login(username, password) {
   try {
-    const res = await axios.post(`${baseUrl}/auth/login`, { username, password });
+    const res = await axios.post(`/auth/login`, { username, password });
     // publish user to subscribers and store in local storage to stay logged in between page refreshes
     const user = res.data
     userSubject.next(user);
@@ -49,7 +47,7 @@ function logout() {
 
 async function register(user) {
   try {
-    const res = await axios.post(`${baseUrl}/auth/register`, user);
+    const res = await axios.post(`/auth/register`, user);
     return res.data;
   } catch (error) {
     return error.response.data;
@@ -58,7 +56,7 @@ async function register(user) {
 
 async function forgotPassword(data) {
   try {
-    const res = await axios.post(`${baseUrl}/auth/forgot-password`, data);
+    const res = await axios.post(`/auth/forgot-password`, data);
     return res.data;
   } catch (error) {
     return error.response.data;
@@ -66,29 +64,44 @@ async function forgotPassword(data) {
 }
 
 // function getAll() {
-//   return fetchWrapper.get(`${baseUrl}/register`);
+//   return fetchWrapper.get(`/register`);
 // }
 
 // function getById(id) {
-//   return fetchWrapper.get(`${baseUrl}/${id}`);
+//   return fetchWrapper.get(`/${id}`);
 // }
 
-// function update(id, params) {
-//   return fetchWrapper.put(`${baseUrl}/${id}`, params).then((x) => {
-//     // update stored user if the logged in user updated their own record
-//     if (id === userSubject.value.id) {
-//       // update local storage
-//       const user = { ...userSubject.value, ...params };
-//       localStorage.setItem("user", JSON.stringify(user));
+async function update(params) {
+  try {
+    const res = await axios.patch(`/profile`, params);
+    if (res.data && res.data._id) {
+      const user = {
+        ...userService.userValue,
+        user: res.data
+      }
+      localStorage.setItem("user", JSON.stringify(user));
+      userSubject.next(user);
+    }
+    return res.data;
+  } catch (error) {
+    return error.response.data;
+  }
 
-//       // publish updated user to subscribers
-//       userSubject.next(user);
-//     }
-//     return x;
-//   });
-// }
+  // return fetchWrapper.put(`/${id}`, params).then((x) => {
+  //   // update stored user if the logged in user updated their own record
+  //   if (id === userSubject.value.id) {
+  //     // update local storage
+  //     const user = { ...userSubject.value, ...params };
+  //     localStorage.setItem("user", JSON.stringify(user));
+
+  //     // publish updated user to subscribers
+  //     userSubject.next(user);
+  //   }
+  //   return x;
+  // });
+}
 
 // // prefixed with underscored because delete is a reserved word in javascript
 // function _delete(id) {
-//   return fetchWrapper.delete(`${baseUrl}/${id}`);
+//   return fetchWrapper.delete(`/${id}`);
 // }
