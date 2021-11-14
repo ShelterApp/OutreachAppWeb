@@ -22,6 +22,7 @@ export const userService = {
   update,
   // delete: _delete,
   forgotPassword,
+  resetPassword
 };
 
 async function login(username, password) {
@@ -57,6 +58,15 @@ async function register(user) {
 async function forgotPassword(data) {
   try {
     const res = await axios.post(`/auth/forgot-password`, data);
+    return res.data;
+  } catch (error) {
+    return error.response.data;
+  }
+}
+
+async function resetPassword(data) {
+  try {
+    const res = await axios.post(`/auth/reset-password`, data);
     return res.data;
   } catch (error) {
     return error.response.data;

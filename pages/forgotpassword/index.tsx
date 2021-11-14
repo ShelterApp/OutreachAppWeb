@@ -11,9 +11,8 @@ import { userService } from "services";
 import stylesComponent from "component/Component.module.scss";
 
 type Inputs = {
-  currentPassword: string;
+  password: string;
   confirmPassword: string;
-  confirmPasswordAgain: string;
 };
 
 const ForgotPassword: NextPage = () => {
@@ -25,65 +24,80 @@ const ForgotPassword: NextPage = () => {
     formState: { errors },
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
-    const {currentPassword, confirmPassword, confirmPasswordAgain}=data;
-    data.token=router.query.code;
-    if(confirmPassword!==confirmPasswordAgain)setMessage('Please make sure your paswords match.');
-    else if(!data.token){
-      setMessage('Account not found');
+    data.token = router.query.code;
+    if (!data.token) {
+      setMessage("Account not found");
     } else {
-      console.log(data);
-      setMessage('');
-        //TODO
-         // const res = await userService.forgotPassword(data);
-    // if (res && res.message) {
-    //   setMessage(res.message)
-    // } else {
-    //   setMessage('success')
-    // }
+      setMessage("");
+      const res = await userService.resetPassword(data);
+      if (res && res.message) {
+        setMessage(res.message)
+      } else {
+        setMessage('success')
+      }
     }
-
   };
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
 
   return (
     <div className={styles.container}>
       <main className={styles.main}>
         <div className={styles.titleName}>OutreachApp</div>
         <div className={styles.grid}>
-          <form onSubmit={handleSubmit(onSubmit)} style={{width:'100%'}}>
+          <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
             <div className={styles.grid}>
-            <input
-                {...register("currentPassword", { required: true, minLength: 6 })}
-                type="password"
-                placeholder="Current Password"
-                className={stylesComponent.input}
-                autoComplete="false"
-              />
-               <input
-                {...register("confirmPassword", { required: true, minLength: 6 })}
+              <input
+                {...register("password", {
+                  required: true,
+                  minLength: 6,
+                })}
                 type="password"
                 placeholder="New Password"
                 className={stylesComponent.input}
                 autoComplete="false"
               />
-               <input
-                {...register("confirmPasswordAgain", { required: true, minLength: 6 })}
+              {errors.password && errors.password.type === "minLength" && (
+                <ErrorMessage>
+                  Password must be at least 6 characters long.
+                </ErrorMessage>
+              )}
+              {errors.password && errors.password.type === "required" && (
+                <ErrorMessage>Please input new password.</ErrorMessage>
+              )}
+              <input
+                {...register("confirmPassword", {
+                  required: true,
+                  minLength: 6,
+                  validate: value => value === watch("password")
+                })}
                 type="password"
                 placeholder="Confirm Password"
                 className={stylesComponent.input}
                 autoComplete="false"
               />
+              {errors.confirmPassword && errors.confirmPassword.type === "minLength" && (
+                <ErrorMessage>
+                  Password must be at least 6 characters long.
+                </ErrorMessage>
+              )}
+              {errors.confirmPassword && errors.confirmPassword.type === "required" && (
+                <ErrorMessage>Please input confirm password.</ErrorMessage>
+              )}
+              {errors.confirmPassword && errors.confirmPassword.type === "validate" && (
+                <ErrorMessage>Confirm password did not match. Please check and try again.</ErrorMessage>
+              )}
             </div>
-            {
-              message && (
-                message === 'success' ?
-                <SuccessMessage>Your password updated successful</SuccessMessage> :
+            {message &&
+              (message === "success" ? (
+                <SuccessMessage>
+                  Your password updated successful
+                </SuccessMessage>
+              ) : (
                 <ErrorMessage>{message}</ErrorMessage>
-              )
-            }
-             <div className={styles.grid}>
-                <Button text="Save" type='submit'></Button>
-              </div>
+              ))}
+            <div className={styles.grid}>
+              <Button text="Save" type="submit"></Button>
+            </div>
           </form>
         </div>
       </main>
