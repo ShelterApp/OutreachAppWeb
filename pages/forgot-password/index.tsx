@@ -1,13 +1,11 @@
 import type { NextPage } from "next";
 import { useForm, SubmitHandler } from "react-hook-form";
 import ErrorMessage from "component/ErrorMessage";
-import SuccessMessage from "component/SuccessMessage";
 import styles from "styles/Home.module.scss";
 import TextInput from "component/TextInput";
 import Button from "component/Button";
-import { useState } from "react";
 import { useRouter } from "next/router";
-import { userService } from "services";
+import { userService, alertService } from "services";
 
 type Inputs = {
   email: string;
@@ -24,12 +22,11 @@ const ForgotPassword: NextPage = () => {
   const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
     const res = await userService.forgotPassword(data);
     if (res && res.message) {
-      setMessage(res.message)
+      alertService.error(res.message)
     } else {
-      setMessage('success')
+      alertService.success('Please check your email to reset password.');
     }
   };
-  const [message, setMessage] = useState('');
 
   return (
     <div className={styles.container}>
@@ -54,13 +51,6 @@ const ForgotPassword: NextPage = () => {
             {errors.email && errors.email.type === "required" && (
               <ErrorMessage>Please input email.</ErrorMessage>
             )}
-            {
-              message && (
-                message === 'success' ?
-                <SuccessMessage>Please check your email to reset password.</SuccessMessage> :
-                <ErrorMessage>{message}</ErrorMessage>
-              )
-            }
              <div className={styles.grid}>
                 <Button text="Reset" type='submit'></Button>
               </div>

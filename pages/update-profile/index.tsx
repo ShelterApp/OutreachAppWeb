@@ -7,8 +7,7 @@ import Select from "component/Select";
 import Button from "component/Button";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { userService } from "services";
-import SuccessMessage from "component/SuccessMessage";
+import { userService, alertService } from "services";
 
 const options = [
   { value: "618563c781a92408a00bd1aa", label: "Seattle" },
@@ -26,65 +25,67 @@ const UpdateProfile: NextPage = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
-    reset
+    reset,
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
     let user = {
       ...data,
-      regionId: region ? region.value : ''
-    }
+      regionId: region ? region.value : "",
+    };
     const res = await userService.update(user);
-    setMessage('')
     if (res && res._id) {
-      setMessage('success')
+      alertService.success("Your profile was updated successful.");
     } else {
-      setMessage('Have something wrong!')
+      alertService.error("Have something wrong");
     }
   };
   const [region, setRegion] = useState<any>(options[0]);
-  const [message, setMessage] = useState('');
-  const [currentUser, setCurrentUser] = useState();
+
   useEffect(() => {
-    if(!!userService.userValue) {
+    if (!!userService.userValue) {
       const user = userService.userValue.user;
-      setCurrentUser(user)
+
       reset({
         name: user.name,
         phone: user.phone,
-        email: user.email
-      })
-      setRegion(options.find(opt => opt.value === user.regionId ))
+        email: user.email,
+      });
+      setRegion(options.find((opt) => opt.value === user.regionId));
     }
-  }, [])
+  }, []);
 
   return (
     <div className={styles.container}>
       <main className={styles.main}>
         <div className={styles.titleName}>OutreachApp</div>
         <div className={styles.grid}>
-          <form onSubmit={handleSubmit(onSubmit)} style={{width:'100%'}}>
+          <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
             <div className={styles.grid}>
-            <TextInput
-              placeholder="Update My Name"
-              register = {register("name", { required: true })}
-            />
-            {errors.name && errors.name.type === "required" && (
-              <ErrorMessage>Please input name.</ErrorMessage>
-            )}
-            <Select placeholder="Update City" options={options} value={region} onChange={setRegion}/>
+              <TextInput
+                placeholder="Update My Name"
+                register={register("name", { required: true })}
+              />
+              {errors.name && errors.name.type === "required" && (
+                <ErrorMessage>Please input name.</ErrorMessage>
+              )}
+              <Select
+                placeholder="Update City"
+                options={options}
+                value={region}
+                onChange={setRegion}
+              />
             </div>
             <TextInput
               placeholder="Update Phone"
-              register = {register("phone", { required: true })}
+              register={register("phone", { required: true })}
             />
             {errors.phone && errors.phone.type === "required" && (
               <ErrorMessage>Please input phone.</ErrorMessage>
             )}
             <TextInput
               type="email"
-              register = {register("email", {
+              register={register("email", {
                 required: true,
                 pattern:
                   /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
@@ -97,31 +98,13 @@ const UpdateProfile: NextPage = () => {
             {errors.email && errors.email.type === "required" && (
               <ErrorMessage>Please input email.</ErrorMessage>
             )}
-            {
-              message && (
-                message === 'success' ?
-                <SuccessMessage>Your profile was updated successful.</SuccessMessage> :
-                <ErrorMessage>{message}</ErrorMessage>
-              )
-            }
-             <div className={styles.grid}>
-                <Button text="Save" type='submit' onClick={()=>handleSubmit(onSubmit)
-                }></Button>
-              </div>
-            {/* <Button
-              type="submit"
-              variant="outlined"
-              size="large"
-              className={stylesComponent.card}
-              style={{
-                textTransform: "none",
-                borderRadius: 50,
-                backgroundColor: "#5952ff",
-                color: "white",
-              }}
-            >
-              Sign Up
-            </Button> */}
+            <div className={styles.grid}>
+              <Button
+                text="Save"
+                type="submit"
+                onClick={() => handleSubmit(onSubmit)}
+              ></Button>
+            </div>
           </form>
         </div>
       </main>

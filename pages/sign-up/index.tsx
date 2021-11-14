@@ -6,10 +6,9 @@ import styles from "styles/Home.module.scss";
 import TextInput from "component/TextInput";
 import Select from "component/Select";
 import Button from "component/Button";
-import stylesComponent from "component/Component.module.scss";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
-import { userService } from "services";
+import { userService, alertService } from "services";
 
 const options = [
   { value: "618563c781a92408a00bd1aa", label: "Seattle" },
@@ -43,7 +42,7 @@ const SignUp: NextPage = () => {
       .register(user)
       .then((res) => {
         if (res.statusCode && res.statusCode == "400") {
-          setMessage(res.message);
+          alertService.error(res.message)
           return;
         }
 
@@ -54,7 +53,6 @@ const SignUp: NextPage = () => {
       });
   };
   const [region, setRegion] = useState(options[0]);
-  const [message, setMessage] = useState("");
 
   const onChangeCity = (e: any) => {
     setRegion(e);
@@ -123,7 +121,6 @@ const SignUp: NextPage = () => {
             {errors.password && errors.password.type === "required" && (
               <ErrorMessage>Please input password.</ErrorMessage>
             )}
-            {message && <ErrorMessage>{message}</ErrorMessage>}
             <div className={styles.grid}>
               <Button
                 text="Sign Up"

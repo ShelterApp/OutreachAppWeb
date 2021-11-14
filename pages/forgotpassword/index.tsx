@@ -3,11 +3,10 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import ErrorMessage from "component/ErrorMessage";
 import SuccessMessage from "component/SuccessMessage";
 import styles from "styles/Home.module.scss";
-import TextInput from "component/TextInput";
 import Button from "component/Button";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { userService } from "services";
+import { userService, alertService } from "services";
 import stylesComponent from "component/Component.module.scss";
 
 type Inputs = {
@@ -26,18 +25,16 @@ const ForgotPassword: NextPage = () => {
   const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
     data.token = router.query.code;
     if (!data.token) {
-      setMessage("Account not found");
+      alertService.error('Account not found')
     } else {
-      setMessage("");
       const res = await userService.resetPassword(data);
       if (res && res.message) {
-        setMessage(res.message)
+        alertService.error(res.message)
       } else {
-        setMessage('success')
+        alertService.success('Your password updated successful');
       }
     }
   };
-  const [message, setMessage] = useState("");
 
   return (
     <div className={styles.container}>
@@ -87,14 +84,6 @@ const ForgotPassword: NextPage = () => {
                 <ErrorMessage>Confirm password did not match. Please check and try again.</ErrorMessage>
               )}
             </div>
-            {message &&
-              (message === "success" ? (
-                <SuccessMessage>
-                  Your password updated successful
-                </SuccessMessage>
-              ) : (
-                <ErrorMessage>{message}</ErrorMessage>
-              ))}
             <div className={styles.grid}>
               <Button text="Save" type="submit"></Button>
             </div>
