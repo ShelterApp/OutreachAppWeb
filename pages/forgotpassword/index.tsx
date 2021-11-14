@@ -8,6 +8,7 @@ import Button from "component/Button";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { userService } from "services";
+import stylesComponent from "component/Component.module.scss";
 
 type Inputs = {
   email: string;
@@ -22,12 +23,23 @@ const ForgotPassword: NextPage = () => {
     formState: { errors },
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
-    const res = await userService.forgotPassword(data);
-    if (res && res.message) {
-      setMessage(res.message)
+    const {currentPassword,confirmPassword,confirmPasswordAgain}=data;
+    data.token=router.query.code;
+    if(confirmPassword!==confirmPasswordAgain)setMessage('Please make sure your paswords match.');
+    else if(!data.token){
+      setMessage('Account not found');
     } else {
-      setMessage('success')
+      console.log(data);
+      setMessage('');
+        //TODO
+         // const res = await userService.forgotPassword(data);
+    // if (res && res.message) {
+    //   setMessage(res.message)
+    // } else {
+    //   setMessage('success')
+    // }
     }
+  
   };
   const [message, setMessage] = useState('');
 
@@ -38,31 +50,37 @@ const ForgotPassword: NextPage = () => {
         <div className={styles.grid}>
           <form onSubmit={handleSubmit(onSubmit)} style={{width:'100%'}}>
             <div className={styles.grid}>
-            <TextInput
-              type="email"
-              register = {register("email", {
-                required: true,
-                pattern:
-                  /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
-              })}
-              placeholder="Enter email or phone"
-            />
+            <input
+                {...register("currentPassword", { required: true, minLength: 6 })}
+                type="password"
+                placeholder="Current Password"
+                className={stylesComponent.input}
+                autoComplete="false"
+              />
+               <input
+                {...register("confirmPassword", { required: true, minLength: 6 })}
+                type="password"
+                placeholder="New Password"
+                className={stylesComponent.input}
+                autoComplete="false"
+              />
+               <input
+                {...register("confirmPasswordAgain", { required: true, minLength: 6 })}
+                type="password"
+                placeholder="Confirm Password"
+                className={stylesComponent.input}
+                autoComplete="false"
+              />
             </div>
-            {errors.email && errors.email.type === "pattern" && (
-              <ErrorMessage>Email must be valid.</ErrorMessage>
-            )}
-            {errors.email && errors.email.type === "required" && (
-              <ErrorMessage>Please input email.</ErrorMessage>
-            )}
             {
               message && (
                 message === 'success' ?
-                <SuccessMessage>Please check your email to reset password.</SuccessMessage> :
+                <SuccessMessage>Your password updated successful</SuccessMessage> :
                 <ErrorMessage>{message}</ErrorMessage>
               )
             }
              <div className={styles.grid}>
-                <Button text="Reset" type='submit'></Button>
+                <Button text="Save" type='submit'></Button>
               </div>
           </form>
         </div>

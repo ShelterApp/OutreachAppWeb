@@ -36,7 +36,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     setUser(userService.userValue);
     // const publicPaths = ["/" ,"/login", "/sign-up", "/update-profile" ,"/forgot-password"];
     const path = url.split("?")[0];
-    const notAuthorizedPath = ["/login", "/sign-up", "/forgot-password"];
+    const notAuthorizedPath = ["/login", "/sign-up", "/forgot-password","/home"];
     const authorizedPath = ["/update-profile"];
     const publicPaths = ["/"];
 
