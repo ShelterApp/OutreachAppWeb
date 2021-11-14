@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { userService } from "services";
 import style from "component/Component.module.scss";
+import Container from '@mui/material/Container';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -81,7 +82,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       {
         authorized &&
         <div className={style.custom}>
-          <Component {...pageProps} />
+          <Container maxWidth="sm">
+            <Component {...pageProps} />
+          </Container>
         </div>
       }
     </>
