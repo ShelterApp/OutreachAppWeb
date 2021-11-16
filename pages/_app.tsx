@@ -33,13 +33,13 @@ function MyApp({ Component, pageProps }: AppProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const authCheck = (url: string) => {
+  const authCheck = async (url: string) => {
     // redirect to login page if accessing a private page and not logged in
     setUser(userService.userValue);
     // const publicPaths = ["/" ,"/login", "/sign-up", "/update-profile" ,"/forgot-password"];
     const path = url.split("?")[0];
-    const notAuthorizedPath = ["/login", "/sign-up", "/forgot-password","/home"];
-    const authorizedPath = ["/update-profile"];
+    const notAuthorizedPath = ["/login", '/login/', "/sign-up", "/sign-up/", "/forgot-password", '/forgot-password/'];
+    const authorizedPath = ["/update-profile", "/update-profile/", "/organizations/add/", "/organizations/"];
     const publicPaths = ["/"];
 
     if (publicPaths.includes(path)) {
@@ -68,6 +68,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         });
         return;
       }
+      await userService.getProfile();
     }
     setAuthorized(true);
   };

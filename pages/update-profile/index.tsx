@@ -53,6 +53,7 @@ const UpdateProfile: NextPage = () => {
       });
       setRegion(options.find((opt) => opt.value === user.regionId));
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

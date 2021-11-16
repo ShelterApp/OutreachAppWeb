@@ -36,7 +36,6 @@ const SignUp: NextPage = () => {
       ...data,
       regionId: region ? region.value : "",
     };
-    console.log(user);
 
     return userService
       .register(user)

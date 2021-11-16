@@ -1,9 +1,6 @@
 import axios from "helpers/configApi";
 import { BehaviorSubject } from "rxjs";
-import getConfig from "next/config";
 import Router from "next/router";
-
-import { fetchWrapper } from "helpers";
 
 const userSubject = new BehaviorSubject(
   process.browser && JSON.parse(localStorage.getItem("user"))
@@ -22,7 +19,8 @@ export const userService = {
   update,
   // delete: _delete,
   forgotPassword,
-  resetPassword
+  resetPassword,
+  getProfile
 };
 
 async function login(username, password) {
@@ -69,6 +67,18 @@ async function resetPassword(data) {
     const res = await axios.post(`/auth/reset-password`, data);
     return res.data;
   } catch (error) {
+    return error.response.data;
+  }
+}
+
+async function getProfile() {
+  try {
+    const res = await axios.get(`/profile`);
+    return res.data;
+  } catch (error) {
+    if (userSubject.value) {
+      logout()
+    }
     return error.response.data;
   }
 }
