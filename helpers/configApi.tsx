@@ -4,7 +4,7 @@ import { BehaviorSubject } from "rxjs";
 
 
 const userSubject = new BehaviorSubject(
-  process.browser && JSON.parse(localStorage.getItem("user"))
+  process.browser && JSON.parse(localStorage.getItem("user") as string)
 );
 
 const user = userSubject.value;

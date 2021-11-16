@@ -1,23 +1,20 @@
-import React, {
-  forwardRef,
-  SelectHTMLAttributes,
-} from 'react'
-import styles from './Component.module.scss'
-import Select  from "react-select";
+import React, { forwardRef, SelectHTMLAttributes } from "react";
+import styles from "./Component.module.scss";
+import Select from "react-select";
 
 export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
-  style?: object
-  text?: string
-  placeholder?:string
-  options?:any
-  onChange?: (e:any)=>void
-  value?:any
-  label?:string
+  style?: object;
+  text?: string;
+  placeholder?: string;
+  options?: any;
+  onChange?: (e: any) => void;
+  value?: any;
+  label?: string;
 }
 const SelectInput: React.FC<SelectProps> = forwardRef((props, _SelectRef) => {
   return (
     <div className={styles.selectContainer}>
-    <Select
+      <Select
         id="long-value-select"
         instanceId="long-value-select"
         onChange={props.onChange}
@@ -25,31 +22,33 @@ const SelectInput: React.FC<SelectProps> = forwardRef((props, _SelectRef) => {
         placeholder={props.placeholder}
         options={props?.options}
         value={props.value}
-    />
-</div>
-  )
-})
+      />
+    </div>
+  );
+});
 
-export default SelectInput
+export default SelectInput;
 const customStyles = {
   placeholder: (provided: any) => ({
-      ...provided,
-      width: "100%",
-      color: "grey",
-      fontSize: 19,
-      paddingLeft: 4,
+    ...provided,
+    width: "100%",
+    color: "gray",
+    fontSize: 14,
+    paddingLeft: 0,
   }),
   control: (provided: any) => ({
-      ...provided,
-      color: "black",
-      borderColor: "grey",
-      borderWidth: 2,
-      borderRadius: 9,
-      height: 40,
+    ...provided,
+    color: "black",
+    borderColor: "gray",
+    borderWidth: 1,
+    borderRadius: 10,
+    height: 50,
+    marginBottom: 10,
+    width: '100%'
   }),
   menu: (provided: any) => ({
-      ...provided,
-      width: "100%",
-      color: "black",
+    ...provided,
+    width: "100%",
+    color: "black",
   }),
 };

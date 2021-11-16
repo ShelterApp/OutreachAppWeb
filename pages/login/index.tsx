@@ -5,7 +5,7 @@ import ErrorMessage from "component/ErrorMessage";
 import stylesComponent from "component/Component.module.scss";
 import Button from "component/Button";
 import Link from "next/link";
-import { userService } from "services";
+import { alertService, userService } from "services";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -27,7 +27,7 @@ const Login: NextPage = () => {
       .login(data.email, data.password)
       .then((res) => {
         if (res.statusCode && res.statusCode == "401") {
-          setMessage(res.message);
+          alertService.error(res.message)
           return;
         }
         // get return url from query parameters or default to '/'
@@ -38,8 +38,6 @@ const Login: NextPage = () => {
         console.log(e);
       });
   };
-
-  const [message, setMessage] = useState("");
 
   return (
     <div className={styles.container}>
@@ -80,7 +78,6 @@ const Login: NextPage = () => {
               {errors.password && errors.password.type === "required" && (
                 <ErrorMessage>Please input password.</ErrorMessage>
               )}
-              {message && <ErrorMessage>{message}</ErrorMessage>}
               <div className={styles.grid}>
                 <Button text="Login" type="submit"></Button>
               </div>
