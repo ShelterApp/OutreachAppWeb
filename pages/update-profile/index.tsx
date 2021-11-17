@@ -7,12 +7,7 @@ import Select from "component/Select";
 import Button from "component/Button";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { userService, alertService } from "services";
-
-const options = [
-  { value: "618563c781a92408a00bd1aa", label: "Seattle" },
-  { value: "618562de8f4e4f313fdc8111", label: "San Jose" },
-];
+import { userService, alertService, regionsService } from "services";
 
 type Inputs = {
   name: string;
@@ -40,19 +35,30 @@ const UpdateProfile: NextPage = () => {
       alertService.error("Have something wrong");
     }
   };
-  const [region, setRegion] = useState<any>(options[0]);
+
+  const [options, setOptions] = useState([])
+  const [region, setRegion] = useState<any>();
 
   useEffect(() => {
-    if (!!userService.userValue) {
-      const user = userService.userValue.user;
+    const fetch = async () => {
+      const res = await regionsService.list();
+      const regions = res.items.map((region: any) => ({value: region._id, label: region.name}));
+      setOptions(regions)
 
-      reset({
-        name: user.name,
-        phone: user.phone,
-        email: user.email,
-      });
-      setRegion(options.find((opt) => opt.value === user.regionId));
+      if (!!userService.userValue) {
+        const user = userService.userValue.user;
+
+        reset({
+          name: user.name,
+          phone: user.phone,
+          email: user.email,
+        });
+        setRegion(regions.find((opt: any) => opt.value === user.regionId));
+      }
     }
+
+    fetch();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
