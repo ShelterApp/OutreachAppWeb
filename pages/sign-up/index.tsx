@@ -6,14 +6,9 @@ import styles from "styles/Home.module.scss";
 import TextInput from "component/TextInput";
 import Select from "component/Select";
 import Button from "component/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { userService, alertService } from "services";
-
-const options = [
-  { value: "618563c781a92408a00bd1aa", label: "Seattle" },
-  { value: "618562de8f4e4f313fdc8111", label: "San Jose" },
-];
+import { userService, alertService, regionsService } from "services";
 
 type Inputs = {
   orgCode: string;
@@ -31,6 +26,20 @@ const SignUp: NextPage = () => {
     watch,
     formState: { errors },
   } = useForm<Inputs>();
+
+  const [options, setOptions] = useState([])
+
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await regionsService.list();
+      const regions = res.items.map((region: any) => ({value: region._id, label: region.name}));
+      setOptions(regions)
+      setRegion(regions[0])
+    }
+
+    fetch();
+  }, [])
+
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     let user = {
       ...data,
@@ -51,7 +60,7 @@ const SignUp: NextPage = () => {
         console.log(e);
       });
   };
-  const [region, setRegion] = useState(options[0]);
+  const [region, setRegion] = useState<any>();
 
   const onChangeCity = (e: any) => {
     setRegion(e);
