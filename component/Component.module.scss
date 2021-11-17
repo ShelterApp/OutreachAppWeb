@@ -1,50 +1,67 @@
 .custom {
-  .container {
-    width: 100%;
-  }
-  .input {
-    width: 100%;
-    margin-bottom: 10px;
-    padding: 18px 15px;
-    border-radius: 10px;
-    border: 1px solid gray;
-  }
-  .card {
-    margin: 10px 0px;
-    width: 90%;
-    text-align: left;
-    cursor: pointer;
-    color: inherit;
-    text-decoration: none;
-    border-radius: 50px;
-    transition: color 0.15s ease, border-color 0.15s ease;
-    background-color: #5952ff;
-    color: white;
-    height: 50px;
-  }
-  .card:hover,
-  .card:focus,
-  .card:active {
-    border-color: #0070f3;
-  }
+    .container {
+        width: 100%;
+    }
+    .input {
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 18px 15px;
+        border-radius: 10px;
+        border: 1px solid gray;
+    }
+    .card {
+        margin: 10px 0px;
+        width: 90%;
+        text-align: left;
+        cursor: pointer;
+        color: inherit;
+        text-decoration: none;
+        border-radius: 50px;
+        transition: color 0.15s ease, border-color 0.15s ease;
+        background-color: #5952ff;
+        color: white;
+        height: 50px;
+    }
+    .card:hover,
+    .card:focus,
+    .card:active {
+        border-color: #0070f3;
+    }
 
-  .card h2 {
-    font-size: 1.3rem;
-    text-align: center;
-  }
+    .card h2 {
+        font-size: 1.3rem;
+        text-align: center;
+    }
 
-  .card p {
-    margin: 0;
-    font-size: 1.25rem;
-    line-height: 1.5;
-  }
-  .selectContainer {
-    width: 100%;
-  }
+    .card p {
+        margin: 0;
+        font-size: 1.25rem;
+        line-height: 1.5;
+    }
+    .selectContainer {
+        width: 100%;
+    }
 }
 .titleHeader {
-  color: #5952ff;
-  font-size: 1.3rem;
-  font-weight: bold;
-  text-decoration: none;
+    color: #5952ff;
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-decoration: none;
+}
+.titleHeader {
+    font-size: 2.3rem;
+    font-weight: bold;
+    text-decoration: none;
+}
+.containerHeader {
+    display: flex;
+    width: 100%;
+    font-size: 18px;
+    background-color: #5952ff;
+    color: white;
+    padding-top: 9px;
+    padding-bottom: 9px;
+}
+.center {
+    align-self: center;
 }

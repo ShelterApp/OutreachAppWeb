@@ -8,6 +8,8 @@ import Link from "next/link";
 import { alertService, userService } from "services";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import TextInput from "component/TextInput";
+import Container from '@mui/material/Container';
 
 type Inputs = {
   email: string;
@@ -31,7 +33,7 @@ const Login: NextPage = () => {
           return;
         }
         // get return url from query parameters or default to '/'
-        const returnUrl = router.query.returnUrl?.toString() || "/";
+        const returnUrl = router.query.returnUrl?.toString() || "/home";
         router.push(returnUrl);
       })
       .catch((e) => {
@@ -40,12 +42,12 @@ const Login: NextPage = () => {
   };
 
   return (
+    <Container maxWidth="sm">
     <div className={styles.container}>
       <main className={styles.main}>
         <div className={styles.titleName}>OutreachApp</div>
         <div className={styles.grid}>
-          <div className={stylesComponent.container}>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
               <input
                 {...register("email", {
                   required: true,
@@ -90,10 +92,10 @@ const Login: NextPage = () => {
                 </Link>
               </div>
             </form>
-          </div>
         </div>
       </main>
     </div>
+</Container>
   );
 };
 

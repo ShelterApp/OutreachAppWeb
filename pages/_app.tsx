@@ -79,14 +79,13 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests"/>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       {
         authorized &&
         <div className={style.custom}>
           <Alert />
-          <Container maxWidth="sm">
-            <Component {...pageProps} />
-          </Container>
+          {/* <Container maxWidth='sm'> */}
+          <Component {...pageProps} />
+          {/* </Container> */}
         </div>
       }
     </>

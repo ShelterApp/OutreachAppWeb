@@ -6,6 +6,7 @@ import TextInput from "component/TextInput";
 import Button from "component/Button";
 import { useRouter } from "next/router";
 import { userService, alertService } from "services";
+import Container from '@mui/material/Container';
 
 type Inputs = {
   email: string;
@@ -29,6 +30,7 @@ const ForgotPassword: NextPage = () => {
   };
 
   return (
+    <Container maxWidth='sm'>
     <div className={styles.container}>
       <main className={styles.main}>
         <div className={styles.titleName}>OutreachApp</div>
@@ -58,6 +60,8 @@ const ForgotPassword: NextPage = () => {
         </div>
       </main>
     </div>
+    </Container>
+
   );
 };
 

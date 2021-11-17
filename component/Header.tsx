@@ -1,27 +1,29 @@
 import React from "react";
 import Link from "next/link";
 import style from "./Component.module.scss";
-
+import styles from "styles/Home.module.scss";
+import Drawer from '@mui/material/Drawer';
+import Box from '@mui/material/Box';
 export interface ButtonProps {
   title?: string;
-  search?:boolean;
+  search?: boolean;
   onClick?: Function;
 }
 
-const Header = ({title}: ButtonProps) => {
+const Header = ({ title }: ButtonProps) => {
 
   return (
-   <div style={{display:'flex',width:'100%',fontSize:18, backgroundColor:'#5952ff',color:'white'}}>
-     <div style={{width:'10%'}}>
-       Back
+    <div className={style.containerHeader}>
+      <div className={style.center}>
+        Back
      </div>
-     <div className={style.titleHeader} style={{width:'80%',textAlign:'center'}}>
-     {title}
+      <div className={style.titleHeader} style={{ width: '80%', textAlign: 'center', color: 'white' }}>
+        {title}
+      </div>
+      <div className={style.center}>
+        Search
      </div>
-     <div style={{width:'10%'}}>
-     Search
-     </div>
-   </div>
+    </div>
   )
 }
 export default Header;

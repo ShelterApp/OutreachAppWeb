@@ -9,7 +9,7 @@ import Button from "component/Button";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { userService, alertService } from "services";
-
+import Container from '@mui/material/Container';
 const options = [
   { value: "618563c781a92408a00bd1aa", label: "Seattle" },
   { value: "618562de8f4e4f313fdc8111", label: "San Jose" },
@@ -59,6 +59,7 @@ const SignUp: NextPage = () => {
   };
 
   return (
+    <Container maxWidth="sm">
     <div className={styles.container}>
       <main className={styles.main}>
         <div className={styles.titleName}>OutreachApp</div>
@@ -139,6 +140,7 @@ const SignUp: NextPage = () => {
         </div>
       </main>
     </div>
+</Container>
   );
 };
 
