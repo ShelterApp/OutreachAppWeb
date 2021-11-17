@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import styles from "styles/Home.module.scss";
 import Button from "component/Button";
 import { userService } from "services";
+import Container from '@mui/material/Container';
 
 const Home: NextPage = () => {
   const [user, setUser] = useState(null);
@@ -17,6 +18,8 @@ const Home: NextPage = () => {
   };
 
   return (
+    <Container maxWidth="sm">
+
     <div className={styles.container}>
       <main className={styles.main}>
         <div className={styles.titleName}>OutreachApp</div>
@@ -33,6 +36,7 @@ const Home: NextPage = () => {
         </div>
       </main>
     </div>
+    </Container>
   );
 };
 

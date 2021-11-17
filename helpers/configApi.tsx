@@ -22,6 +22,7 @@ const setToken = (token: string) => {
 };
 
 if (isLoggedIn) {
+  console.log(user);
   setToken(user.access_token);
 }
 
