@@ -1,7 +1,7 @@
 import axios from "helpers/configApi";
 import { BehaviorSubject } from "rxjs";
 import Router from "next/router";
-
+import { setToken } from 'helpers/configApi';
 const userSubject = new BehaviorSubject(
   process.browser && JSON.parse(localStorage.getItem("user"))
 );
@@ -14,13 +14,15 @@ export const userService = {
   login,
   logout,
   register,
-  // getAll,
-  // getById,
+  list,
+  getById,
   update,
-  // delete: _delete,
+  _delete,
   forgotPassword,
   resetPassword,
-  getProfile
+  getProfile,
+  create,
+  updateUser
 };
 
 async function login(username, password) {
@@ -30,7 +32,7 @@ async function login(username, password) {
     const user = res.data
     userSubject.next(user);
     localStorage.setItem("user", JSON.stringify(user));
-
+    setToken(user.access_token)
     return user;
   } catch (error) {
     return error.response.data;
@@ -83,13 +85,15 @@ async function getProfile() {
   }
 }
 
-// function getAll() {
-//   return fetchWrapper.get(`/register`);
-// }
+async function list(params) {
+  try {
+    const res = await axios.get(`/users`, { params });
 
-// function getById(id) {
-//   return fetchWrapper.get(`/${id}`);
-// }
+    return res.data;
+  } catch (error) {
+    return error.response.data;
+  }
+}
 
 async function update(params) {
   try {
@@ -106,22 +110,45 @@ async function update(params) {
   } catch (error) {
     return error.response.data;
   }
-
-  // return fetchWrapper.put(`/${id}`, params).then((x) => {
-  //   // update stored user if the logged in user updated their own record
-  //   if (id === userSubject.value.id) {
-  //     // update local storage
-  //     const user = { ...userSubject.value, ...params };
-  //     localStorage.setItem("user", JSON.stringify(user));
-
-  //     // publish updated user to subscribers
-  //     userSubject.next(user);
-  //   }
-  //   return x;
-  // });
 }
 
 // // prefixed with underscored because delete is a reserved word in javascript
-// function _delete(id) {
-//   return fetchWrapper.delete(`/${id}`);
-// }
+
+async function _delete(id) {
+  try {
+    const res = await axios.delete(`/users/${id}`);
+
+    return res.data;
+  } catch (error) {
+    return error.response.data;
+  }
+}
+
+async function create(params) {
+  try {
+    const res = await axios.post(`/users`, params);
+    return res.data;
+  } catch (error) {
+    return error.response.data;
+  }
+}
+
+async function updateUser(id, params) {
+  try {
+    const res = await axios.patch(`/users/${id}`, params);
+
+    return res.data;
+  } catch (error) {
+    return error.response.data;
+  }
+}
+
+async function getById(id) {
+  try {
+    const res = await axios.get(`/users/${id}`);
+
+    return res.data;
+  } catch (error) {
+    return error.response.data;
+  }
+}

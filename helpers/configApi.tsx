@@ -17,16 +17,12 @@ const APIInstance = axios.create({
   baseURL: baseUrl
 });
 
-const setToken = (token: string) => {
+export const setToken = (token: string) => {
   APIInstance.defaults.headers.common["Authorization"] = "Bearer " + token;
 };
 
 if (isLoggedIn) {
-  console.log(user);
   setToken(user.access_token);
 }
-
-
-
 
 export default APIInstance;
