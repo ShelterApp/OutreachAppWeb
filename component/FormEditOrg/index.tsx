@@ -47,7 +47,7 @@ const FormEditOrg = ({ org }: any) => {
       alertService.error(org.message)
     } else {
       router.push('/organizations')
-      await alertService.success('Organization was update successful!')
+      await alertService.success('Organization was updated successful!')
     }
     setLoading(false);
   };

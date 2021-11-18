@@ -1,12 +1,7 @@
 import React from 'react';
 import type { NextPage } from "next";
 import styles from "styles/Home.module.scss";
-import { useForm, SubmitHandler } from "react-hook-form";
-import ErrorMessage from "component/ErrorMessage";
-import stylesComponent from "component/Component.module.scss";
-import Button from "component/Button";
 import Header from 'component/Header';
-import Container from '@mui/material/Container';
 import PanToolIcon from '@mui/icons-material/PanTool';
 import HouseSidingIcon from '@mui/icons-material/HouseSiding';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
@@ -73,7 +68,6 @@ const Home: NextPage = () => {
           <RecordVoiceOverIcon className="cursor-pointer"
             fontSize="large" />
         </div>
-
       </div>
     </main>
   );
