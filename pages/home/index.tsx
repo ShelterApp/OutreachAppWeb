@@ -13,7 +13,7 @@ import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 const containerStyle = {
   width: '10240px',
-  height: '900px'
+  height: '800px'
 };
 
 const center = {
@@ -27,7 +27,7 @@ const Home: NextPage = () => {
   })
 
   const [map, setMap] = React.useState(null)
-
+  const height=window.innerHeight;
   const onLoad = React.useCallback(function callback(map) {
     const bounds = new window.google.maps.LatLngBounds();
     map.fitBounds(bounds);
