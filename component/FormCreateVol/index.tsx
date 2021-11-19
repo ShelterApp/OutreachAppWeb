@@ -62,8 +62,9 @@ const FormCreateVol = () => {
     if (res.statusCode && res.message) {
       alertService.error(res.message)
     } else {
-      router.push('/volunteers')
-      await alertService.success('Volunteer was create successful!')
+      router.push('/volunteers/').then(() => {
+        alertService.success('Volunteer was created successful!')
+      })
     }
     setLoading(false);
   };
