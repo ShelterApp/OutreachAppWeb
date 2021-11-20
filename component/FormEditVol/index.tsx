@@ -131,7 +131,7 @@ const FormEditVol = ({ vol }: any) => {
         <input disabled className={stylesComponent.input} value={dayjs(vol.createdAt).format("MMMM DD, YYYY")} placeholder="Created On"/>
         <input disabled className={stylesComponent.input} value={dayjs(vol.updatedAt).format("MMMM DD, YYYY")} placeholder="Last Updated"/>
         <div className={styles.grid}>
-          <Button text="Create Organization" loading={loading} type="submit"/>
+          <Button text="Update Volunteer" loading={loading} type="submit"/>
         </div>
       </form>
     </React.Fragment>

@@ -10,16 +10,21 @@ import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
+import { userService } from "services";
 
 export interface ButtonProps {
     title?: string;
     search?: boolean;
     onClick?: Function;
+    user?:object;
 }
 
-const Header = ({ title }: ButtonProps) => {
+const Header = ({ title,user }: ButtonProps) => {
     const [state, setState] = React.useState(false);
-
+    const logout = () => {
+        userService.logout();
+      };
+    
     const list = () => (
         <Box
             sx={{ width: 250 }}
@@ -28,13 +33,13 @@ const Header = ({ title }: ButtonProps) => {
             onKeyDown={() => setState(false)}
         >
             <List>
-                <div style={{ textAlign: "center" }}>Raj.lanka@outlook.com</div>
+    <div style={{ textAlign: "center" }}>{user.email}</div>
             </List>
             <Divider />
             <List>
-                {routeSideMenu.admin.map(({text,link}, index) => (
+                {routeSideMenu[user.userType].map(({text,link}, index) => (
                   <Link href={link?link:'#'} passHref key={index}>
-                   <ListItem button >
+                   <ListItem button onClick={()=>text=='Logout'?logout():null}>
                         <ListItemText primary={text} />
                     </ListItem>
                   </Link>
@@ -76,7 +81,7 @@ const Header = ({ title }: ButtonProps) => {
 };
 export default Header;
 const routeSideMenu = {
-  admin: [
+  Admin: [
       { text: "Add Camp", link: "/add-camp" },
       { text: "Add Event", link: "/add-event" },
       { text: "Add Supplies", link: "/add-supplies" },
