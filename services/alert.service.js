@@ -1,4 +1,4 @@
-import { Subject } from "rxjs";
+import { Subject, BehaviorSubject } from "rxjs";
 import { filter } from "rxjs/operators";
 
 export const alertService = {
@@ -18,12 +18,12 @@ export const AlertType = {
   Warning: "Warning",
 };
 
-const alertSubject = new Subject();
+const alertSubject = new BehaviorSubject();
 const defaultId = "default-alert";
 
 // enable subscribing to alerts observable
-function onAlert(id = defaultId) {
-  return alertSubject.asObservable().pipe(filter((x) => x && x.id === id));
+function onAlert() {
+  return alertSubject.asObservable({ id: defaultId });
 }
 
 // convenience methods

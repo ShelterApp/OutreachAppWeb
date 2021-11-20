@@ -58,8 +58,9 @@ const FormEditVol = ({ vol }: any) => {
     if (res.statusCode && res.message) {
       alertService.error(res.message)
     } else {
-      router.push('/volunteers')
-      await alertService.success('Volunteer was updated successful!')
+      router.push('/volunteers/').then(() => {
+        alertService.success('Volunteer was updated successful!')
+      })
     }
     setLoading(false);
   };

@@ -46,8 +46,9 @@ const FormCreateOrg = () => {
     if (org.statusCode && org.message) {
       alertService.error(org.message)
     } else {
-      router.push('/organizations')
-      await alertService.success('Organization was create successful!')
+      router.push('/organizations/').then(() => {
+        alertService.success('Organization was created successful!')
+      })
     }
     setLoading(false);
   };

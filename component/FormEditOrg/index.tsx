@@ -42,12 +42,12 @@ const FormEditOrg = ({ org }: any) => {
     setLoading(true);
     e.preventDefault();
     const res = await organizationService.update(org._id, data)
-    console.log(res)
     if (org.statusCode && org.message) {
       alertService.error(org.message)
     } else {
-      router.push('/organizations')
-      await alertService.success('Organization was updated successful!')
+      router.push('/organizations/').then(() => {
+        alertService.success('Organization was updated successful!')
+      })
     }
     setLoading(false);
   };
