@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import { userService } from "services";
 import FormEditVol from "component/FormEditVol";
 import { useRouter } from "next/router";
+import Container from '@mui/material/Container';
+import Header from 'component/Header';
 
 const Edit: NextPage = () => {
   const router = useRouter();
@@ -27,13 +29,16 @@ const Edit: NextPage = () => {
   }, [id])
 
   return (
-    <div className={styles.container}>
-      <main className={styles.main}>
+    <main className={styles.mainTop}>
+    <Header title='Update Volunteer' back='/' />
+    <Container maxWidth="sm">
+      <div className={styles.grid}>
         {
           vol && <FormEditVol vol={vol}/>
         }
-      </main>
-    </div>
+       </div>
+      </Container>
+    </main>
   );
 };
 

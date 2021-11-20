@@ -17,17 +17,21 @@ a {
 }
 
 .text-center {
-  text-align: center;
+    text-align: center;
+}
+.item-volunteer {
+    padding: 10px 0px;
+    font-size: 15px;
 }
 
 .me-2 {
-  margin-right: 10px;
+    margin-right: 10px;
 }
 
 form {
-  width: 100%;
+    width: 100%;
 }
 
 .cursor-pointer {
-  cursor: pointer;
+    cursor: pointer;
 }

@@ -11,8 +11,8 @@ import Select from "component/Select";
 import dayjs from "dayjs";
 
 const statuses = [
-  {label: 'active', value: 1},
-  {label: 'inactive', value: 0}
+  {label: 'Active', value: 1},
+  {label: 'Inactive', value: 0}
 ]
 
 const roles = [
@@ -132,7 +132,7 @@ const FormEditVol = ({ vol }: any) => {
         <input disabled className={stylesComponent.input} value={dayjs(vol.createdAt).format("MMMM DD, YYYY")} placeholder="Created On"/>
         <input disabled className={stylesComponent.input} value={dayjs(vol.updatedAt).format("MMMM DD, YYYY")} placeholder="Last Updated"/>
         <div className={styles.grid}>
-          <Button text="Update Volunteer" loading={loading} type="submit"/>
+          <Button text="Save" loading={loading} type="submit"/>
         </div>
       </form>
     </React.Fragment>

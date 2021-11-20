@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import { organizationService } from "services";
 import FormEditOrg from "component/FormEditOrg";
 import { useRouter } from "next/router";
+import Header from 'component/Header';
+import Container from '@mui/material/Container';
 
 const Edit: NextPage = () => {
   const router = useRouter();
@@ -27,13 +29,16 @@ const Edit: NextPage = () => {
   }, [id])
 
   return (
-    <div className={styles.container}>
-      <main className={styles.main}>
+    <main className={styles.mainTop}>
+      <Header title='Update Organization' back='/' />
+      <Container maxWidth="sm">
+        <div className={styles.grid}>
         {
           org && <FormEditOrg org={org}/>
         }
-      </main>
-    </div>
+      </div>
+      </Container>
+    </main>
   );
 };
 

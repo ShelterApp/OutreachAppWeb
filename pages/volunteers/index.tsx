@@ -7,6 +7,7 @@ import Grid from '@mui/material/Grid';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AlertDialog from "component/ConfirmationPopUp";
+import Header from 'component/Header';
 
 const Index: NextPage = () => {
   const router = useRouter();
@@ -50,7 +51,8 @@ const Index: NextPage = () => {
   };
 
   return (
-    <div className={styles.container}>
+    <main className={styles.mainTop}>
+    <Header title='Manage Volunteers' back='/' />
       <Grid container>
         <Grid item xs={5}>
           <h3 className="text-center"><b>Name</b></h3>
@@ -62,14 +64,14 @@ const Index: NextPage = () => {
         </Grid>
         {
           list.map((user: any) =>
-            <React.Fragment key={user._id}>
-              <Grid item xs={5} className="text-center">
+            <React.Fragment key={user._id} >
+              <Grid item xs={5} className="text-center item-volunteer">
                 {user.name}
               </Grid>
-              <Grid item xs={5} className="text-center">
+              <Grid item xs={5} className="text-center item-volunteer">
                 {user.regionId.name}
               </Grid>
-              <Grid item xs={2} className="text-center">
+              <Grid item xs={2} className="text-center item-volunteer">
                 <EditOutlinedIcon className="cursor-pointer me-2" fontSize="small" onClick={() => edit(user._id)}/>
                 <DeleteIcon className="cursor-pointer" fontSize="small" onClick={() => handleOpenAlert(user._id)}/>
               </Grid>
@@ -83,7 +85,7 @@ const Index: NextPage = () => {
         handleClose={handleCloseAlert}
         handleClickYes={handleClickYes}
       />
-    </div>
+    </main>
   );
 };
 

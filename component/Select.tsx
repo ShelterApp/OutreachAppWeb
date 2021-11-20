@@ -11,12 +11,11 @@ export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   value?: any;
   label?: string;
 }
+// eslint-disable-next-line react/display-name
 const SelectInput: React.FC<SelectProps> = forwardRef((props, _SelectRef) => {
   return (
     <div className={styles.selectContainer}>
       <Select
-        id="long-value-select"
-        instanceId="long-value-select"
         onChange={props.onChange}
         styles={customStyles}
         placeholder={props.placeholder}

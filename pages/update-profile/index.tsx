@@ -8,6 +8,8 @@ import Button from "component/Button";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { userService, alertService, regionsService } from "services";
+import Container from '@mui/material/Container';
+import Header from 'component/Header';
 
 type Inputs = {
   name: string;
@@ -62,10 +64,10 @@ const UpdateProfile: NextPage = () => {
   }, []);
 
   return (
-    <div className={styles.container}>
-      <main className={styles.main}>
-        <div className={styles.titleName}>OutreachApp</div>
-        <div className={styles.grid}>
+    <main className={styles.mainTop}>
+      <Header title='Update Profile' back='/' />
+      <Container maxWidth="sm">
+      <div className={styles.grid}>
           <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
             <div className={styles.grid}>
               <TextInput
@@ -113,8 +115,8 @@ const UpdateProfile: NextPage = () => {
             </div>
           </form>
         </div>
-      </main>
-    </div>
+        </Container>
+    </main>
   );
 };
 

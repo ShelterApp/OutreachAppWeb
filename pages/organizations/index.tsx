@@ -7,6 +7,7 @@ import Grid from '@mui/material/Grid';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AlertDialog from "component/ConfirmationPopUp";
+import Header from 'component/Header';
 
 const Index: NextPage = () => {
   const router = useRouter();
@@ -50,8 +51,9 @@ const Index: NextPage = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <Grid container>
+    <main className={styles.mainTop}>
+    <Header title='Manage Organizations' back='/' />
+          <Grid container>
         <Grid item xs={5}>
           <h3 className="text-center"><b>Name</b></h3>
         </Grid>
@@ -63,13 +65,13 @@ const Index: NextPage = () => {
         {
           orgs.map((org: any) =>
             <React.Fragment key={org._id}>
-              <Grid item xs={5} className="text-center">
+              <Grid item xs={5} className="text-center item-volunteer">
                 {org.name}
               </Grid>
-              <Grid item xs={5} className="text-center">
+              <Grid item xs={5} className="text-center item-volunteer">
                 {org.address}
               </Grid>
-              <Grid item xs={2} className="text-center">
+              <Grid item xs={2} className="text-center item-volunteer">
                 <EditOutlinedIcon className="cursor-pointer me-2" fontSize="small" onClick={() => edit(org._id)}/>
                 <DeleteIcon className="cursor-pointer" fontSize="small" onClick={() => handleOpenAlert(org._id)}/>
               </Grid>
@@ -83,7 +85,7 @@ const Index: NextPage = () => {
         handleClose={handleCloseAlert}
         handleClickYes={handleClickYes}
       />
-    </div>
+    </main>
   );
 };
 

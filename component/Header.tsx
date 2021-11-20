@@ -3,6 +3,7 @@ import Link from "next/link";
 import style from "./Component.module.scss";
 import styles from "styles/Home.module.scss";
 import MenuIcon from "@mui/icons-material/Menu";
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import SearchIcon from "@mui/icons-material/Search";
 import Drawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
@@ -17,9 +18,10 @@ export interface ButtonProps {
     search?: boolean;
     onClick?: Function;
     user?:object;
+    back?:string;
 }
 
-const Header = ({ title,user }: ButtonProps) => {
+const Header = ({ title,user,back }: ButtonProps) => {
     const [state, setState] = React.useState(false);
     const logout = () => {
         userService.logout();
@@ -33,7 +35,7 @@ const Header = ({ title,user }: ButtonProps) => {
             onKeyDown={() => setState(false)}
         >
             <List>
-    <div style={{ textAlign: "center" }}>{user.email}</div>
+    <div style={{ textAlign: "center" }}>{user?.email}</div>
             </List>
             <Divider />
             <List>
@@ -52,18 +54,24 @@ const Header = ({ title,user }: ButtonProps) => {
         <div className={style.containerHeader}>
             <div
                 className={style.center}
-                style={{ width: "15%", paddingLeft: 10 }}
-            >
-                <MenuIcon
+                style={{ width: "15%", paddingLeft: 10 }}>
+                {back?
+                <Link href={back} passHref>
+                    <ArrowBackIosNewIcon
                     className="cursor-pointer"
                     fontSize="large"
-                    onClick={() => setState(true)}
                 />
+                </Link>
+                :<MenuIcon
+                className="cursor-pointer"
+                fontSize="large"
+                onClick={() => setState(true)}
+            /> }
+                
             </div>
             <div
                 className={style.titleHeader}
-                style={{ width: "70%", textAlign: "center", color: "white" }}
-            >
+                style={{ width: "70%", textAlign: "center", color: "white" }} >
                 {title}
             </div>
             <div className={style.center} style={{ width: "15%" }}>
@@ -74,7 +82,7 @@ const Header = ({ title,user }: ButtonProps) => {
                     open={state}
                     onClose={() => setState(false)}
                 >
-                    {list()}
+                    {!!user && list()}
                 </Drawer>
         </div>
     );

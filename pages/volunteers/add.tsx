@@ -1,15 +1,20 @@
 import type { NextPage } from "next";
-import styles from "styles/Home.module.scss";
 import React from "react";
+import styles from "styles/Home.module.scss";
+import Header from 'component/Header';
 import FormCreateVol from "component/FormCreateVol";
+import Container from '@mui/material/Container';
 
 const Add: NextPage = () => {
   return (
-    <div className={styles.container}>
-      <main className={styles.main}>
-        <FormCreateVol/>
-      </main>
-    </div>
+    <main className={styles.mainTop}>
+      <Header title='Add Volunteer' back='/' />
+      <Container maxWidth="sm">
+        <div className={styles.grid}>
+          <FormCreateVol />
+        </div>
+      </Container>
+    </main>
   );
 };
 

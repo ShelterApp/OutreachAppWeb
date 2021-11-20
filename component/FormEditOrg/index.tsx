@@ -117,7 +117,7 @@ const FormEditOrg = ({ org }: any) => {
         <input disabled className={stylesComponent.input} value={dayjs(org.createdAt).format("MMMM DD, YYYY")} placeholder="Created On"/>
         <input disabled className={stylesComponent.input} value={dayjs(org.updatedAt).format("MMMM DD, YYYY")} placeholder="Last Updated"/>
         <div className={styles.grid}>
-          <Button text="Update Organization" loading={loading} type="submit"/>
+          <Button text="Save" loading={loading} type="submit"/>
         </div>
       </form>
     </React.Fragment>
