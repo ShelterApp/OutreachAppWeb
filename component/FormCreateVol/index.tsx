@@ -167,7 +167,7 @@ const FormCreateVol = () => {
         />
        
         <div className={styles.grid}>
-          <Button text="Create Volunteer" loading={loading} type="submit"/>
+          <Button text="Save" loading={loading} type="submit"/>
         </div>
       </form>
     </React.Fragment>

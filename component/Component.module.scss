@@ -43,6 +43,10 @@
         border-radius: 10px;
         border: 1px solid gray;
         font-family: Arial, Helvetica, sans-serif;
+        ::placeholder {
+            font-size: 14px;
+            color: green;
+        }
     }
     .card {
         margin: 10px 0px;

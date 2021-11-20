@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import Head from "component/Head";
 import { useForm, SubmitHandler } from "react-hook-form";
 import ErrorMessage from "component/ErrorMessage";
 import styles from "styles/Home.module.scss";
@@ -10,10 +9,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { userService, alertService,regionsService } from "services";
 import Container from '@mui/material/Container';
-const options = [
-  { value: "618563c781a92408a00bd1aa", label: "Seattle" },
-  { value: "618562de8f4e4f313fdc8111", label: "San Jose" },
-];
 
 type Inputs = {
   orgCode: string;
@@ -39,7 +34,7 @@ const SignUp: NextPage = () => {
       const res = await regionsService.list();
       const regions = res.items.map((region: any) => ({value: region._id, label: region.name}));
       setOptions(regions)
-      setRegion(regions[0])
+      // setRegion(regions[0])
     }
 
     fetch();

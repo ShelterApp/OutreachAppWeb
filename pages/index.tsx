@@ -54,7 +54,7 @@ const Home: NextPage = () => {
           <div className={styles.grid}>
             <Button text="Login" link="/login"></Button>
             <Button text="Sign Up" link="/sign-up"></Button>
-            <Button text="Request for Help" link="#"></Button>
+            <Button text="Request for Help" link="/help-screen"></Button>
           </div>
         </main>
       </div>

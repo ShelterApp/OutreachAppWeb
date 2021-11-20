@@ -118,7 +118,7 @@ const FormCreateOrg = () => {
           <ErrorMessage>Please input password.</ErrorMessage>
         )}
         <div className={styles.grid}>
-          <Button text="Create Organization" loading={loading} type="submit"/>
+          <Button text="Save" loading={loading} type="submit"/>
         </div>
       </form>
     </React.Fragment>

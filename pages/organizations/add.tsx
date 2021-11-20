@@ -10,10 +10,10 @@ const Add: NextPage = () => {
     <main className={styles.mainTop}>
       <Header title='Add Organization' back='/' />
       <Container maxWidth="sm">
-      <div className={styles.grid}>
-        <FormCreateOrg/>
+        <div className={styles.grid}>
+          <FormCreateOrg />
         </div>
-        </Container>
+      </Container>
     </main>
   );
 };
