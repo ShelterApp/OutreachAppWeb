@@ -10,13 +10,19 @@ import PanToolIcon from '@mui/icons-material/PanTool';
 import HouseSidingIcon from '@mui/icons-material/HouseSiding';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+const containerStyle = {
+  width: '100%',
+  height: 'calc(100vh - 115px)',
+  maxWidth: '1024px',
+  position: 'relative',
+  overflow: 'hidden'
+};
 const center = {
   lat: 32.965557,
   lng: -96.71583
 };
 const Home: NextPage = () => {
   const [user, setUser] = useState<any>(null);
-  
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: process.env.NEXT_PUBLIC_APIKEY_MAP
@@ -60,10 +66,7 @@ const Home: NextPage = () => {
         <div className={styles.grid} style={{ paddingTop: 0 }}>
           {isLoaded ? (
             <GoogleMap
-              mapContainerStyle={{
-                width:window.innerWidth,
-                height:window.innerHeight-60-52.63
-              }}
+              mapContainerStyle={containerStyle}
               center={center}
               zoom={10}
               // onLoad={onLoad}
