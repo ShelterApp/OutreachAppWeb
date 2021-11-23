@@ -89,7 +89,7 @@ const Header = ({ title, user, back }: ButtonProps) => {
   );
 };
 export default Header;
-const routeSideMenu: Role = {
+const routeSideMenu: any = {
   Admin: [
     { text: "Add Camp", link: "/add-camp" },
     { text: "Add Event", link: "/add-event" },

@@ -30,12 +30,17 @@ const UpdatePassword: NextPage = () => {
     let user = {
       ...data,
     };
+    if(user.newPassword!=user.confirmPassword){
+      alertService.error("The new password and confimation password do not match.");
+    }
     const res = await userService.changePassword(user);
-    if (res && res.code==204) {
+    console.log(res);
+    if (res && res.status==204) {
       alertService.success("Your password was updated successful.");
-      router.push("/login");
+      reset({oldPassword:'',newPassword:'',confirmPassword:''});
+      // router.push("/login");
     } else {
-      alertService.error("Have something wrong");
+      alertService.error(res.message);
     }
   };
 
