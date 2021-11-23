@@ -34,6 +34,7 @@ const ForgotPassword: NextPage = () => {
         alertService.error(res.message)
       } else {
         alertService.success('Your password updated successful');
+        router.push("/login");
       }
     }
   };

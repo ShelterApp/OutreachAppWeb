@@ -10,7 +10,7 @@ import PanToolIcon from '@mui/icons-material/PanTool';
 import HouseSidingIcon from '@mui/icons-material/HouseSiding';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
-const containerStyle = {
+const containerStyle:any = {
   width: '100%',
   height: 'calc(100vh - 115px)',
   maxWidth: '1024px',
