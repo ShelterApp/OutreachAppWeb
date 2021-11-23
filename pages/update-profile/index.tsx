@@ -18,7 +18,6 @@ type Inputs = {
 };
 
 const UpdateProfile: NextPage = () => {
-  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -26,7 +25,7 @@ const UpdateProfile: NextPage = () => {
     reset,
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
-    let user = {
+    const user = {
       ...data,
       regionId: region ? region.value : "",
     };
@@ -47,7 +46,7 @@ const UpdateProfile: NextPage = () => {
       const regions = res.items.map((region: any) => ({value: region._id, label: region.name}));
       setOptions(regions)
 
-      if (!!userService.userValue) {
+      if (userService.userValue) {
         const user = userService.userValue.user;
 
         reset({

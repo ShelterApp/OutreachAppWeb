@@ -60,7 +60,7 @@ const HelpScreen: NextPage = () => {
   }, []);
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    let item = {
+    const item = {
       ...data,
       cate: {
         parentCateId: parentCate?.value,

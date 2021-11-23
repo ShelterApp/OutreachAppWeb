@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { userService } from "services";
 import style from "component/Component.module.scss";
-import Container from '@mui/material/Container';
 import { Alert } from 'component/Alert';
 
 function MyApp({ Component, pageProps }: AppProps) {
