@@ -1,3 +1,30 @@
 {
-    "extends": ["next", "prettier", "plugin:@next/next/recommended"]
+    "extends": [
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "eslint:recommended",
+        "plugin:@next/next/recommended"
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "parser": "@typescript-eslint/parser",
+    "overrides": [
+        {
+            "files": ["*.ts", "*.tsx"], // Your TypeScript files extension
+            "parserOptions": {
+                "project": ["./tsconfig.json"] // Specify it only for TypeScript files
+            }
+        }
+    ],
+    "rules": {
+        "react/react-in-jsx-scope": "off",
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-unsafe-member-access": "off"
+    }
 }

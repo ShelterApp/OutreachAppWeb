@@ -3,14 +3,10 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import ErrorMessage from "component/ErrorMessage";
 import styles from "styles/Home.module.scss";
 import TextInput from "component/TextInput";
-import Select from "component/Select";
 import Button from "component/Button";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import { userService, alertService, regionsService } from "services";
+import { userService, alertService } from "services";
 import Container from '@mui/material/Container';
 import Header from 'component/Header';
-import stylesComponent from "component/Component.module.scss";
 
 type Inputs = {
   confirmPassword: string;
@@ -19,26 +15,24 @@ type Inputs = {
 };
 
 const UpdatePassword: NextPage = () => {
-  const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
+    reset
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
-    let user = {
+    const user = {
       ...data,
     };
     if(user.newPassword!=user.confirmPassword){
       alertService.error("The new password and confimation password do not match.");
     }
     const res = await userService.changePassword(user);
-    console.log(res);
     if (res && res.status==204) {
       alertService.success("Your password was updated successful.");
       reset({oldPassword:'',newPassword:'',confirmPassword:''});
-      // router.push("/login");
     } else {
       alertService.error(res.message);
     }

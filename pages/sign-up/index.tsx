@@ -23,7 +23,6 @@ const SignUp: NextPage = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<Inputs>();
 
@@ -40,7 +39,7 @@ const SignUp: NextPage = () => {
   }, [])
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    let user = {
+    const user = {
       ...data,
       regionId: region ? region.value : "",
     };

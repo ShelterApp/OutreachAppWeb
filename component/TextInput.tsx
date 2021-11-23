@@ -2,7 +2,6 @@ import React, {
   forwardRef,
 
 } from 'react'
-import Link from 'next/link'
 import styles from './Component.module.scss'
 
 export interface TextInputProps   {
