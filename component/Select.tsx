@@ -15,6 +15,9 @@ export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
 const SelectInput: React.FC<SelectProps> = forwardRef((props, _SelectRef) => {
   return (
     <div className={styles.selectContainer}>
+      {
+        props.label && <label className={styles.label}>{props.label}</label>
+      }
       <Select
         onChange={props.onChange}
         styles={customStyles}
@@ -42,7 +45,7 @@ const customStyles = {
     borderWidth: 1,
     borderRadius: 10,
     height: 50,
-    marginBottom: 10,
+    marginBottom: 25,
     width: '100%'
   }),
   menu: (provided: any) => ({

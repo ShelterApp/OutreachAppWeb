@@ -24,7 +24,7 @@ const UpdatePassword: NextPage = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
+    watch,
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
     let user = {
@@ -47,12 +47,11 @@ const UpdatePassword: NextPage = () => {
         <div className={styles.grid}>
           <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
             <div className={styles.grid}>
-              <input
-                {...register("oldPassword", { required: true, minLength: 6 })}
-                type="password"
+              <TextInput
+                label="Current Password"
                 placeholder="Current Password"
-                className={stylesComponent.input}
-                autoComplete="false"
+                register={register("oldPassword", { required: true, minLength: 6 })}
+                type="password"
               />
               {errors.oldPassword && errors.oldPassword.type === "minLength" && (
                 <ErrorMessage>
@@ -62,20 +61,41 @@ const UpdatePassword: NextPage = () => {
               {errors.oldPassword && errors.oldPassword.type === "required" && (
                 <ErrorMessage>Please input password.</ErrorMessage>
               )}
-              <input
-                {...register("newPassword", { required: true, minLength: 6 })}
-                type="password"
+              <TextInput
+                label="New Password"
                 placeholder="New Password"
-                className={stylesComponent.input}
-                autoComplete="false"
-              />
-              <input
-                {...register("confirmPassword", { required: true, minLength: 6 })}
+                register={register("newPassword", { required: true, minLength: 6 })}
                 type="password"
-                placeholder="Confirm Password"
-                className={stylesComponent.input}
-                autoComplete="false"
               />
+              {errors.newPassword && errors.newPassword.type === "minLength" && (
+                <ErrorMessage>
+                  Password must be at least 6 characters long.
+                </ErrorMessage>
+              )}
+              {errors.newPassword && errors.newPassword.type === "required" && (
+                <ErrorMessage>Please input new password.</ErrorMessage>
+              )}
+              <TextInput
+                label="Confirm Password"
+                placeholder="Confirm Password"
+                type="password"
+                register={register("confirmPassword", {
+                  required: true,
+                  minLength: 6,
+                  validate: value => value === watch("newPassword")
+                })}
+              />
+              {errors.confirmPassword && errors.confirmPassword.type === "minLength" && (
+                <ErrorMessage>
+                  Password must be at least 6 characters long.
+                </ErrorMessage>
+              )}
+              {errors.confirmPassword && errors.confirmPassword.type === "required" && (
+                <ErrorMessage>Please input confirm password.</ErrorMessage>
+              )}
+              {errors.confirmPassword && errors.confirmPassword.type === "validate" && (
+                <ErrorMessage>Confirm password did not match. Please check and try again.</ErrorMessage>
+              )}
             </div>
             <div className={styles.grid}>
               <Button

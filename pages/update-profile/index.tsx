@@ -71,6 +71,7 @@ const UpdateProfile: NextPage = () => {
           <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
             <div className={styles.grid}>
               <TextInput
+                label="Name"
                 placeholder="Update My Name"
                 register={register("name", { required: true })}
               />
@@ -78,6 +79,7 @@ const UpdateProfile: NextPage = () => {
                 <ErrorMessage>Please input name.</ErrorMessage>
               )}
               <Select
+                label="Select City"
                 placeholder="Update City"
                 options={options}
                 value={region}
@@ -85,6 +87,7 @@ const UpdateProfile: NextPage = () => {
               />
             </div>
             <TextInput
+              label="Phone"
               placeholder="Update Phone"
               register={register("phone", { required: true })}
             />
@@ -92,6 +95,7 @@ const UpdateProfile: NextPage = () => {
               <ErrorMessage>Please input phone.</ErrorMessage>
             )}
             <TextInput
+              label="Email"
               type="email"
               register={register("email", {
                 required: true,

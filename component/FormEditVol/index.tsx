@@ -97,6 +97,7 @@ const FormEditVol = ({ vol }: any) => {
     <React.Fragment>
       <form name="form-vol" onSubmit={handleSubmit(submit)}>
         <TextInput
+          label="Name"
           placeholder="Name"
           register={register("name", { required: true })}
         />
@@ -104,32 +105,39 @@ const FormEditVol = ({ vol }: any) => {
           <ErrorMessage>Please input name.</ErrorMessage>
         )}
         <Select
+          label="Select Region"
           placeholder="Region"
           options={options}
           value={region}
           onChange={setRegion}
         />
         <Select
+          label="Select Role"
           placeholder="Role"
           options={roles}
           value={role}
           onChange={setRole}
         />
         <Select
+          label="Select Status"
           placeholder="Status"
           options={statuses}
           value={status}
           onChange={setStatus}
         />
         <TextInput
+          label="Phone"
           placeholder="Phone"
           register={register("phone", { required: true })}
         />
         {errors.phone && errors.phone.type === "required" && (
           <ErrorMessage>Please input phone.</ErrorMessage>
         )}
+        <label className={stylesComponent.label}>Email</label>
         <input disabled className={stylesComponent.input} value={vol.email}/>
+        <label className={stylesComponent.label}>Created On</label>
         <input disabled className={stylesComponent.input} value={dayjs(vol.createdAt).format("MMMM DD, YYYY")} placeholder="Created On"/>
+        <label className={stylesComponent.label}>Last Updated</label>
         <input disabled className={stylesComponent.input} value={dayjs(vol.updatedAt).format("MMMM DD, YYYY")} placeholder="Last Updated"/>
         <div className={styles.grid}>
           <Button text="Save" loading={loading} type="submit"/>

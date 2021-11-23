@@ -38,6 +38,7 @@ const ForgotPassword: NextPage = () => {
           <form onSubmit={handleSubmit(onSubmit)} style={{width:'100%'}}>
             <div className={styles.grid}>
             <TextInput
+              label="Email"
               type="email"
               register = {register("email", {
                 required: true,

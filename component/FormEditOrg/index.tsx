@@ -69,12 +69,14 @@ const FormEditOrg = ({ org }: any) => {
     <React.Fragment>
       <form name="form_org" onSubmit={handleSubmit(submit)}>
         <TextInput
+          label="Name"
           placeholder="Name"
           register={register("name", { required: true })}
         />
         {errors.name && errors.name.type === "required" && (
           <ErrorMessage>Please input name.</ErrorMessage>
         )}
+        <label className={stylesComponent.label}>Description</label>
         <textarea
           {...register("description", { required: true })}
           className={stylesComponent.input}
@@ -84,6 +86,7 @@ const FormEditOrg = ({ org }: any) => {
           <ErrorMessage>Please input description.</ErrorMessage>
         )}
         <TextInput
+          label="Address"
           placeholder="Address"
           register={register("address", { required: true })}
         />
@@ -91,22 +94,22 @@ const FormEditOrg = ({ org }: any) => {
           <ErrorMessage>Please input address.</ErrorMessage>
         )}
         <TextInput
+          label="Phone"
           placeholder="Phone"
           register={register("phone", { required: true })}
         />
         {errors.phone && errors.phone.type === "required" && (
           <ErrorMessage>Please input phone.</ErrorMessage>
         )}
-        <input
-          {...register("email", {
+        <TextInput
+          label="Email"
+          placeholder="Email or Phone Number"
+          register={register("email", {
             required: true,
             pattern:
               /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
           })}
-          className={stylesComponent.input}
-          placeholder="Email or Phone Number"
           type="email"
-          autoComplete="false"
         />
         {errors.email && errors.email.type === "pattern" && (
           <ErrorMessage>Email must be valid.</ErrorMessage>
@@ -114,7 +117,9 @@ const FormEditOrg = ({ org }: any) => {
         {errors.email && errors.email.type === "required" && (
           <ErrorMessage>Please input email.</ErrorMessage>
         )}
+        <label className={stylesComponent.label}>Created On</label>
         <input disabled className={stylesComponent.input} value={dayjs(org.createdAt).format("MMMM DD, YYYY")} placeholder="Created On"/>
+        <label className={stylesComponent.label}>Last Updated</label>
         <input disabled className={stylesComponent.input} value={dayjs(org.updatedAt).format("MMMM DD, YYYY")} placeholder="Last Updated"/>
         <div className={styles.grid}>
           <Button text="Save" loading={loading} type="submit"/>

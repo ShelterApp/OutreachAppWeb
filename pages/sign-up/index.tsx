@@ -76,6 +76,7 @@ const SignUp: NextPage = () => {
           <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
             <div className={styles.grid}>
               <Select
+                label="Select City"
                 placeholder="Choose Your City"
                 options={options}
                 value={region}
@@ -83,6 +84,7 @@ const SignUp: NextPage = () => {
               />
             </div>
             <TextInput
+              label="Verification Code"
               placeholder="Verification Code"
               register={register("orgCode", { required: true })}
             />
@@ -90,6 +92,7 @@ const SignUp: NextPage = () => {
               <ErrorMessage>Please input orgCode.</ErrorMessage>
             )}
             <TextInput
+              label="Your Name"
               placeholder="Your Name"
               register={register("name", { required: true })}
             />
@@ -97,6 +100,7 @@ const SignUp: NextPage = () => {
               <ErrorMessage>Please input name.</ErrorMessage>
             )}
             <TextInput
+              label="Phone Number"
               placeholder="Phone Number"
               register={register("phone", { required: true })}
             />
@@ -104,6 +108,7 @@ const SignUp: NextPage = () => {
               <ErrorMessage>Please input phone.</ErrorMessage>
             )}
             <TextInput
+              label="Email"
               type="email"
               register={register("email", {
                 required: true,
@@ -119,6 +124,7 @@ const SignUp: NextPage = () => {
               <ErrorMessage>Please input email.</ErrorMessage>
             )}
             <TextInput
+              label="Password"
               placeholder="Password"
               register={register("password", { required: true, minLength: 6 })}
               type="password"

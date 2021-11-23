@@ -96,29 +96,30 @@ const FormCreateVol = () => {
     <React.Fragment>
       <form name="form-vol" onSubmit={handleSubmit(submit)}>
         <TextInput
+          label="Name"
           placeholder="Volunteer Name"
           register={register("name", { required: true })}
         />
         {errors.name && errors.name.type === "required" && (
           <ErrorMessage>Please input name.</ErrorMessage>
         )}
-           <TextInput
+        <TextInput
+          label="Phone"
           placeholder="Volunteer Phone"
           register={register("phone", { required: true })}
         />
         {errors.phone && errors.phone.type === "required" && (
           <ErrorMessage>Please input phone.</ErrorMessage>
         )}
-        <input
-          {...register("email", {
+        <TextInput
+          label="Email"
+          placeholder="Volunteer Email"
+          register={register("email", {
             required: true,
             pattern:
               /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
           })}
-          className={stylesComponent.input}
-          placeholder="Volunteer Email"
           type="email"
-          autoComplete="false"
         />
         {errors.email && errors.email.type === "pattern" && (
           <ErrorMessage>Email must be valid.</ErrorMessage>
@@ -126,12 +127,11 @@ const FormCreateVol = () => {
         {errors.email && errors.email.type === "required" && (
           <ErrorMessage>Please input email.</ErrorMessage>
         )}
-         <input
-          {...register("password", { required: true, minLength: 6 })}
-          type="password"
+        <TextInput
+          label="Password"
           placeholder="Password"
-          className={stylesComponent.input}
-          autoComplete="false"
+          register={register("password", { required: true, minLength: 6 })}
+          type="password"
         />
         {errors.password && errors.password.type === "minLength" && (
           <ErrorMessage>
@@ -142,30 +142,34 @@ const FormCreateVol = () => {
           <ErrorMessage>Please input password.</ErrorMessage>
         )}
         <Select
+          label="Select City"
           placeholder="City"
           options={options}
           value={region}
           onChange={setRegion}
         />
         <Select
+          label="Select Role"
           placeholder="Role"
           options={roles}
           value={role}
           onChange={setRole}
         />
         <Select
+          label="Select Status"
           placeholder="Status"
           options={statuses}
           value={status}
           onChange={setStatus}
         />
         <Select
+          label="Select Organization"
           placeholder="Organization"
           options={organizations}
           value={organization}
           onChange={setOrganization}
         />
-       
+
         <div className={styles.grid}>
           <Button text="Save" loading={loading} type="submit"/>
         </div>

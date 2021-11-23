@@ -48,16 +48,15 @@ const Login: NextPage = () => {
         <div className={styles.titleName}>OutreachApp</div>
         <div className={styles.grid}>
             <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
-              <input
-                {...register("email", {
+              <TextInput
+                label="Email"
+                placeholder="Email or Phone Number"
+                type="email"
+                register={register("email", {
                   required: true,
                   pattern:
                     /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
                 })}
-                className={stylesComponent.input}
-                placeholder="Email or Phone Number"
-                type="email"
-                autoComplete="false"
               />
               {errors.email && errors.email.type === "pattern" && (
                 <ErrorMessage>Email must be valid.</ErrorMessage>
@@ -65,12 +64,11 @@ const Login: NextPage = () => {
               {errors.email && errors.email.type === "required" && (
                 <ErrorMessage>Please input email.</ErrorMessage>
               )}
-              <input
-                {...register("password", { required: true, minLength: 6 })}
-                type="password"
+              <TextInput
+                label="Password"
                 placeholder="Password"
-                className={stylesComponent.input}
-                autoComplete="false"
+                type="password"
+                register={register("password", { required: true, minLength: 6 })}
               />
               {errors.password && errors.password.type === "minLength" && (
                 <ErrorMessage>

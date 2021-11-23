@@ -7,18 +7,18 @@ import Select from "component/Select";
 import Button from "component/Button";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import {  alertService, categoriesService,requestService } from "services";
-import Container from '@mui/material/Container';
+import { alertService, categoriesService, requestService } from "services";
+import Container from "@mui/material/Container";
 import stylesComponent from "component/Component.module.scss";
 
-interface SelectType{
-  value:string;
-  label:string;
+interface SelectType {
+  value: string;
+  label: string;
 }
-interface CategoryType{
-  _id:string;
-  name:string;
-  parentId?:string;
+interface CategoryType {
+  _id: string;
+  name: string;
+  parentId?: string;
 }
 type Inputs = {
   note: string;
@@ -36,9 +36,9 @@ const HelpScreen: NextPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
-  
-  const [options,setOptions]=useState([] as CategoryType[]);
-  const [categories0, setCategories0] = useState([]as SelectType[]);
+
+  const [options, setOptions] = useState([] as CategoryType[]);
+  const [categories0, setCategories0] = useState([] as SelectType[]);
   const [categories1, setCategories1] = useState([] as SelectType[]);
   const [categories2, setCategories2] = useState([] as SelectType[]);
   const [parentCate, setParentCate] = useState<SelectType>();
@@ -49,44 +49,45 @@ const HelpScreen: NextPage = () => {
   useEffect(() => {
     const fetch = async () => {
       const res = await categoriesService.list();
-      const categories = res.items.filter((item: any) => !item.parentId)
+      const categories = res.items
+        .filter((item: any) => !item.parentId)
         .map((item: any) => ({ value: item._id, label: item.name }));
       setCategories0(categories);
       setOptions(res.items);
-    }
+    };
 
     fetch();
-  }, [])
+  }, []);
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     let item = {
       ...data,
-      cate:{
-        parentCateId:parentCate?.value,
-        parentCateName:parentCate?.label||'',
-        subCateId:subCate?.value,
-        subCateName:subCate?.label||'',
-        sizeCateId:sizeCate?.value,
-        sizeCateName:sizeCate?.label||'',
-      }
+      cate: {
+        parentCateId: parentCate?.value,
+        parentCateName: parentCate?.label || "",
+        subCateId: subCate?.value,
+        subCateName: subCate?.label || "",
+        sizeCateId: sizeCate?.value,
+        sizeCateName: sizeCate?.label || "",
+      },
     };
-    if(!item.cate.parentCateId) return;
-    
+    if (!item.cate.parentCateId) return;
+
     return requestService
       .create(item)
       .then((res) => {
         if (res.statusCode && res.statusCode == "400") {
-          alertService.error(res.message)
+          alertService.error(res.message);
           return;
-        }else {
-          alertService.success('Your request has been sent.')
-          setParentCate({value:'',label:''});
-          setSubCate({value:'',label:''});
-          setSizeCate({value:'',label:''});
-          setValue('note','');
-          setValue('name','');
-          setValue('email','');
-          setValue('phone','');
+        } else {
+          alertService.success("Your request has been sent.");
+          setParentCate({ value: "", label: "" });
+          setSubCate({ value: "", label: "" });
+          setSizeCate({ value: "", label: "" });
+          setValue("note", "");
+          setValue("name", "");
+          setValue("email", "");
+          setValue("phone", "");
         }
       })
       .catch((e) => {
@@ -96,23 +97,29 @@ const HelpScreen: NextPage = () => {
 
   const onChangeCategory0 = (e: SelectType) => {
     setParentCate(e);
-    setSubCate({value:'',label:''});
-    setSizeCate({value:'',label:''});
-    setCategories1(options.filter((item:CategoryType)=>item.parentId == e.value)
-    .map((item: CategoryType) => ({ value: item._id, label: item.name })));   
-    setCategories2([]); 
+    setSubCate({ value: "", label: "" });
+    setSizeCate({ value: "", label: "" });
+    setCategories1(
+      options
+        .filter((item: CategoryType) => item.parentId == e.value)
+        .map((item: CategoryType) => ({ value: item._id, label: item.name }))
+    );
+    setCategories2([]);
   };
 
-  const onChangeCategory1= (e: SelectType) => {
+  const onChangeCategory1 = (e: SelectType) => {
     setSubCate(e);
-    setSizeCate({value:'',label:''});
-    setCategories2(options.filter((item:CategoryType)=>item.parentId == e.value)
-    .map((item: CategoryType) => ({ value: item._id, label: item.name })));    
-  }
+    setSizeCate({ value: "", label: "" });
+    setCategories2(
+      options
+        .filter((item: CategoryType) => item.parentId == e.value)
+        .map((item: CategoryType) => ({ value: item._id, label: item.name }))
+    );
+  };
 
-  const onChangeCategory2= (e: SelectType) => {
+  const onChangeCategory2 = (e: SelectType) => {
     setSizeCate(e);
-  }
+  };
 
   return (
     <Container maxWidth="sm">
@@ -123,6 +130,7 @@ const HelpScreen: NextPage = () => {
             <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
               <div className={styles.grid}>
                 <TextInput
+                  label="Name"
                   placeholder="Your Name"
                   register={register("name", { required: true })}
                 />
@@ -130,6 +138,7 @@ const HelpScreen: NextPage = () => {
                   <ErrorMessage>Please input name.</ErrorMessage>
                 )}
                 <TextInput
+                  label="Email"
                   type="email"
                   register={register("email", {
                     required: true,
@@ -145,37 +154,46 @@ const HelpScreen: NextPage = () => {
                   <ErrorMessage>Please input email.</ErrorMessage>
                 )}
                 <TextInput
+                  label="Phone Number"
                   placeholder="Phone Number"
-                  register={register("phone", { required: true,minLength:8 })}
+                  register={register("phone", { required: true, minLength: 8 })}
                 />
                 {errors.phone && errors.phone.type === "required" && (
                   <ErrorMessage>Please input phone.</ErrorMessage>
                 )}
                 <Select
+                  label="I'm Locking For"
                   placeholder="I'm Locking For"
                   options={categories0}
                   value={parentCate}
                   onChange={(e) => onChangeCategory0(e)}
                 />
-                 {!!categories1.length&&<Select
-                  placeholder="Select Category"
-                  options={categories1}
-                  value={subCate}
-                  onChange={(e) => onChangeCategory1(e)}
-                />  } 
-                { !!categories2.length &&<Select
-                  placeholder="Selecr Size"
-                  options={categories2}
-                  value={sizeCate}
-                  onChange={(e) => onChangeCategory2(e)}
-                />  }  
+                {!!categories1.length && (
+                  <Select
+                    label="Select Category"
+                    placeholder="Select Category"
+                    options={categories1}
+                    value={subCate}
+                    onChange={(e) => onChangeCategory1(e)}
+                  />
+                )}
+                {!!categories2.length && (
+                  <Select
+                    label="Select Size"
+                    placeholder="Selecr Size"
+                    options={categories2}
+                    value={sizeCate}
+                    onChange={(e) => onChangeCategory2(e)}
+                  />
+                )}
               </div>
+              <label className={stylesComponent.label}>Note</label>
               <textarea
-                {...register("note",{required:true})}
+                {...register("note", { required: true })}
                 className={stylesComponent.input}
                 placeholder="Any other details you would like to add"
               />
-               {errors.note && errors.note.type === "required" && (
+              {errors.note && errors.note.type === "required" && (
                 <ErrorMessage>Please input description.</ErrorMessage>
               )}
               <div className={styles.grid}>

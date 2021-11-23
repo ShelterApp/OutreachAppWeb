@@ -57,12 +57,14 @@ const FormCreateOrg = () => {
     <React.Fragment>
       <form name="form_org" onSubmit={handleSubmit(submit)}>
         <TextInput
+          label="Name"
           placeholder="Name"
           register={register("name", { required: true })}
         />
         {errors.name && errors.name.type === "required" && (
           <ErrorMessage>Please input name.</ErrorMessage>
         )}
+        <label className={stylesComponent.label}>Description</label>
         <textarea
           {...register("description", { required: true })}
           className={stylesComponent.input}
@@ -72,6 +74,7 @@ const FormCreateOrg = () => {
           <ErrorMessage>Please input description.</ErrorMessage>
         )}
         <TextInput
+          label="Address"
           placeholder="Address"
           register={register("address", { required: true })}
         />
@@ -79,22 +82,22 @@ const FormCreateOrg = () => {
           <ErrorMessage>Please input address.</ErrorMessage>
         )}
         <TextInput
+          label="Phone"
           placeholder="Phone"
           register={register("phone", { required: true })}
         />
         {errors.phone && errors.phone.type === "required" && (
           <ErrorMessage>Please input phone.</ErrorMessage>
         )}
-        <input
-          {...register("email", {
+        <TextInput
+          label="Email"
+          placeholder="Email or Phone Number"
+          register={register("email", {
             required: true,
             pattern:
               /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
           })}
-          className={stylesComponent.input}
-          placeholder="Email or Phone Number"
           type="email"
-          autoComplete="false"
         />
         {errors.email && errors.email.type === "pattern" && (
           <ErrorMessage>Email must be valid.</ErrorMessage>
@@ -102,12 +105,11 @@ const FormCreateOrg = () => {
         {errors.email && errors.email.type === "required" && (
           <ErrorMessage>Please input email.</ErrorMessage>
         )}
-        <input
-          {...register("password", { required: true, minLength: 6 })}
-          type="password"
+        <TextInput
+          label="Password"
           placeholder="Password"
-          className={stylesComponent.input}
-          autoComplete="false"
+          register={register("password", { required: true, minLength: 6 })}
+          type="password"
         />
         {errors.password && errors.password.type === "minLength" && (
           <ErrorMessage>

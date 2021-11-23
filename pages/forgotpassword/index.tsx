@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { userService, alertService } from "services";
 import stylesComponent from "component/Component.module.scss";
 import Container from '@mui/material/Container';
+import TextInput from "component/TextInput";
 
 type Inputs = {
   password: string;
@@ -46,15 +47,11 @@ const ForgotPassword: NextPage = () => {
         <div className={styles.grid}>
           <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
             <div className={styles.grid}>
-              <input
-                {...register("password", {
-                  required: true,
-                  minLength: 6,
-                })}
-                type="password"
+              <TextInput
+                label="New Password"
                 placeholder="New Password"
-                className={stylesComponent.input}
-                autoComplete="false"
+                type="password"
+                register={register("password", { required: true, minLength: 6 })}
               />
               {errors.password && errors.password.type === "minLength" && (
                 <ErrorMessage>
@@ -64,16 +61,15 @@ const ForgotPassword: NextPage = () => {
               {errors.password && errors.password.type === "required" && (
                 <ErrorMessage>Please input new password.</ErrorMessage>
               )}
-              <input
-                {...register("confirmPassword", {
+              <TextInput
+                label="Confirm Password"
+                placeholder="Confirm Password"
+                type="password"
+                register={register("confirmPassword", {
                   required: true,
                   minLength: 6,
                   validate: value => value === watch("password")
                 })}
-                type="password"
-                placeholder="Confirm Password"
-                className={stylesComponent.input}
-                autoComplete="false"
               />
               {errors.confirmPassword && errors.confirmPassword.type === "minLength" && (
                 <ErrorMessage>
