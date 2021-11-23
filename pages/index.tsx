@@ -11,8 +11,11 @@ import HouseSidingIcon from '@mui/icons-material/HouseSiding';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 const containerStyle = {
-  width: '10240px',
-  height: '800px'
+  width: '100%',
+  height: 'calc(100vh - 115px)',
+  maxWidth: '1024px',
+  position: 'relative',
+  overflow: 'hidden'
 };
 const center = {
   lat: 32.965557,
@@ -20,7 +23,7 @@ const center = {
 };
 const Home: NextPage = () => {
   const [user, setUser] = useState(null);
-  
+
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: process.env.NEXT_PUBLIC_APIKEY_MAP
