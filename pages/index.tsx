@@ -10,21 +10,17 @@ import PanToolIcon from '@mui/icons-material/PanTool';
 import HouseSidingIcon from '@mui/icons-material/HouseSiding';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
-const containerStyle = {
-  width: '10240px',
-  height: '800px'
-};
 const center = {
   lat: 32.965557,
   lng: -96.71583
 };
 const Home: NextPage = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<any>(null);
   
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: process.env.NEXT_PUBLIC_APIKEY_MAP
-  } as any)
+  } as any);
   const [map, setMap] = React.useState(null)
   // const onLoad = React.useCallback(function callback(map) {
   //   const bounds = new window.google.maps.LatLngBounds();
@@ -60,11 +56,14 @@ const Home: NextPage = () => {
       </div>
     </Container> :
       <main className={styles.mainTop} style={{ position: 'relative', height: '100%', }}>
-        <Header title='OutreachApp' user={user.user}/>
+        <Header title='OutreachApp' user={user?.user}/>
         <div className={styles.grid} style={{ paddingTop: 0 }}>
           {isLoaded ? (
             <GoogleMap
-              mapContainerStyle={containerStyle}
+              mapContainerStyle={{
+                width:window.innerWidth,
+                height:window.innerHeight-60-52.63
+              }}
               center={center}
               zoom={10}
               // onLoad={onLoad}

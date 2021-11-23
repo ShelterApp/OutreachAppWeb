@@ -21,7 +21,7 @@ interface CategoryType{
   parentId?:string;
 }
 type Inputs = {
-  orgCode: string;
+  note: string;
   name: string;
   phone: string;
   email: string;
@@ -80,9 +80,9 @@ const HelpScreen: NextPage = () => {
           return;
         }else {
           alertService.success('Your request has been sent.')
-          setParentCate(null);
-          setSubCate(null);
-          setSizeCate(null);
+          setParentCate({value:'',label:''});
+          setSubCate({value:'',label:''});
+          setSizeCate({value:'',label:''});
           setValue('note','');
           setValue('name','');
           setValue('email','');
@@ -96,8 +96,8 @@ const HelpScreen: NextPage = () => {
 
   const onChangeCategory0 = (e: SelectType) => {
     setParentCate(e);
-    setSubCate(null);
-    setSizeCate(null);
+    setSubCate({value:'',label:''});
+    setSizeCate({value:'',label:''});
     setCategories1(options.filter((item:CategoryType)=>item.parentId == e.value)
     .map((item: CategoryType) => ({ value: item._id, label: item.name })));   
     setCategories2([]); 
@@ -105,7 +105,7 @@ const HelpScreen: NextPage = () => {
 
   const onChangeCategory1= (e: SelectType) => {
     setSubCate(e);
-    setSizeCate(null);
+    setSizeCate({value:'',label:''});
     setCategories2(options.filter((item:CategoryType)=>item.parentId == e.value)
     .map((item: CategoryType) => ({ value: item._id, label: item.name })));    
   }

@@ -13,12 +13,13 @@ import Header from 'component/Header';
 import stylesComponent from "component/Component.module.scss";
 
 type Inputs = {
-  name: string;
-  phone: string;
-  email: string;
+  confirmPassword: string;
+  oldPassword: string;
+  newPassword: string;
 };
 
 const UpdatePassword: NextPage = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -28,77 +29,53 @@ const UpdatePassword: NextPage = () => {
   const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
     let user = {
       ...data,
-      regionId: region ? region.value : "",
     };
-    const res = await userService.update(user);
-    if (res && res._id) {
-      alertService.success("Your profile was updated successful.");
+    const res = await userService.changePassword(user);
+    if (res && res.code==204) {
+      alertService.success("Your password was updated successful.");
+      router.push("/login");
     } else {
       alertService.error("Have something wrong");
     }
   };
 
-  const [options, setOptions] = useState([])
-  const [region, setRegion] = useState<any>();
-
-  useEffect(() => {
-    const fetch = async () => {
-      const res = await regionsService.list();
-      const regions = res.items.map((region: any) => ({value: region._id, label: region.name}));
-      setOptions(regions)
-
-      if (!!userService.userValue) {
-        const user = userService.userValue.user;
-
-        reset({
-          name: user.name,
-          phone: user.phone,
-          email: user.email,
-        });
-        setRegion(regions.find((opt: any) => opt.value === user.regionId));
-      }
-    }
-
-    fetch();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <main className={styles.mainTop}>
       <Header title='Update Password' back='/' />
       <Container maxWidth="sm">
-      <div className={styles.grid}>
+        <div className={styles.grid}>
           <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
             <div className={styles.grid}>
-            <input
-          {...register("password", { required: true, minLength: 6 })}
-          type="password"
-          placeholder="Current Password"
-          className={stylesComponent.input}
-          autoComplete="false"
-        />
-        {errors.password && errors.password.type === "minLength" && (
-          <ErrorMessage>
-            Password must be at least 6 characters long.
-          </ErrorMessage>
-        )}
-        {errors.password && errors.password.type === "required" && (
-          <ErrorMessage>Please input password.</ErrorMessage>
-        )}
-         <input
-          {...register("password", { required: true, minLength: 6 })}
-          type="password"
-          placeholder="New Password"
-          className={stylesComponent.input}
-          autoComplete="false"
-        />
-         <input
-          {...register("password", { required: true, minLength: 6 })}
-          type="password"
-          placeholder="Confirm Password"
-          className={stylesComponent.input}
-          autoComplete="false"
-        />
+              <input
+                {...register("oldPassword", { required: true, minLength: 6 })}
+                type="password"
+                placeholder="Current Password"
+                className={stylesComponent.input}
+                autoComplete="false"
+              />
+              {errors.oldPassword && errors.oldPassword.type === "minLength" && (
+                <ErrorMessage>
+                  Password must be at least 6 characters long.
+                </ErrorMessage>
+              )}
+              {errors.oldPassword && errors.oldPassword.type === "required" && (
+                <ErrorMessage>Please input password.</ErrorMessage>
+              )}
+              <input
+                {...register("newPassword", { required: true, minLength: 6 })}
+                type="password"
+                placeholder="New Password"
+                className={stylesComponent.input}
+                autoComplete="false"
+              />
+              <input
+                {...register("confirmPassword", { required: true, minLength: 6 })}
+                type="password"
+                placeholder="Confirm Password"
+                className={stylesComponent.input}
+                autoComplete="false"
+              />
             </div>
             <div className={styles.grid}>
               <Button
@@ -109,7 +86,7 @@ const UpdatePassword: NextPage = () => {
             </div>
           </form>
         </div>
-        </Container>
+      </Container>
     </main>
   );
 };

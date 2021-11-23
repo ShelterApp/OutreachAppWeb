@@ -28,11 +28,13 @@
         "styled-components": "^5.3.3"
     },
     "devDependencies": {
+        "@next/eslint-plugin-next": "^12.0.4",
         "@types/node": "16.11.6",
         "@types/react": "17.0.34",
         "@types/styled-components": "^5.1.15",
         "eslint": "7",
         "eslint-config-next": "12.0.3",
+        "eslint-config-prettier": "^8.3.0",
         "typescript": "4.4.4"
     }
 }

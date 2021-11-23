@@ -34,7 +34,6 @@ const SignUp: NextPage = () => {
       const res = await regionsService.list();
       const regions = res.items.map((region: any) => ({value: region._id, label: region.name}));
       setOptions(regions)
-      // setRegion(regions[0])
     }
 
     fetch();
@@ -50,10 +49,12 @@ const SignUp: NextPage = () => {
       .register(user)
       .then((res) => {
         if (res.statusCode && res.statusCode == "400") {
+          if(res.message=='orgcode_invalid')
+          res.message='Please type correct verification code';
           alertService.error(res.message)
           return;
         }
-
+        alertService.success('Sign up successful. Please check your email.')
         router.push("/login");
       })
       .catch((e) => {

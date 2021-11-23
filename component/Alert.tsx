@@ -23,9 +23,9 @@ function Alert({ id, fade }: any) {
   useEffect(() => {
     // subscribe to new alert notifications
     const subscription = alertService.onAlert().subscribe((alert) => {
-      if(alert && alert.message) {
+      if (alert && alert.message) {
         setAlert(alert);
-        setTimeout(() => removeAlert(alert), 3000);
+        setTimeout(() => removeAlert(alert), 4000);
       }
     });
 
@@ -56,9 +56,11 @@ function Alert({ id, fade }: any) {
     <>
       {
         alert.message &&
-        <AlertMui severity={alertTypeClass[alert.type] as any}>
-          {alert.message}
-        </AlertMui>
+        <div style={{ position: 'absolute', padding:10,width:'100%' }}>
+          <AlertMui variant="filled" severity={alertTypeClass[alert.type] as any}>
+            {alert.message}
+          </AlertMui>
+        </div>
       }
     </>
   );

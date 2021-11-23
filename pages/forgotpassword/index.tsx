@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { userService, alertService } from "services";
 import stylesComponent from "component/Component.module.scss";
+import Container from '@mui/material/Container';
 
 type Inputs = {
   password: string;
@@ -37,6 +38,8 @@ const ForgotPassword: NextPage = () => {
   };
 
   return (
+    <Container maxWidth="sm">
+
     <div className={styles.container}>
       <main className={styles.main}>
         <div className={styles.titleName}>OutreachApp</div>
@@ -91,6 +94,7 @@ const ForgotPassword: NextPage = () => {
         </div>
       </main>
     </div>
+    </Container>
   );
 };
 

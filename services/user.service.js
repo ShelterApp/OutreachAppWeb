@@ -20,6 +20,8 @@ export const userService = {
   _delete,
   forgotPassword,
   resetPassword,
+  changePassword,
+  confirmEmail,
   getProfile,
   create,
   updateUser
@@ -67,6 +69,22 @@ async function forgotPassword(data) {
 async function resetPassword(data) {
   try {
     const res = await axios.post(`/auth/reset-password`, data);
+    return res.data;
+  } catch (error) {
+    return error.response.data;
+  }
+}
+async function confirmEmail(token) {
+  try {
+    const res = await axios.post(`/auth/confirm-email`, token);
+    return res.data;
+  } catch (error) {
+    return error.response.data;
+  }
+}
+async function changePassword(data) {
+  try {
+    const res = await axios.post(`/profile/change-password`, data);
     return res.data;
   } catch (error) {
     return error.response.data;
@@ -152,3 +170,4 @@ async function getById(id) {
     return error.response.data;
   }
 }
+
