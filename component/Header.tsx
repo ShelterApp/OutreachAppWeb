@@ -24,7 +24,7 @@ interface Role<String> {
   volunteer: object[];
 }
 
-const Header = ({ title, user, back }: ButtonProps) => {
+const Header = ({ title, user, back, onClick }: ButtonProps) => {
   const [state, setState] = React.useState(false);
   const logout = () => {
     userService.logout();
@@ -58,18 +58,43 @@ const Header = ({ title, user, back }: ButtonProps) => {
       <div
         className={style.center}
         style={{ width: "15%", paddingLeft: 10 }}>
-        {back ?
-          <Link href={back} passHref>
-            <ArrowBackIosNewIcon
-              className="cursor-pointer"
-              fontSize="large"
-            />
-          </Link>
-          : <MenuIcon
-            className="cursor-pointer"
-            fontSize="large"
-            onClick={() => setState(true)} />}
-
+        {
+          onClick && typeof onClick === 'function' && (
+            <button
+              style={{
+                backgroundColor: 'transparent',
+                border: 'none',
+                color: 'white',
+                padding: 0
+              }}
+              onClick={() => onClick()
+            }>
+              <ArrowBackIosNewIcon
+                className="cursor-pointer"
+                fontSize="large"
+              />
+            </button>
+          )
+        }
+        {
+          !onClick && (
+            <>
+              {
+                back ?
+                <Link href={back} passHref>
+                  <ArrowBackIosNewIcon
+                    className="cursor-pointer"
+                    fontSize="large"
+                  />
+                </Link>
+                : <MenuIcon
+                  className="cursor-pointer"
+                  fontSize="large"
+                  onClick={() => setState(true)} />
+              }
+            </>
+          )
+        }
       </div>
       <div
         className={style.titleHeader}
