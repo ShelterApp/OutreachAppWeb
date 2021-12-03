@@ -9,7 +9,7 @@ import { Alert } from 'component/Alert';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
   const [authorized, setAuthorized] = useState(false);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   const authCheck = async (url: string) => {
     // redirect to login page if accessing a private page and not logged in
-    setUser(userService.userValue);
+    // setUser(userService.userValue);
     // const publicPaths = ["/" ,"/login", "/sign-up", "/update-profile" ,"/forgot-password"];
     const path = url.split("?")[0];
     const notAuthorizedPath = ['/login/', "/sign-up", "/sign-up/", '/forgot-password/', 'help-screen/','/forgotpassword/','/sigupconfirm/'];
@@ -84,9 +84,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         authorized &&
         <div className={style.custom}>
           <Alert />
-          {/* <Container maxWidth='sm'> */}
           <Component {...pageProps} />
-          {/* </Container> */}
         </div>
       }
     </>
