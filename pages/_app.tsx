@@ -38,7 +38,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     // const publicPaths = ["/" ,"/login", "/sign-up", "/update-profile" ,"/forgot-password"];
     const path = url.split("?")[0];
     const notAuthorizedPath = ['/login/', "/sign-up", "/sign-up/", '/forgot-password/', 'help-screen/','/forgotpassword/','/sigupconfirm/'];
-    const authorizedPath = ["/", "/update-profile/", "/update-password/", "/organizations/add/", "/organizations/", "/volunteers/add/", "/volunteers/"];
+    const authorizedPath = ["/", "/update-profile/", "/update-password/", "/organizations/add/", "/organizations/", "/volunteers/add/", "/volunteers/", '/add-camp/'];
     const publicPaths: any[] = [] ;
 
     if (publicPaths.includes(path)) {

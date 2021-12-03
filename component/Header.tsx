@@ -24,7 +24,7 @@ interface Role<String> {
   volunteer: object[];
 }
 
-const Header = ({ title, user, back }: ButtonProps) => {
+const Header = ({ title, user, back, onClick }: ButtonProps) => {
   const [state, setState] = React.useState(false);
   const logout = () => {
     userService.logout();
@@ -58,18 +58,43 @@ const Header = ({ title, user, back }: ButtonProps) => {
       <div
         className={style.center}
         style={{ width: "15%", paddingLeft: 10 }}>
-        {back ?
-          <Link href={back} passHref>
-            <ArrowBackIosNewIcon
-              className="cursor-pointer"
-              fontSize="large"
-            />
-          </Link>
-          : <MenuIcon
-            className="cursor-pointer"
-            fontSize="large"
-            onClick={() => setState(true)} />}
-
+        {
+          onClick && typeof onClick === 'function' && (
+            <button
+              style={{
+                backgroundColor: 'transparent',
+                border: 'none',
+                color: 'white',
+                padding: 0
+              }}
+              onClick={() => onClick()
+            }>
+              <ArrowBackIosNewIcon
+                className="cursor-pointer"
+                fontSize="large"
+              />
+            </button>
+          )
+        }
+        {
+          !onClick && (
+            <>
+              {
+                back ?
+                <Link href={back} passHref>
+                  <ArrowBackIosNewIcon
+                    className="cursor-pointer"
+                    fontSize="large"
+                  />
+                </Link>
+                : <MenuIcon
+                  className="cursor-pointer"
+                  fontSize="large"
+                  onClick={() => setState(true)} />
+              }
+            </>
+          )
+        }
       </div>
       <div
         className={style.titleHeader}
@@ -93,15 +118,17 @@ const routeSideMenu: any = {
   Admin: [
     { text: "Add Camp", link: "/add-camp" },
     { text: "Add Event", link: "/add-event" },
-    { text: "Add Supplies", link: "/add-supplies" },
+    { text: "Add Supplies", link: "/supplies/add/" },
     { text: "Add Volunteer", link: "/volunteers/add/" },
     { text: "Add Organization", link: "/organizations/add/" },
+    { text: "Add Supply Items", link: "/supply-items/add" },
     { text: "Manage Camps", link: "/manage-camp" },
     { text: "Manage Events", link: "/manage-events" },
-    { text: "Manage Supplies", link: "/manage-supplies" },
+    { text: "Manage Supplies", link: "/supplies" },
     { text: "Manage Volunteer", link: "/volunteers" },
     { text: "Manage Organization", link: "/organizations" },
     { text: "Manage Requests", link: "/manage-requests" },
+    { text: "Manage Supply Items", link: "/supply-items" },
     { text: "My Inventory Dashboard", link: "/my-inventory-dashboard" },
     { text: "All Organizations Dashboard", link: "/my-orgnizations-dashboard" },
     { text: "Update Profile", link: "/update-profile" },
@@ -116,11 +143,11 @@ const routeSideMenu: any = {
   OrgLead: [
     { text: "Add Camp", link: "/add-camp" },
     { text: "Add Event", link: "/add-event" },
-    { text: "Add Supplies", link: "/add-supplies" },
+    { text: "Add Supply Items", link: "/supply-items/add" },
     { text: "Add Volunteer", link: "/volunteers/add/" },
     { text: "Manage Camps", link: "/manage-camp" },
     { text: "Manage Events", link: "/manage-events" },
-    { text: "Manage Supplies", link: "/manage-supplies" },
+    { text: "Manage Supply Items", link: "/supply-items" },
     { text: "Manage Volunteer", link: "/volunteers" },
     { text: "Manage Requests", link: "/manage-requests" },
     { text: "My Inventory Dashboard", link: "/my-inventory-dashboard" },
