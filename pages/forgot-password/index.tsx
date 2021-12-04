@@ -4,7 +4,6 @@ import ErrorMessage from "component/ErrorMessage";
 import styles from "styles/Home.module.scss";
 import TextInput from "component/TextInput";
 import Button from "component/Button";
-import { useRouter } from "next/router";
 import { userService, alertService } from "services";
 import Container from '@mui/material/Container';
 
@@ -13,11 +12,9 @@ type Inputs = {
 };
 
 const ForgotPassword: NextPage = () => {
-  const router = useRouter();
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
