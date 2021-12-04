@@ -56,7 +56,7 @@ function Alert({ id, fade }: any) {
     <>
       {
         alert.message &&
-        <div style={{ position: 'absolute', padding:10,width:'100%' }}>
+        <div style={{ position: 'absolute', padding:10,width:'100%', zIndex: 2 }}>
           <AlertMui variant="filled" severity={alertTypeClass[alert.type] as any}>
             {alert.message}
           </AlertMui>

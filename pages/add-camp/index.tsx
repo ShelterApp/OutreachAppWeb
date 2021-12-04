@@ -45,12 +45,14 @@ const AddCamp: NextPage = () => {
   const [center, setCenter] = useState(_center);
   const [dropSupplies, setDropSupplies] = useState<any[]>([]);
   const [requestSupplies, setRequestSupplies] = useState<any[]>([]);
+  const router = useRouter();
 
   const createCamp = async () => {
-    const router = useRouter();
     let data = {
       ...campDetails,
       people: people,
+      numOfPeople: parseInt(campDetails.numOfPeople),
+      numOfPet: parseInt(campDetails.numOfPet),
       location: {
         type: 'Point',
         'coordinates': [
