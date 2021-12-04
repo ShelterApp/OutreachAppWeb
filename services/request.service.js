@@ -5,9 +5,10 @@ export const requestService = {
   create,
 };
 
-async function list() {
+async function list(params) {
+  console.log(params);
   try {
-    const res = await axios.get(`/requests`);
+    const res = await axios.get(`/requests`, { params });
     return res.data;
   } catch (error) {
     return error.response.data;

@@ -2,14 +2,13 @@ import React from "react";
 import Link from "next/link";
 import style from "./Component.module.scss";
 import Button from '@mui/material/Button';
-import Image from 'next/image'
 import LoadingButton from '@mui/lab/LoadingButton';
 export interface ButtonProps {
   link?: string;
   text: string;
   type?:string;
   onClick?: Function;
-  loading?: Boolean | false;
+  loading?: boolean | false;
 }
 
 const ButtonComp = ({link, text, onClick, type, loading}: ButtonProps) => {

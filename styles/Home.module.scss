@@ -117,6 +117,27 @@
     }
 }
 
+.bottomTab {
+    background-color: #5952ff;
+    height: 60px;
+    width: 100%;
+    align-items: center;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    ::-webkit-scrollbar {
+        display: none;
+    }
+}
+.bottomTicky {
+    width: 100%;
+    position: -webkit-sticky;
+    position: sticky;
+    bottom: 0;
+    overflow: hidden;
+}
+
 //loading
 .loading {
     display: inline-block;

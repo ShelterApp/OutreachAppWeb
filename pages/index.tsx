@@ -10,6 +10,8 @@ import PanToolIcon from '@mui/icons-material/PanTool';
 import HouseSidingIcon from '@mui/icons-material/HouseSiding';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+import Link from "next/link";
+
 const containerStyle:any = {
   width: '100%',
   height: 'calc(100vh - 115px)',
@@ -39,11 +41,6 @@ const Home: NextPage = () => {
   }, [])
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      console.log("Latitude is :", position.coords.latitude);
-      console.log("Longitude is :", position.coords.longitude);
-    });
-
     const subscription = userService.user.subscribe((x) => setUser(x));
     return () => subscription.unsubscribe();
   }, []);
@@ -77,16 +74,11 @@ const Home: NextPage = () => {
             </GoogleMap>
           ) : <></>}
         </div>
-        <div style={{
-          backgroundColor: '#5952ff', height: 60, width: '100%',
-          alignItems: 'center',
-          color: 'white',
-          display: 'flex', flexDirection: 'row', justifyContent: 'space-around'
-        }}>
-          <div>
-            <PanToolIcon className="cursor-pointer"
+        <div className={styles.bottomTab}>
+          <Link href='/request' passHref>
+          <PanToolIcon className="cursor-pointer"
               fontSize="large" />
-          </div>
+          </Link>
           <div>
             <HouseSidingIcon className="cursor-pointer"
               fontSize="large" />
@@ -97,7 +89,6 @@ const Home: NextPage = () => {
           </div>
         </div>
       </main>
-
   );
 };
 

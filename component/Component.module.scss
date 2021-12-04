@@ -103,6 +103,10 @@
     height: 55px;
     padding-top: 9px;
     padding-bottom: 9px;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 .center {
     align-self: center;
