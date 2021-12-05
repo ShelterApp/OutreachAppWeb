@@ -29,19 +29,19 @@ const Home: NextPage = () => {
     id: 'google-map-script',
     googleMapsApiKey: process.env.NEXT_PUBLIC_APIKEY_MAP
   } as any);
-  const [map, setMap] = React.useState(null)
+  // const [map, setMap] = React.useState(null)
   // const onLoad = React.useCallback(function callback(map) {
   //   const bounds = new window.google.maps.LatLngBounds();
   //   console.log(bounds);
   //   map.fitBounds(bounds);
   //   setMap(map)
   // }, [])
-  const onUnmount = React.useCallback(function callback(map) {
-    setMap(null)
+  const onUnmount = React.useCallback(function callback() {
+    // setMap(null)
   }, [])
 
   useEffect(() => {
-    const subscription = userService.user.subscribe((x) => setUser(x));
+    const subscription = userService.user.subscribe((x:any) => setUser(x));
     return () => subscription.unsubscribe();
   }, []);
 

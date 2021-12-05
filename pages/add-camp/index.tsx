@@ -23,7 +23,6 @@ const AddCamp: NextPage = () => {
   })
 
   const onSubmitCamp = (form: any) => {
-    console.log(form)
     setStep(3)
     setCampDetails(form)
   }
@@ -34,7 +33,7 @@ const AddCamp: NextPage = () => {
 
   const [people, setPeople] = useState<any[]>([])
 
-  const onSubmitUnhousedInfo = (obj: any[]) => {
+  const onSubmitUnhousedInfo = () => {
     setStep(4)
   }
 
@@ -48,7 +47,7 @@ const AddCamp: NextPage = () => {
   const router = useRouter();
 
   const createCamp = async () => {
-    let data = {
+    const data = {
       ...campDetails,
       people: people,
       numOfPeople: parseInt(campDetails.numOfPeople),

@@ -2,12 +2,12 @@ import type { NextPage } from "next";
 import styles from "styles/Home.module.scss";
 import { useForm, SubmitHandler } from "react-hook-form";
 import ErrorMessage from "component/ErrorMessage";
-import stylesComponent from "component/Component.module.scss";
+// import stylesComponent from "component/Component.module.scss";
 import Button from "component/Button";
 import Link from "next/link";
 import { alertService, userService } from "services";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import TextInput from "component/TextInput";
 import Container from '@mui/material/Container';
 
@@ -21,7 +21,6 @@ const Login: NextPage = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (data: { email: any; password: any; }) => {
@@ -36,8 +35,8 @@ const Login: NextPage = () => {
         const returnUrl = router.query.returnUrl?.toString() || "/";
         router.push(returnUrl);
       })
-      .catch((e) => {
-        console.log(e);
+      .catch(() => {
+        // console.log(e);
       });
   };
 

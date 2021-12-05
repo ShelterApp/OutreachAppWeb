@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
-
 import { alertService, AlertType } from "services";
 import AlertMui from "@mui/material/Alert";
+import style from "./Component.module.scss";
 export { Alert };
 
 Alert.propTypes = {
@@ -56,7 +56,7 @@ function Alert({ id, fade }: any) {
     <>
       {
         alert.message &&
-        <div style={{ position: 'absolute', padding:10,width:'100%', zIndex: 2 }}>
+        <div className={style.alertContainer}>
           <AlertMui variant="filled" severity={alertTypeClass[alert.type] as any}>
             {alert.message}
           </AlertMui>

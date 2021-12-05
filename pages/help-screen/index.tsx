@@ -6,7 +6,6 @@ import TextInput from "component/TextInput";
 import Select from "component/Select";
 import Button from "component/Button";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import { alertService, categoriesService, requestService } from "services";
 import Container from "@mui/material/Container";
 import Checkbox from "@mui/material/Checkbox";
@@ -32,7 +31,6 @@ type Inputs = {
 };
 
 const HelpScreen: NextPage = () => {
-    const router = useRouter();
     const {
         setValue,
         register,
@@ -63,15 +61,15 @@ const HelpScreen: NextPage = () => {
         navigator.geolocation.getCurrentPosition((position) => {
             if (position.coords)
                 setLocation([
-                    position.coords.latitude,
                     position.coords.longitude,
+                    position.coords.latitude,
                 ]);
         });
 
         fetch();
     }, []);
 
-    const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    const onSubmit: SubmitHandler<Inputs> =  (data) => {
         const item = {
             ...data,
             cate: {
@@ -93,8 +91,9 @@ const HelpScreen: NextPage = () => {
             navigator.geolocation.getCurrentPosition((position) => {
                 if (position.coords)
                     setLocation([
-                        position.coords.latitude,
                         position.coords.longitude,
+                        position.coords.latitude,
+
                     ]);
                 item.location = { type: "Point", coordinates: location };
             });
@@ -107,10 +106,8 @@ const HelpScreen: NextPage = () => {
         return requestService
             .create(item)
             .then((res) => {
-                if (res.statusCode && res.statusCode == "400") {
-                    alertService.error(res.message);
-                    return;
-                } else {
+                console.log(res);
+                 if(res._id) {
                     alertService.success("Your request has been sent.");
                     setParentCate({ value: "", label: "" });
                     setSubCate({ value: "", label: "" });
@@ -119,10 +116,13 @@ const HelpScreen: NextPage = () => {
                     setValue("name", "");
                     setValue("email", "");
                     setValue("phone", "");
-                }
+                }else {
+                    alertService.error(res.message);
+                    return;
+                } 
             })
-            .catch((e) => {
-                console.log(e);
+            .catch(() => {
+                // console.log(e);
             });
     };
 

@@ -6,7 +6,6 @@ import TextInput from "component/TextInput";
 import Select from "component/Select";
 import Button from "component/Button";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import { userService, alertService, regionsService } from "services";
 import Container from '@mui/material/Container';
 import Header from 'component/Header';
@@ -59,7 +58,6 @@ const UpdateProfile: NextPage = () => {
     }
 
     fetch();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

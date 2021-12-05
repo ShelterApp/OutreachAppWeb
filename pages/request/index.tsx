@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import React from 'react';
 import { useState, useEffect } from "react";
 import styles from "styles/Home.module.scss";
-import { userService } from "services";
+import { userService, alertService } from "services";
 import Header from 'component/Header';
 import PanToolIcon from '@mui/icons-material/PanTool';
 import HouseSidingIcon from '@mui/icons-material/HouseSiding';
@@ -11,25 +11,33 @@ import Button from '@mui/material/Button';
 import { requestService } from 'services';
 import Link from "next/link";
 import moment from 'moment';
+// import { useRouter } from "next/router";
+
 const containerStyle: any = {
   width: '100%',
-  // height: 'calc(100vh - 155px)',
+  minHeight: 'calc(100vh - 155px)',
   maxWidth: '1024px',
   position: 'relative',
   overflow: 'hidden'
 };
 const Request: NextPage = () => {
+  // const router = useRouter();
   const [user, setUser] = useState<any>(null);
   const [data, setData] = useState([]);
   const [location, setLocation] = useState([] as number[]);
+  const [indexTab, setIndexTab] = useState<number>(0);
 
   useEffect(() => {
+    const subscription = userService.user.subscribe((x) => setUser(x));
     getData();
+    return () => subscription.unsubscribe();
+
   }, []);
-  const getData = async (type: number) => {
-    const condition = { type: type || null };
+  const getData = async (type?: number) => {
+    const condition = { type: type || null, status: 1, limit: 100 };
     const item = await requestService.list(condition);
     setData(item.items);
+    setIndexTab(type);
     navigator.geolocation.getCurrentPosition((position) => {
       if (position.coords)
         setLocation([
@@ -38,44 +46,75 @@ const Request: NextPage = () => {
         ]);
     });
   }
-  const getDistanceFromLatLonInKm=(lat1:number, lon1:number, lat2:number, lon2:number)=> {
+
+  const getDistanceFromLatLonInKm = (lat1: number, lon1: number, lat2: number, lon2: number) => {
     const R = 6371; // Radius of the earth in km
-    const dLat = deg2rad(lat2-lat1);  // deg2rad below
-    const dLon = deg2rad(lon2-lon1); 
-    const a = 
-      Math.sin(dLat/2) * Math.sin(dLat/2) +
-      Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
-      Math.sin(dLon/2) * Math.sin(dLon/2)
-      ; 
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-    const d = R * c*0.621371; // Distance in km
-    return  Math.round(d*100)/100 ;
-  }
-  
-  const deg2rad=(deg:number)=> {
-    return deg * (Math.PI/180)
+    const dLat = deg2rad(lat2 - lat1);  // deg2rad below
+    const dLon = deg2rad(lon2 - lon1);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2)
+      ;
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const d = R * c * 0.621371; // Distance in km
+    return Math.round(d * 100) / 100;
   }
 
-  const renderItem = (item, index) => {
-    let distance=0;
-    if(item.location?.coordinates && location) distance= getDistanceFromLatLonInKm(item.location.coordinates[0],item.location.coordinates[1],location[0],location[1]);
-    // console.log(distance);
-    return <div key={index} style={{ paddingTop: 5 }}>
-      <div style={{ fontSize: 20,paddingLeft:10, fontWeight: 'bold',position:'relative' }}>
-        {item.name}
-       { distance && <div style={{position:'absolute', right:10,top:0}}>
-        {distance} Miles
-      </div>} 
-      </div>
-      <div style={{ paddingTop: 7,paddingLeft:10, }}> Locking for {item.requestInfo.cate?.parentCateName}</div>
-      <div style={{ paddingTop: 7,paddingLeft:10, }}>Reported by {item.name} {moment(item.updatedAt).fromNow()}</div>
-      <div style={{ paddingTop: 10,paddingBottom:5 }}>
+  const deg2rad = (deg: number) => {
+    return deg * (Math.PI / 180)
+  }
+
+  const claimRequest = async (id: string) => {
+    const result = await requestService.update(id, { status: 3 });
+    if (result.status == 204) {
+      getData(indexTab);
+      alertService.success("Claim Request successful. ");
+    }
+  }
+
+  const renderItem = (item: any, index: number) => {
+    let distance = 0;
+    if (item.location?.coordinates && location) distance = getDistanceFromLatLonInKm(item.location.coordinates[1], item.location.coordinates[0], location[0], location[1]);
+    if (item.type == 3) return <div key={index} style={{ paddingTop: 5 }}>
+      <Link href={`/request/detail/${item._id}`} passHref>
+        <div
+          style={{ fontSize: 20, paddingLeft: 10, fontWeight: 'bold', position: 'relative' }}>
+          {item.name}
+          {!!distance && <div style={{ position: 'absolute', right: 10, top: 0 }}>
+            {distance} Miles
+    </div>}
+        </div>
+      </Link>
+
+      {!!item.requestInfo.supplies[0]?.supplyName && <div style={{ paddingTop: 7, paddingLeft: 10, }}> Locking for {item.requestInfo.supplies[0]?.supplyName}</div>}
+      <div style={{ paddingTop: 7, paddingLeft: 10, }}>Reported by {item.name} {moment(item.updatedAt).fromNow()}</div>
+      <div style={{ paddingTop: 10, paddingBottom: 5 }}>
         <Button style={{ textTransform: 'none', width: '80%', marginLeft: '10%', padding: 9, borderRadius: 10, backgroundColor: '#5952ff' }} variant="contained"
-          onClick={() => getData(1)} >
+          onClick={() => claimRequest(item._id)} >
+          Claim Request
+      </Button>
+      </div>
+      {index != data.length - 1 && <div style={{ width: '100%', height: 2, backgroundColor: 'grey', marginTop: 10 }} />}
+    </div>;
+    return <div key={index} style={{ paddingTop: 5 }}>
+      <Link href={`/request/detail/${item._id}`} passHref>
+      <div style={{ fontSize: 20, paddingLeft: 10, fontWeight: 'bold', position: 'relative' }}>
+        {item.name}
+        {!!distance && <div style={{ position: 'absolute', right: 10, top: 0 }}>
+          {distance} Miles
+      </div>}
+      </div>
+      </Link>
+      <div style={{ paddingTop: 7, paddingLeft: 10, }}> Locking for {item.requestInfo.cate?.parentCateName}</div>
+      <div style={{ paddingTop: 7, paddingLeft: 10, }}>Reported by {item.name} {moment(item.updatedAt).fromNow()}</div>
+      <div style={{ paddingTop: 10, paddingBottom: 5 }}>
+        <Button style={{ textTransform: 'none', width: '80%', marginLeft: '10%', padding: 9, borderRadius: 10, backgroundColor: '#5952ff' }} variant="contained"
+          onClick={() => claimRequest(item._id)} >
           Claim Request
         </Button>
       </div>
-    {index !=data.length-1 && <div style={{ width: '100%', height: 2, backgroundColor: 'grey', marginTop: 10 }} />}  
+      {index != data.length - 1 && <div style={{ width: '100%', height: 2, backgroundColor: 'grey', marginTop: 10 }} />}
     </div>;
   }
   return (
@@ -87,8 +126,8 @@ const Request: NextPage = () => {
         </div>
       </div>
       <div className={styles.bottomTicky} >
-        <div style={{ height: 40, width: '100%', }}>
-          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
+        <div style={{ height: 40, width: '100%', backgroundColor: 'white', paddingTop: 3 }}>
+          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', }}>
             <Button style={{ textTransform: 'none', width: '40%', borderRadius: 20, backgroundColor: '#5952ff' }} variant="contained"
               onClick={() => getData(1)} >
               User Request

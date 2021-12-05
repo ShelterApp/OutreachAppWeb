@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
-import { useForm, SubmitHandler } from "react-hook-form";
-import ErrorMessage from "component/ErrorMessage";
-import SuccessMessage from "component/SuccessMessage";
+// import { useForm, SubmitHandler } from "react-hook-form";
+// import ErrorMessage from "component/ErrorMessage";
+// import SuccessMessage from "component/SuccessMessage";
 import styles from "styles/Home.module.scss";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
@@ -13,7 +13,7 @@ const SignupConfirm: NextPage = () => {
   useEffect(() => {
     init();
   });
-  const init = async () => {
+  const init =  () => {
     const token = router.query.code;
     if (token?.length) {
       setTimeout(async () => {
