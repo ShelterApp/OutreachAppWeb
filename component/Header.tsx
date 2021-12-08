@@ -98,7 +98,7 @@ const Header = ({ title, user, back, onClick }: ButtonProps) => {
       </div>
       <div
         className={style.titleHeader}
-        style={{ width: "70%", textAlign: "center", color: "white" }} >
+        style={{ width: "70%", textAlign: "center", color: "white"  ,paddingTop:4 }} >
         {title}
       </div>
       <div className={style.center} style={{ width: "15%" }}>

@@ -30,11 +30,11 @@ const ButtonComp = ({link, text, onClick, type, loading}: ButtonProps) => {
           {
             link ?
             <Link href={link} passHref>
-              <Button style={{textTransform:'none'}} variant="contained" className={style.card} onClick={clickButton} >
+              <Button style={{textTransform:'none',fontSize:20}} variant="contained" className={style.card} onClick={clickButton} >
                 {text}
               </Button>
             </Link> :
-            <Button style={{textTransform:'none'}} variant="contained" className={style.card} onClick={clickButton} type='submit'>
+            <Button style={{textTransform:'none',fontSize:20}} variant="contained" className={style.card} onClick={clickButton} type='submit'>
               {text}
             </Button>
           }

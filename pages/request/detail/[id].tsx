@@ -121,7 +121,7 @@ const Detail: NextPage = () => {
           ) }
           </div>
           <div style={{ paddingTop: 10, paddingBottom: 5,width:'100%' }}>
-        <Button style={{ textTransform: 'none', width: '80%', marginLeft: '10%', padding: 9, borderRadius: 10, backgroundColor: '#5952ff' }} variant="contained"
+        <Button style={{ textTransform: 'none',fontSize:16,  width: '80%', marginLeft: '10%', padding: 9, borderRadius: 10, backgroundColor: '#5952ff' }} variant="contained"
           onClick={() => claimRequest(data._id)} >
           Claim Request
       </Button>

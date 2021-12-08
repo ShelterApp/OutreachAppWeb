@@ -90,7 +90,7 @@ const Request: NextPage = () => {
       {!!item.requestInfo.supplies[0]?.supplyName && <div style={{ paddingTop: 7, paddingLeft: 10, }}> Locking for {item.requestInfo.supplies[0]?.supplyName}</div>}
       <div style={{ paddingTop: 7, paddingLeft: 10, }}>Reported by {item.name} {moment(item.updatedAt).fromNow()}</div>
       <div style={{ paddingTop: 10, paddingBottom: 5 }}>
-        <Button style={{ textTransform: 'none', width: '80%', marginLeft: '10%', padding: 9, borderRadius: 10, backgroundColor: '#5952ff' }} variant="contained"
+        <Button style={{ textTransform: 'none',fontSize:16, width: '80%', marginLeft: '10%', padding: 9, borderRadius: 10, backgroundColor: '#5952ff' }} variant="contained"
           onClick={() => claimRequest(item._id)} >
           Claim Request
       </Button>
@@ -109,7 +109,7 @@ const Request: NextPage = () => {
       <div style={{ paddingTop: 7, paddingLeft: 10, }}> Locking for {item.requestInfo.cate?.parentCateName}</div>
       <div style={{ paddingTop: 7, paddingLeft: 10, }}>Reported by {item.name} {moment(item.updatedAt).fromNow()}</div>
       <div style={{ paddingTop: 10, paddingBottom: 5 }}>
-        <Button style={{ textTransform: 'none', width: '80%', marginLeft: '10%', padding: 9, borderRadius: 10, backgroundColor: '#5952ff' }} variant="contained"
+        <Button style={{ textTransform: 'none',fontSize:16,  width: '80%', marginLeft: '10%', padding: 9, borderRadius: 10, backgroundColor: '#5952ff' }} variant="contained"
           onClick={() => claimRequest(item._id)} >
           Claim Request
         </Button>
