@@ -67,19 +67,11 @@ const Index: NextPage = () => {
     setAdding(!adding)
   }
 
-  const onAddSupply = async (obj: any) => {
-    const params = {
-      ...obj,
-      organizationId: organizationId
-    }
-    const res = await supplyItemsService.create(params);
-    if (res.statusCode && res.message) {
-      alertService.error(res.message)
-    } else {
-      router.push('/supply-items/').then(() => {
-        alertService.success('Supply Item was added successful!')
-      })
-    }
+  const addSupply = (obj: any) => {
+    const _list = [...list]
+    _list.push(obj);
+    setList([..._list])
+    setAdding(false)
   }
 
   return (
@@ -103,7 +95,7 @@ const Index: NextPage = () => {
           </Grid>
           <Grid xs={12} item>
             <Collapse in={adding}>
-              <NewItem list={list} supplies={supplies} onAddSupply={onAddSupply}/>
+              <NewItem list={list} organizationId={organizationId} addSupply={addSupply} supplies={supplies}/>
             </Collapse>
           </Grid>
 
@@ -118,10 +110,30 @@ const Index: NextPage = () => {
 
 export default Index;
 
-const NewItem = ({ list, supplies, onAddSupply }: any) => {
+const NewItem = ({ list, supplies, organizationId, addSupply }: any) => {
   const [supply, setSupply] = useState<any>();
   const [quantity, setQuantity] = useState<number>(0);
   const [loading, setLoading] = useState(false);
+  const onAddSupply = async (obj: any) => {
+    setLoading(true)
+    const params = {
+      ...obj,
+      organizationId: organizationId
+    }
+    const res = await supplyItemsService.create(params);
+    if (res.statusCode && res.message) {
+      alertService.error(res.message)
+    } else {
+      setQuantity(0)
+      setSupply(undefined)
+      addSupply({
+        supplyId: supply.value, qty: quantity, name: supply.label
+      })
+      alertService.success('Supply Item was added successful!')
+    }
+    setLoading(false)
+  }
+
   const onChangeSupply = (e: any) => {
     const item = list.find((o: any) => o.supplyId == e.value);
     if (item === undefined) {
@@ -166,7 +178,7 @@ const NewItem = ({ list, supplies, onAddSupply }: any) => {
         <input value={quantity} min="0" onChange={onChangeQty} type='number' style={{ marginLeft: 10, marginRight: 10, width: 50 }}/>
       </Grid>
       <Grid xs={8} item className='text-center' style={{ paddingTop: 15, margin: 'auto' }}>
-        <Button text="Add" onClick={onSubmit}/>
+        <Button text="Add" onClick={onSubmit} loading={loading}/>
       </Grid>
     </Grid>
   )
