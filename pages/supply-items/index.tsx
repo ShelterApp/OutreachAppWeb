@@ -1,13 +1,9 @@
 import type { NextPage } from "next";
 import styles from "styles/Home.module.scss";
-import stylesComponent from "component/Component.module.scss";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import { supplyItemsService, alertService, userService, suppliesService } from "services";
 import Grid from "@mui/material/Grid";
-import AlertDialog from "component/ConfirmationPopUp";
 import Header from "component/Header";
-import Table from "component/Table";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import Button from 'component/Button';
@@ -16,14 +12,13 @@ import Container from '@mui/material/Container';
 import Collapse from '@mui/material/Collapse';
 
 const Index: NextPage = () => {
-  const router = useRouter();
   const [list, setList] = useState<any[]>([]);
   const [organizationId, setOrganizationId] = useState<string>('');
   const [loading, setLoading] = useState(false);
 
   const updateQty = (qty: number, id: string) => {
-    let _list = [...list];
-    let objIndex = _list.findIndex((obj => obj.supplyId == id));
+    const _list = [...list];
+    const objIndex = _list.findIndex((obj => obj.supplyId == id));
     _list[objIndex].qty = qty
     setList([..._list])
   }
@@ -185,7 +180,7 @@ const NewItem = ({ list, supplies, organizationId, addSupply }: any) => {
 }
 
 const SupplyItem = ({obj, updateQty}: any) => {
-  const [quantity, setQuantity] = useState<any>(obj.qty || 0)
+  const [quantity, setQuantity] = useState<number>(obj.qty || 0)
 
   const handlePlus = () => {
     if (quantity >= 0) {

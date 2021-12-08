@@ -41,7 +41,7 @@ const AddCamp: NextPage = () => {
       setPeople([...people.slice(0, form.numOfPeople)]);
     } else {
       const _i = form.numOfPeople - people.length;
-      const newPeople = [...Array(_i).fill(0).map(x => ({...initPeople}))];
+      const newPeople = [...Array(_i).fill(0).map(() => ({...initPeople}))];
       setPeople([...people, ...newPeople]);
     }
   }
