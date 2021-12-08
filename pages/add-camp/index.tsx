@@ -7,6 +7,23 @@ import UnhousedInfo from "component/AddCamp/UnhousedInfo";
 import Supplies from "component/AddCamp/Supplies";
 import { alertService, campsService } from "services";
 import { useRouter } from "next/router";
+import { CampDetailsProps, PeopleProps } from "common/interface";
+
+const initCampDetails: CampDetailsProps = {
+  description: "",
+  name: "",
+  numOfPeople: 1,
+  numOfPet: 0
+}
+
+const initPeople: PeopleProps = {
+  age: 18,
+  disabled: 'No',
+  name: '',
+  gender: 'Male',
+  race: '',
+  unhouseSince: ''
+}
 
 const AddCamp: NextPage = () => {
   const [step, setStep] = useState<number>(1);
@@ -15,25 +32,28 @@ const AddCamp: NextPage = () => {
     setStep(i)
   }
 
-  const [campDetails, setCampDetails] = useState<any>({
-    name: '',
-    description: '',
-    numOfPeople: 1,
-    numOfPet: 1
-  })
+  const [campDetails, setCampDetails] = useState<CampDetailsProps>(initCampDetails)
 
   const onSubmitCamp = (form: any) => {
     setStep(3)
-    setCampDetails(form)
+    setCampDetails({...form})
+    if(people.length > form.numOfPeople) {
+      setPeople([...people.slice(0, form.numOfPeople)]);
+    } else {
+      const _i = form.numOfPeople - people.length;
+      const newPeople = [...Array(_i).fill(0).map(x => ({...initPeople}))];
+      setPeople([...people, ...newPeople]);
+    }
   }
 
   const previousBack = (i: number) => {
     setStep(i)
   }
 
-  const [people, setPeople] = useState<any[]>([])
+  const [people, setPeople] = useState<PeopleProps[]>([])
 
-  const onSubmitUnhousedInfo = () => {
+  const onSubmitUnhousedInfo = (list: PeopleProps[]) => {
+    setPeople([...list]);
     setStep(4)
   }
 
@@ -42,6 +62,7 @@ const AddCamp: NextPage = () => {
     lng: -96.71583
   };
   const [center, setCenter] = useState(_center);
+  const [zoom, setZoom] = useState(10);
   const [dropSupplies, setDropSupplies] = useState<any[]>([]);
   const [requestSupplies, setRequestSupplies] = useState<any[]>([]);
   const router = useRouter();
@@ -50,8 +71,8 @@ const AddCamp: NextPage = () => {
     const data = {
       ...campDetails,
       people: people,
-      numOfPeople: parseInt(campDetails.numOfPeople),
-      numOfPet: parseInt(campDetails.numOfPet),
+      numOfPeople: Math.floor(campDetails.numOfPeople),
+      numOfPet: Math.floor(campDetails.numOfPet),
       location: {
         type: 'Point',
         'coordinates': [
@@ -77,13 +98,13 @@ const AddCamp: NextPage = () => {
   return (
     <>
       {
-        step === 1 && <AddNewCamp center={center} setCenter={setCenter} onSubmit={onSubmit}/>
+        step === 1 && <AddNewCamp zoom={zoom} setZoom={setZoom} center={center} setCenter={setCenter} onSubmit={onSubmit}/>
       }
       {
         step === 2 && <CampDetails defaultValues={campDetails} previousBack={previousBack} onSubmit={onSubmitCamp}/>
       }
       {
-        step === 3 && <UnhousedInfo people={people} setPeople={setPeople} previousBack={previousBack} onSubmit={onSubmitUnhousedInfo}/>
+        step === 3 && <UnhousedInfo people={people} previousBack={previousBack} onSubmit={onSubmitUnhousedInfo}/>
       }
       {
         step === 4 && <Supplies dropSupplies={dropSupplies} requestSupplies={requestSupplies} setDropSupplies={setDropSupplies} setRequestSupplies={setRequestSupplies} previousBack={previousBack} onSubmit={createCamp}/>

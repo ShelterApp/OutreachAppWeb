@@ -1,180 +1,234 @@
-import React from 'react';
+import React from "react";
 import { useState, useEffect } from "react";
 import styles from "styles/Home.module.scss";
+import stylesComponent from 'component/Component.module.scss';
 import Button from "component/Button";
 import { alertService, userService } from "services";
-import Container from '@mui/material/Container';
-import Header from 'component/Header';
-import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
-import { useForm } from "react-hook-form";
+import Container from "@mui/material/Container";
+import Header from "component/Header";
+import { useForm, useFormContext, FormProvider, UseFormRegister } from "react-hook-form";
 import ErrorMessage from "component/ErrorMessage";
-import stylesComponent from "component/Component.module.scss";
 import TextInput from "component/TextInput";
 import Select from "component/Select";
-import Card from '@mui/material/Card';
+import Card from "@mui/material/Card";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { PeopleProps } from "common/interface";
+import Collapse from '@mui/material/Collapse';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 type Inputs = {
   name: string;
   age: number;
 };
 
+const genderOption = [
+  "Male",
+  "Female",
+  "Non-binary",
+  "Prefer to self-disclose",
+  "Prefer not to answer",
+].map((x: string) => ({ value: x, label: x }));
+const raceOption = [
+  "American Indian or Alaska Native",
+  "Asian",
+  "Black or African American",
+  "Hispanic or Latino",
+  "Native Hawaiian or Other Pacific Islander",
+  "White",
+].map((x: string) => ({ value: x, label: x }));
+const unhouseSinceOption = ["Less than an year", "1 year", "2 year"].map(
+  (x: string) => ({ value: x, label: x })
+);
+const disabledOption = ["Yes", "No"].map((x: string) => ({
+  value: x,
+  label: x,
+}));
+
 interface UnhousedInfoProps {
   onSubmit: Function;
   previousBack: Function;
   people: any;
-  setPeople: Function;
 }
 
 const defaultValues = {
-  name: '',
-  age: 18
-}
+  name: "",
+  age: 18,
+};
 
-const UnhousedInfo = ({ onSubmit, previousBack, people, setPeople }: UnhousedInfoProps) => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<Inputs>({
-    defaultValues: defaultValues
-  });
-  // eslint-disable-next-line
+const UnhousedInfo = ({
+  onSubmit,
+  previousBack,
+  people
+}: UnhousedInfoProps) => {
+  const methods = useForm();
+
   const [loading, setLoading] = useState(false);
 
   const submit = (data: any, e: any) => {
     setLoading(true);
     e.preventDefault();
+    const size = people.length;
+    const list: PeopleProps[] = people.map((p: PeopleProps, index: number) => {
+      return {
+        ...p,
+        age: parseInt(data[`age-${index}`]),
+        disabled: data[`disabled-${index}`],
+        race: data[`race-${index}`],
+        gender: data[`gender-${index}`],
+        name: data[`name-${index}`],
+        unhouseSince: data[`unhouseSince-${index}`],
+      }
+    })
 
-    if(!gender.value) {
-      alertService.error('Please input gender')
-      return;
-    }
-    let form = {
-      ...data,
-      gender: gender.value,
-      race: race ? race.value : '',
-      disabled: disabled ? disabled.value : '',
-      unhouseSince: unhouseSince ? unhouseSince.value : '',
-    }
-
-    setPeople([...people, form])
-    resetData()
-
+    onSubmit(list);
     setLoading(false);
   };
 
-  const resetData = () => {
-    reset(defaultValues);
-    setGender(genderOption[0]);
-    setRace(undefined)
-    setDisabled(undefined)
-    setUnhouseSince(undefined)
-  }
+  useEffect(() => {
+    let form: any = {};
+    people.map((p: any, index: number) => {
+      Object.keys(p).map((key: string) => {
+        form[`${key}-${index}`] = p[key];
+      })
+    })
 
-  const genderOption = ['Male', 'Female', 'Non-binary', 'Prefer to self-disclose', 'Prefer not to answer'].map((x: string) => ({value: x, label: x}));
-  const [gender, setGender] = useState<any>(genderOption[0])
+    methods.reset(form)
 
-  const raceOption = ["American Indian or Alaska Native", "Asian", "Black or African American", "Hispanic or Latino", "Native Hawaiian or Other Pacific Islander", "White"].map((x: string) => ({value: x, label: x}));
-  const [race, setRace] = useState<any>()
-
-  const disabledOption = ['Yes', 'No'].map((x: string) => ({value: x, label: x}));
-  const [disabled, setDisabled] = useState<any>()
-
-  const unhouseSinceOption = ['Less than an year', '1 year', '2 year'].map((x: string) => ({value: x, label: x}));
-  const [unhouseSince, setUnhouseSince] = useState<any>()
-
-  const removePeople = (index: number) => {
-    people.splice(index, 1)
-    setPeople([...people])
-  }
+  }, [people])
 
   return (
-    <main className={styles.mainTop} style={{ position: 'relative', height: '100%', }}>
-      <Header title='Unhoused Info' onClick={() => previousBack(2)}/>
+    <main
+      className={styles.mainTop}
+      style={{ position: "relative", height: "100%" }}
+    >
+      <Header title="Unhoused Info" onClick={() => previousBack(2)} />
       <Container maxWidth="sm">
         <div className={styles.grid}>
-          <form name="form-camp" onSubmit={handleSubmit(submit)}>
-            <TextInput
-              label="Name"
-              placeholder="Name"
-              register={register("name", { required: true })}
-            />
-            {errors.name && errors.name.type === "required" && (
-              <ErrorMessage>Please input name.</ErrorMessage>
-            )}
-            <TextInput
-              label="Age"
-              placeholder="Age"
-              register={register("age", { required: true, min: 1, max: 100 })}
-              type='number'
-            />
-            {errors.age && errors.age.type === "required" && (
-              <ErrorMessage>Please input age.</ErrorMessage>
-            )}
-            {errors.age && errors.age.type === "min" && (
-              <ErrorMessage>Please input age is invalid.</ErrorMessage>
-            )}
-            {errors.age && errors.age.type === "max" && (
-              <ErrorMessage>Please input age is invalid.</ErrorMessage>
-            )}
-            <Select
-              label="Gender"
-              placeholder="Gender"
-              options={genderOption}
-              value={gender}
-              onChange={setGender}
-            />
-            <Select
-              label="Race"
-              placeholder="Race"
-              options={raceOption}
-              value={race}
-              onChange={setRace}
-            />
-            <Select
-              label="Disabled?"
-              placeholder="Disabled?"
-              options={disabledOption}
-              value={disabled}
-              onChange={setDisabled}
-            />
-            <Select
-              label="Unhoused Since"
-              placeholder="Unhoused Since"
-              options={unhouseSinceOption}
-              value={unhouseSince}
-              onChange={setUnhouseSince}
-            />
-            <div className={styles.grid} style={{ paddingTop: '10px' }}>
-              <Button text="Add people" loading={loading} type="submit"/>
-            </div>
-          </form>
-        </div>
-        {
-          people.map((p: any, i: number) => {
-            return (
-              <Card key={i} variant="outlined" style={{ padding: '10px', marginBottom: 10, display: 'flex', justifyContent: 'space-between' }}>
-                <div>
-                  <p className="mt-0"><b>Name:</b> {p.name}</p>
-                  <p className="mt-0"><b>Age:</b> {p.age}</p>
-                  <p className="mt-0"><b>Gender:</b> {p.gender}</p>
-                  <p className="mt-0"><b>Race:</b> {p.race}</p>
-                  <p className="mt-0"><b>Disabled:</b> {p.disabled}</p>
-                  <p className="mt-0"><b>Unhoused Since:</b> {p.unhouseSince}</p>
-                </div>
-                <DeleteIcon className="cursor-pointer" fontSize="small" onClick={() => removePeople(i)}/>
-              </Card>
-            )
-          })
-        }
-        <div className={styles.grid}>
-          <Button text="Submit" onClick={() => onSubmit(people)}/>
+          <FormProvider {...methods}>
+            <form name="form-camp" onSubmit={methods.handleSubmit(submit)}>
+              {
+                people.map((p: PeopleProps, i: number) => (
+                  <NestedComponent index={i} key={i} />
+                ))
+              }
+
+              <div className={styles.grid} style={{ paddingTop: "10px" }}>
+                <Button text="Submit" loading={loading} type="submit" />
+              </div>
+            </form>
+          </FormProvider>
         </div>
       </Container>
     </main>
-  )
-}
+  );
+};
 
 export default UnhousedInfo;
+
+const NestedComponent = ({ index }: { index: number }) => {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext(); // retrieve all hook methods
+  const [checked, setChecked] = useState(true);
+  const collapse = () => {
+    setChecked(!checked)
+  }
+  return (
+    <div>
+      <p onClick={() => collapse()} className={stylesComponent.unhousedGroup}>
+        {
+          checked ? <RemoveCircleOutlineIcon/> : <AddCircleOutlineIcon/>
+        }
+        Person {index + 1} info
+      </p>
+      <Collapse in={checked}>
+        <TextInput
+          label="Name"
+          placeholder="Name"
+          register={register(`name-${index}`, { required: true })}
+        />
+        {errors[`name-${index}`] &&
+          errors[`name-${index}`].type === "required" && (
+            <ErrorMessage>Please input name.</ErrorMessage>
+          )}
+        <TextInput
+          label="Age"
+          placeholder="Age"
+          register={register(`age-${index}`, {
+            required: true,
+            min: 1,
+            max: 100,
+          })}
+          type="number"
+        />
+        {errors[`age-${index}`] && errors[`age-${index}`].type === "required" && (
+          <ErrorMessage>Please input age.</ErrorMessage>
+        )}
+        {errors[`age-${index}`] && errors[`age-${index}`].type === "min" && (
+          <ErrorMessage>Please input age is invalid.</ErrorMessage>
+        )}
+        {errors[`age-${index}`] && errors[`age-${index}`].type === "max" && (
+          <ErrorMessage>Please input age is invalid.</ErrorMessage>
+        )}
+        <SelectComponent
+          label='Gender'
+          {...register(`gender-${index}`, {
+            required: true
+          })}
+          options={genderOption}
+        />
+        {errors[`gender-${index}`] && errors[`gender-${index}`].type === "required" && (
+          <ErrorMessage>Please input gender.</ErrorMessage>
+        )}
+        <SelectComponent
+          label='Race'
+          {...register(`race-${index}`, {
+            required: true
+          })}
+          options={raceOption}
+        />
+        {errors[`race-${index}`] && errors[`race-${index}`].type === "required" && (
+          <ErrorMessage>Please input race.</ErrorMessage>
+        )}
+        <SelectComponent
+          label='Disabled?'
+          {...register(`disabled-${index}`, {
+            required: true
+          })}
+          options={disabledOption}
+        />
+        {errors[`disabled-${index}`] && errors[`disabled-${index}`].type === "required" && (
+          <ErrorMessage>Please input disabled.</ErrorMessage>
+        )}
+        <SelectComponent
+          label='Unhoused Since'
+          {...register(`unhouseSince-${index}`, {
+            required: true
+          })}
+          options={unhouseSinceOption}
+        />
+        {errors[`unhouseSince-${index}`] && errors[`unhouseSince-${index}`].type === "required" && (
+          <ErrorMessage>Please input unhouseSince.</ErrorMessage>
+        )}
+      </Collapse>
+    </div>
+  );
+};
+
+const SelectComponent = React.forwardRef<
+  HTMLSelectElement,
+  { label: string, options: any[] } & ReturnType<UseFormRegister<Inputs>>
+>(({ onChange, onBlur, name, label, options }, ref) => (
+  <>
+    <label className={stylesComponent.label}>{label}</label>
+    <select className={stylesComponent.styleSelect} name={name} ref={ref} onChange={onChange} onBlur={onBlur}>
+      {
+        options.map((opt, i) => (
+          <option key={i} value={opt.value}>{opt.label}</option>
+        ))
+      }
+    </select>
+  </>
+));

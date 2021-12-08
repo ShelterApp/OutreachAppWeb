@@ -8,7 +8,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { suppliesService } from 'services';
+import { alertService, suppliesService, supplyItemsService } from 'services';
 import Grid from '@mui/material/Grid';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -51,6 +51,7 @@ function a11yProps(index: number) {
 
 interface BasicTabsProps {
   supplies: any[];
+  supplyItems: any[];
   add: Function;
   remove: Function;
   current_tab: Function;
@@ -59,7 +60,7 @@ interface BasicTabsProps {
   updateQty: Function;
 }
 
-const BasicTabs = ({ supplies, add, remove, current_tab, dropSupplies, requestSupplies, updateQty }: BasicTabsProps) => {
+const BasicTabs = ({ supplyItems, supplies, add, remove, current_tab, dropSupplies, requestSupplies, updateQty }: BasicTabsProps) => {
   const [value, setValue] = useState(0);
   const tabs = ['dropSupplies', 'requestSupplies'];
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -94,8 +95,8 @@ const BasicTabs = ({ supplies, add, remove, current_tab, dropSupplies, requestSu
         </Grid>
         <br/>
         {
-          supplies.length > 0 && supplies.map((sup: any, index: number) => (
-            <SupplyItem updateQty={updateQty} supply={findSupply(sup._id)} key={index} obj={sup} add={add} remove={remove}/>
+          supplyItems.length > 0 && supplyItems.map((sup: any, index: number) => (
+            <SupplyItem tab='dropSupplies' updateQty={updateQty} supply={findSupply(sup._id)} key={index} obj={sup} add={add} remove={remove}/>
           ))
         }
       </TabPanel>
@@ -111,7 +112,7 @@ const BasicTabs = ({ supplies, add, remove, current_tab, dropSupplies, requestSu
         <br/>
         {
           supplies.length > 0 && supplies.map((sup: any, index: number) => (
-            <SupplyItem updateQty={updateQty} supply={findSupply(sup._id)} key={sup._id} obj={sup} add={add} remove={remove}/>
+            <SupplyItem tab='requestSupplies' updateQty={updateQty} supply={findSupply(sup._id)} key={sup._id} obj={sup} add={add} remove={remove}/>
           ))
         }
       </TabPanel>
@@ -119,10 +120,17 @@ const BasicTabs = ({ supplies, add, remove, current_tab, dropSupplies, requestSu
   );
 }
 
-const SupplyItem = ({obj, add, remove, supply, updateQty}: any) => {
+const SupplyItem = ({tab, obj, add, remove, supply, updateQty}: any) => {
+  console.log(obj)
   const [quantity, setQuantity] = useState<any>(supply ? supply.qty : 0)
   const handlePlus = () => {
     if (quantity >= 0) {
+      if(tab === 'dropSupplies') {
+        if(quantity + 1 > obj.qty) {
+          alertService.error(`${obj.name} don't have enough quantity`)
+          return;
+        }
+      }
       setQuantity(quantity + 1)
     } else {
       setQuantity(0)
@@ -138,6 +146,11 @@ const SupplyItem = ({obj, add, remove, supply, updateQty}: any) => {
 
   useEffect(() => {
     supply && updateQty(quantity, obj._id)
+    if (quantity > 0 && !checked) {
+      onCheck(true)
+    } else if (quantity == 0 && checked) {
+      onCheck(false)
+    }
   }, [quantity])
 
   const [checked, setChecked] = useState<boolean>(supply ? true : false)
@@ -177,9 +190,13 @@ interface SuppliesProps {
 
 const Supplies = ({ onSubmit, previousBack, dropSupplies, setDropSupplies, requestSupplies, setRequestSupplies }: SuppliesProps) => {
   const [supplies, setSupplies] = useState<any[]>([]);
+  const [supplyItems, setSupplyItems] = useState<any[]>([]);
   useEffect(() => {
     const fetchData = async () => {
       const res = await suppliesService.list();
+      const data = await supplyItemsService.list();
+      let items = data.items.map((i: any) => ({ _id: i.supplyId._id, name: i.supplyId.name, qty: i.qty}));
+      setSupplyItems(items);
       setSupplies(res.items);
     };
     fetchData();
@@ -228,7 +245,7 @@ const Supplies = ({ onSubmit, previousBack, dropSupplies, setDropSupplies, reque
       <Header title='Drop/Request supplies' onClick={() => previousBack(3)}/>
       <Container maxWidth="sm">
         <div className={styles.grid}>
-          <BasicTabs current_tab={current_tab} updateQty={updateQty} dropSupplies={dropSupplies} requestSupplies={requestSupplies} add={add} remove={remove} supplies={supplies}/>
+          <BasicTabs current_tab={current_tab} updateQty={updateQty} dropSupplies={dropSupplies} requestSupplies={requestSupplies} add={add} remove={remove} supplyItems={supplyItems} supplies={supplies}/>
           <Button text="Submit" onClick={() => onSubmit()}/>
         </div>
       </Container>

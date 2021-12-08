@@ -17,9 +17,11 @@ interface AddNewCamp {
   onSubmit: Function;
   center: any;
   setCenter: Function;
+  setZoom: Function;
+  zoom: any;
 }
 
-const AddNewCamp = ({ onSubmit, center, setCenter }: AddNewCamp) => {
+const AddNewCamp = ({ onSubmit, center, setCenter, setZoom, zoom }: AddNewCamp) => {
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: process.env.NEXT_PUBLIC_APIKEY_MAP
@@ -38,16 +40,16 @@ const AddNewCamp = ({ onSubmit, center, setCenter }: AddNewCamp) => {
           <GoogleMap
             mapContainerStyle={containerStyle}
             center={center}
-            zoom={10}
+            zoom={zoom}
             ref={mapRef => (ref = mapRef)}
             onCenterChanged={() => {
               if (ref) {
                 let lat = ref.state.map.center.lat(),
                   lng = ref.state.map.center.lng();
+                let _zoom = ref.state.map.zoom;
+
                 setCenter({ lat, lng });
-                // console.log(ref.state.map.center.lat());
-                // console.log(ref.state.map.center.lng());
-                // console.log(ref.state.map.zoom);
+                setZoom(_zoom)
               }
             }}
             // onLoad={onLoad}
