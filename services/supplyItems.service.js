@@ -5,7 +5,8 @@ export const supplyItemsService = {
   create,
   get,
   update,
-  _delete
+  _delete,
+  createMany
 };
 
 async function list() {
@@ -21,6 +22,16 @@ async function list() {
 async function create(params) {
   try {
     const res = await axios.post(`/supplies-items`, params);
+
+    return res.data;
+  } catch (error) {
+    return error.response.data;
+  }
+}
+
+async function createMany(params) {
+  try {
+    const res = await axios.post(`/supplies-items/create-many`, params);
 
     return res.data;
   } catch (error) {

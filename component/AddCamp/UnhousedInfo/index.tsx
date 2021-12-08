@@ -3,15 +3,11 @@ import { useState, useEffect } from "react";
 import styles from "styles/Home.module.scss";
 import stylesComponent from 'component/Component.module.scss';
 import Button from "component/Button";
-import { alertService, userService } from "services";
 import Container from "@mui/material/Container";
 import Header from "component/Header";
 import { useForm, useFormContext, FormProvider, UseFormRegister } from "react-hook-form";
 import ErrorMessage from "component/ErrorMessage";
 import TextInput from "component/TextInput";
-import Select from "component/Select";
-import Card from "@mui/material/Card";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { PeopleProps } from "common/interface";
 import Collapse from '@mui/material/Collapse';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
@@ -68,7 +64,6 @@ const UnhousedInfo = ({
   const submit = (data: any, e: any) => {
     setLoading(true);
     e.preventDefault();
-    const size = people.length;
     const list: PeopleProps[] = people.map((p: PeopleProps, index: number) => {
       return {
         ...p,
