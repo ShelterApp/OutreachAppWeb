@@ -195,7 +195,7 @@ const Supplies = ({ onSubmit, previousBack, dropSupplies, setDropSupplies, reque
     const fetchData = async () => {
       const res = await suppliesService.list();
       const data = await supplyItemsService.list();
-      let items = data.items.map((i: any) => ({ _id: i.supplyId._id, name: i.supplyId.name, qty: i.qty}));
+      const items = data.items.map((i: any) => ({ _id: i.supplyId._id, name: i.supplyId.name, qty: i.qty}));
       setSupplyItems(items);
       setSupplies(res.items);
     };
@@ -228,13 +228,13 @@ const Supplies = ({ onSubmit, previousBack, dropSupplies, setDropSupplies, reque
 
   const updateQty = (qty: number, id: string) => {
     if(tab === 'requestSupplies') {
-      let _requestSupplies = [...requestSupplies];
-      let objIndex = _requestSupplies.findIndex((obj => obj.supplyId == id));
+      const _requestSupplies = [...requestSupplies];
+      const objIndex = _requestSupplies.findIndex((obj => obj.supplyId == id));
       _requestSupplies[objIndex].qty = qty
       setRequestSupplies([..._requestSupplies])
     } else {
-      let _dropSupplies = [...dropSupplies];
-      let objIndex = _dropSupplies.findIndex((obj => obj.supplyId == id));
+      const _dropSupplies = [...dropSupplies];
+      const objIndex = _dropSupplies.findIndex((obj => obj.supplyId == id));
       _dropSupplies[objIndex].qty = qty
       setDropSupplies([..._dropSupplies])
     }
@@ -246,7 +246,7 @@ const Supplies = ({ onSubmit, previousBack, dropSupplies, setDropSupplies, reque
       <Container maxWidth="sm">
         <div className={styles.grid}>
           <BasicTabs current_tab={current_tab} updateQty={updateQty} dropSupplies={dropSupplies} requestSupplies={requestSupplies} add={add} remove={remove} supplyItems={supplyItems} supplies={supplies}/>
-          <Button text="Submit" onClick={() => onSubmit()}/>
+          <Button text="Done" onClick={() => onSubmit()}/>
         </div>
       </Container>
     </main>

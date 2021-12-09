@@ -81,7 +81,7 @@ const UnhousedInfo = ({
   };
 
   useEffect(() => {
-    let form: any = {};
+    const form: any = {};
     people.map((p: any, index: number) => {
       Object.keys(p).map((key: string) => {
         form[`${key}-${index}`] = p[key];
@@ -109,7 +109,7 @@ const UnhousedInfo = ({
               }
 
               <div className={styles.grid} style={{ paddingTop: "10px" }}>
-                <Button text="Submit" loading={loading} type="submit" />
+                <Button text="Next" loading={loading} type="submit" />
               </div>
             </form>
           </FormProvider>

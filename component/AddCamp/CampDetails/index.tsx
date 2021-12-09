@@ -113,7 +113,7 @@ const CampDetails = ({ onSubmit, previousBack, defaultValues }: CampDetailsProps
             )
           }
           <div className={styles.grid}>
-            <Button text="Save" loading={loading} type="submit"/>
+            <Button text="Next" loading={loading} type="submit"/>
           </div>
         </form>
         </div>
