@@ -77,7 +77,9 @@ const Detail: NextPage = () => {
             {data.type == 3 ? <CabinIcon fontSize="large" /> : <PersonIcon fontSize="large" />}
             <div style={{ fontSize: 20, padding: '6px 10px', fontWeight: 'bold' }}>{data.name}</div>
             {data.type == 3 &&
-              <Button style={{ textTransform: 'none', width: '35%', whiteSpace: 'nowrap', marginLeft: '10%', padding: '4px 10px', borderRadius: 10, backgroundColor: '#5952ff' }} variant="contained" >
+              <Button style={{ textTransform: 'none', width: '35%', whiteSpace: 'nowrap', marginLeft: '10%', padding: '4px 10px', borderRadius: 10, backgroundColor: '#5952ff' }} 
+              onClick={()=>router.push(`/camp/detail/${data.createdBy?.organizationId?._id}`)}
+              variant="contained" >
                 Camp Details
       </Button>}
           </div>

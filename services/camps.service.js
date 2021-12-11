@@ -5,7 +5,9 @@ export const campsService = {
   create,
   get,
   update,
-  _delete
+  _delete,
+  log,
+  getLog
 };
 
 async function list() {
@@ -51,6 +53,25 @@ async function get(id) {
 async function _delete(id) {
   try {
     const res = await axios.delete(`/camps/${id}`);
+
+    return res.data;
+  } catch (error) {
+    return error.response.data;
+  }
+}
+
+async function log() {
+  try {
+    const res = await axios.get(`/camplogs`);
+    return res.data;
+  } catch (error) {
+    return error.response.data;
+  }
+}
+
+async function getLog(id) {
+  try {
+    const res = await axios.get(`/camplogs/${id}`);
 
     return res.data;
   } catch (error) {
