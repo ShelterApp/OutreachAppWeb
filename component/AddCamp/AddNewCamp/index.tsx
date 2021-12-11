@@ -1,19 +1,11 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import React from 'react';
-import { useState } from "react";
 import styles from "styles/Home.module.scss";
 import Button from "component/Button";
 import Header from 'component/Header';
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
-
-const containerStyle:any = {
-  width: '100%',
-  height: 'calc(100vh - 115px)',
-  maxWidth: '1024px',
-  position: 'relative',
-  overflow: 'hidden'
-};
-
-interface AddNewCamp {
+import { use100vh } from 'react-div-100vh'
+interface AddNewCampProps {
   onSubmit: Function;
   center: any;
   setCenter: Function;
@@ -21,7 +13,16 @@ interface AddNewCamp {
   zoom: any;
 }
 
-const AddNewCamp = ({ onSubmit, center, setCenter, setZoom, zoom }: AddNewCamp) => {
+const AddNewCamp = ({ onSubmit, center, setCenter, setZoom, zoom }: AddNewCampProps) => {
+  const height = `${use100vh()}px`;
+  const containerStyle: any = {
+    width: '100%',
+    height: `calc(${height ? height : '100vh'} - 115px)`,
+    maxWidth: '1024px',
+    position: 'relative',
+    overflow: 'hidden'
+  };
+
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: process.env.NEXT_PUBLIC_APIKEY_MAP
@@ -44,9 +45,9 @@ const AddNewCamp = ({ onSubmit, center, setCenter, setZoom, zoom }: AddNewCamp) 
             ref={mapRef => (ref = mapRef)}
             onCenterChanged={() => {
               if (ref) {
-                let lat = ref.state.map.center.lat(),
+                const lat = ref.state.map.center.lat(),
                   lng = ref.state.map.center.lng();
-                let _zoom = ref.state.map.zoom;
+                const _zoom = ref.state.map.zoom;
 
                 setCenter({ lat, lng });
                 setZoom(_zoom)

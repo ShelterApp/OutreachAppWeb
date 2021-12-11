@@ -11,14 +11,8 @@ import HouseSidingIcon from '@mui/icons-material/HouseSiding';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import Link from "next/link";
+import { use100vh } from 'react-div-100vh'
 
-const containerStyle:any = {
-  width: '100%',
-  height: 'calc(100vh - 115px)',
-  maxWidth: '1024px',
-  position: 'relative',
-  overflow: 'hidden'
-};
 const center = {
   lat: 32.965557,
   lng: -96.71583
@@ -41,10 +35,19 @@ const Home: NextPage = () => {
   }, [])
 
   const getCamp =async ()=>{
-const campsData=await campsService.list();
-console.log(campsData);
+  const campsData=await campsService.list();
+  console.log(campsData);
 
   }
+
+  const height = `${use100vh()}px`;
+  const containerStyle: any = {
+    width: '100%',
+    height: `calc(${height ? height : '100vh'} - 115px)`,
+    maxWidth: '1024px',
+    position: 'relative',
+    overflow: 'hidden'
+  };
 
   useEffect(() => {
     const subscription = userService.user.subscribe((x:any) => setUser(x));
