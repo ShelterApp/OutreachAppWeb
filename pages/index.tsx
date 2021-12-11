@@ -3,7 +3,7 @@ import React from 'react';
 import { useState, useEffect } from "react";
 import styles from "styles/Home.module.scss";
 import Button from "component/Button";
-import { userService } from "services";
+import { userService,campsService } from "services";
 import Container from '@mui/material/Container';
 import Header from 'component/Header';
 import PanToolIcon from '@mui/icons-material/PanTool';
@@ -40,8 +40,15 @@ const Home: NextPage = () => {
     // setMap(null)
   }, [])
 
+  const getCamp =async ()=>{
+const campsData=await campsService.list();
+console.log(campsData);
+
+  }
+
   useEffect(() => {
     const subscription = userService.user.subscribe((x:any) => setUser(x));
+    getCamp();
     return () => subscription.unsubscribe();
   }, []);
 

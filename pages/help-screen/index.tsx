@@ -6,7 +6,7 @@ import TextInput from "component/TextInput";
 import Select from "component/Select";
 import Button from "component/Button";
 import { useEffect, useState } from "react";
-import { alertService, categoriesService, requestService } from "services";
+import { alertService, categoriesService, requestService,userService } from "services";
 import Container from "@mui/material/Container";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -28,6 +28,7 @@ type Inputs = {
     email: string;
     password: string;
     location: object;
+    createdBy:string;
 };
 
 const HelpScreen: NextPage = () => {
@@ -80,7 +81,9 @@ const HelpScreen: NextPage = () => {
                 sizeCateId: sizeCate?.value || null,
                 sizeCateName: sizeCate?.label || null
             },
-        };
+        }, user = userService.userValue.user;
+        if(user._id) item.createdBy= user._id;
+
         if (!item.cate.parentCateId) {
           return alertService.error("Error. Please check again");
       }
@@ -93,7 +96,6 @@ const HelpScreen: NextPage = () => {
                     setLocation([
                         position.coords.longitude,
                         position.coords.latitude,
-
                     ]);
                 item.location = { type: "Point", coordinates: location };
             });
@@ -106,7 +108,6 @@ const HelpScreen: NextPage = () => {
         return requestService
             .create(item)
             .then((res) => {
-                console.log(res);
                  if(res._id) {
                     alertService.success("Your request has been sent.");
                     setParentCate({ value: "", label: "" });

@@ -170,7 +170,7 @@ const NewItem = ({ list, supplies, organizationId, addSupply }: any) => {
         />
       </Grid>
       <Grid xs={6} item style={{display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <input value={quantity} min="0" onChange={onChangeQty} type='number' style={{ marginLeft: 10, marginRight: 10, width: 50 }}/>
+        <input value={quantity} min="0" onChange={onChangeQty} type='tel' style={{ marginLeft: 10, marginRight: 10, width: 50 }}/>
       </Grid>
       <Grid xs={8} item className='text-center' style={{ paddingTop: 15, margin: 'auto' }}>
         <Button text="Add" onClick={onSubmit} loading={loading}/>
@@ -216,7 +216,7 @@ const SupplyItem = ({obj, updateQty}: any) => {
       </Grid>
       <Grid xs={6} item style={{display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <AddIcon className="cursor-pointer" fontSize="small" onClick={() => handlePlus()}/>
-        <input value={quantity} min="0" onChange={onChange} type='number' style={{ marginLeft: 10, marginRight: 10, width: 50 }}/>
+        <input value={quantity} min="0" onChange={onChange} type='tel' style={{ marginLeft: 10, marginRight: 10, width: 50 }}/>
         <RemoveIcon className="cursor-pointer" fontSize="small" onClick={() => handleRemove()}/>
       </Grid>
     </Grid>

@@ -75,6 +75,7 @@ const Request: NextPage = () => {
 
   const renderItem = (item: any, index: number) => {
     let distance = 0;
+    const reportText= (user.user._id==item.createdBy?._id?`Self Reported `: `Reported by ${item.name} `) +`${moment(item.updatedAt).fromNow()}`;
     if (item.location?.coordinates && location) distance = getDistanceFromLatLonInKm(item.location.coordinates[1], item.location.coordinates[0], location[0], location[1]);
     if (item.type == 3) return <div key={index} style={{ paddingTop: 5 }}>
       <Link href={`/request/detail/${item._id}`} passHref>
@@ -88,7 +89,7 @@ const Request: NextPage = () => {
       </Link>
 
       {!!item.requestInfo.supplies[0]?.supplyName && <div style={{ paddingTop: 7, paddingLeft: 10, }}> Locking for {item.requestInfo.supplies[0]?.supplyName}</div>}
-      <div style={{ paddingTop: 7, paddingLeft: 10, }}>Reported by {item.name} {moment(item.updatedAt).fromNow()}</div>
+  <div style={{ paddingTop: 7, paddingLeft: 10, }}>{reportText}</div>
       <div style={{ paddingTop: 10, paddingBottom: 5 }}>
         <Button style={{ textTransform: 'none',fontSize:16, width: '80%', marginLeft: '10%', padding: 9, borderRadius: 10, backgroundColor: '#5952ff' }} variant="contained"
           onClick={() => claimRequest(item._id)} >
@@ -107,7 +108,7 @@ const Request: NextPage = () => {
       </div>
       </Link>
       <div style={{ paddingTop: 7, paddingLeft: 10, }}> Locking for {item.requestInfo.cate?.parentCateName}</div>
-      <div style={{ paddingTop: 7, paddingLeft: 10, }}>Reported by {item.name} {moment(item.updatedAt).fromNow()}</div>
+  <div style={{ paddingTop: 7, paddingLeft: 10, }}>{reportText}</div>
       <div style={{ paddingTop: 10, paddingBottom: 5 }}>
         <Button style={{ textTransform: 'none',fontSize:16,  width: '80%', marginLeft: '10%', padding: 9, borderRadius: 10, backgroundColor: '#5952ff' }} variant="contained"
           onClick={() => claimRequest(item._id)} >
