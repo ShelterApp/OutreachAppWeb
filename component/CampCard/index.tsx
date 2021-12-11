@@ -25,13 +25,13 @@ const CampCard = ({camp, handleOpenAlert, edit}: any) => {
           <b>Created On:</b> {dayjs(camp.createdAt).format("MMMM DD, YYYY")}
         </Typography>
         <Typography variant="body2">
-          <b>Created By:</b> Name
+          <b>Created By:</b> {camp.createdBy ? camp.createdBy.name : ''}
         </Typography>
         <Typography variant="body2">
           <b>Updated On:</b> {dayjs(camp.updatedAt).format("MMMM DD, YYYY")}
         </Typography>
         <Typography variant="body2">
-          <b>Updated By:</b> Name
+          <b>Updated By:</b> {camp.updatedBy ? camp.updatedBy.name : ''}
         </Typography>
         <Typography variant="body2">
           <b>City:</b> {camp.address}
