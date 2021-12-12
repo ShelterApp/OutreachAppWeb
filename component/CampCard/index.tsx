@@ -8,7 +8,6 @@ import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
 
 const CampCard = ({camp, handleOpenAlert, edit}: any) => {
-  console.log(camp)
   const _delete = () => {
     handleOpenAlert(camp._id)
   }

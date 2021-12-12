@@ -1,24 +1,41 @@
 import type { NextPage } from "next";
 import React from 'react';
 import { useState, useEffect } from "react";
-import styles from "styles/Home.module.scss";
-import Button from "component/Button";
 import { userService,campsService } from "services";
 import Container from '@mui/material/Container';
 import Header from 'component/Header';
 import PanToolIcon from '@mui/icons-material/PanTool';
 import HouseSidingIcon from '@mui/icons-material/HouseSiding';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
-import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+import { GoogleMap, useJsApiLoader,Marker } from '@react-google-maps/api';
 import Link from "next/link";
 import { use100vh } from 'react-div-100vh'
+import Modal from 'react-modal';
+import styles from "styles/Home.module.scss";
+import Button from "component/Button";
 
 const center = {
   lat: 32.965557,
   lng: -96.71583
 };
+const customStyles = {
+  content: {
+    top: '40%',
+    left: '0%',
+    right: 'auto',
+    bottom: '0',
+    marginRight: '-50%',
+    width:'100%',
+    borderTopLeftRadius:30,
+    borderTopRightRadius:30,
+    backgroundColor:'white'
+  },
+};
 const Home: NextPage = () => {
   const [user, setUser] = useState<any>(null);
+  const [camp,setCamp]=useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [pickerCamp,setPickerCamp]=useState({});
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: process.env.NEXT_PUBLIC_APIKEY_MAP
@@ -36,6 +53,7 @@ const Home: NextPage = () => {
 
   const getCamp =async ()=>{
   const campsData=await campsService.list();
+  setCamp(campsData.items);
   console.log(campsData);
 
   }
@@ -54,6 +72,34 @@ const Home: NextPage = () => {
     getCamp();
     return () => subscription.unsubscribe();
   }, []);
+
+  const renderMarker= ()=>{
+    const map= camp.map((item:any,index:number)=>
+    <Marker key={index}
+    onClick={()=>{
+      setPickerCamp(camp[index]);
+      setShowModal(true);
+    }}
+     position={{lat: item?.location.coordinates[1],lng:item.location.coordinates[0] }}/>
+    )
+    return map
+  }
+
+  const renderModal =()=>{
+    return (
+      <Modal
+        isOpen={showModal}
+        onRequestClose={()=> setShowModal(false)}
+        style={customStyles}
+      >
+    <div style={{ fontSize: 20, padding: '6px 10px', fontWeight: 'bold' }}>{pickerCamp?.name}</div>
+    <div className={styles.grid}>
+            <Button text="View Camp Details" link={`/camp/detail/${pickerCamp._id}`}/>
+            <Button text="Report Swept or Inactive " link={`/camp/report/${pickerCamp._id}`}></Button>
+          </div>
+      </Modal>
+    )
+  }
 
   return (
     !user ? <Container maxWidth="sm">
@@ -76,14 +122,13 @@ const Home: NextPage = () => {
               mapContainerStyle={containerStyle}
               center={center}
               zoom={10}
-              // onLoad={onLoad}
               onUnmount={onUnmount}
             >
-              { /* Child components, such as markers, info windows, etc. */}
-              <></>
+             {renderMarker()}
             </GoogleMap>
           ) : <></>}
         </div>
+        {renderModal()}
         <div className={styles.bottomTab}>
           <Link href='/request' passHref>
           <PanToolIcon className="cursor-pointer"

@@ -95,7 +95,7 @@ const CampDetail: NextPage = () => {
           </div>
           <div style={{ paddingTop: 10, paddingBottom: 25, width: '100%' }}>
             <Button style={{ textTransform: 'none', fontSize: 16, width: '90%', marginLeft: '5%', padding: 9, borderRadius: 10, backgroundColor: '#5952ff' }} variant="contained"
-              onClick={() => {}} >
+              >
 Get Directions     </Button>
           </div>
       </Container>
