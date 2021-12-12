@@ -21,7 +21,7 @@ const CampDetail: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
   const [camp, setCamp] = useState<any>({});
-  const [location, setLocation] = useState({ lat: 41.75, lng: 1.8 });
+  const [location, setLocation] = useState({ lat: -73.97, lng: 40.77 });
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: process.env.NEXT_PUBLIC_APIKEY_MAP
@@ -36,7 +36,7 @@ const CampDetail: NextPage = () => {
       const res = await campsService.get(id);
       if (res._id){
         setCamp(res);
-        setLocation({lat:res.location.coordinates[0],lng:res.location.coordinates[1]})
+        setLocation({lat:res.location.coordinates[1],lng:res.location.coordinates[0]})
       } 
     }
 
@@ -44,7 +44,8 @@ const CampDetail: NextPage = () => {
   }, []);
 
   const renderPeople = () => {
-    return camp.people?.map((item, index) =>
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return (camp.people?.map((item:any, index:number) =>
       <div key={index} style={{ width: '100%', paddingTop: 5 }}>
         <div style={{ fontSize: 20, fontStyle: 'inherit', fontWeight: 'bold', paddingBottom: 10 }}><u> Person {index + 1} Details: </u></div>
         <div style={{ display: 'flex', flexDirection: 'row', paddingBottom: 7 }}>
@@ -59,7 +60,7 @@ const CampDetail: NextPage = () => {
           <div style={{ width: '45%', fontSize: 16 }}>Disability: {item.disabled || 'N/A'}</div>
           <div style={{ width: '55%', fontSize: 16 }}>Unhoused Since: {item.unhouseSince || 'N/A'}</div>
         </div>
-      </div>)
+      </div>))
   };
 
   return (

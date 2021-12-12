@@ -78,7 +78,7 @@ const Detail: NextPage = () => {
             <div style={{ fontSize: 20, padding: '6px 10px', fontWeight: 'bold' }}>{data.name}</div>
             {data.type == 3 &&
               <Button style={{ textTransform: 'none', width: '35%', whiteSpace: 'nowrap', marginLeft: '10%', padding: '4px 10px', borderRadius: 10, backgroundColor: '#5952ff' }} 
-              onClick={()=>router.push(`/camp/detail/${data.createdBy?.organizationId?._id}`)}
+              onClick={()=>router.push(`/camp/detail/${data.requestInfo?.campId}`)}
               variant="contained" >
                 Camp Details
       </Button>}
@@ -92,9 +92,9 @@ const Detail: NextPage = () => {
             <div style={{ fontSize: 20, padding: '7px 10px' }}>{data.requestInfo?.phone}</div>
           </div>}
 
-          {!!data.requestInfo?.cate.parentCateName && <div style={{ width: '100%', flexDirection: 'row', display: 'flex', paddingTop: 5 }}>
+          {!!data.requestInfo?.cate?.parentCateName && <div style={{ width: '100%', flexDirection: 'row', display: 'flex', paddingTop: 5 }}>
             <LeaderboardIcon fontSize="large" />
-            <div style={{ fontSize: 20, padding: '7px 10px' }}>{data.requestInfo?.cate.parentCateName}</div>
+            <div style={{ fontSize: 20, padding: '7px 10px' }}>{data.requestInfo?.cate?.parentCateName}</div>
           </div>}
           <div style={{ width: '100%', flexDirection: 'row', display: 'flex', paddingTop: 5 }}>
             {data.type == 3 ? <AssignmentIcon fontSize="large" /> : <FastfoodIcon fontSize="large" />}

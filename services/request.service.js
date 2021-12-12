@@ -4,7 +4,10 @@ export const requestService = {
   list,
   create,
   update,
-  get
+  get,
+  myClaim,
+  fullFill,
+  release
 };
 
 async function list(params) {
@@ -42,5 +45,33 @@ async function get(id) {
     return error.response.data;
   }
 }
+
+async function myClaim() {
+  try {
+    const res = await axios.get(`/requests/my-claim`,);
+    return res.data;
+  } catch (error) {
+    return error.response.data;
+  }
+}
+
+async function fullFill(id, params) {
+  try {
+    const res = await axios.put(`/requests/${id}/fullfill`, params);
+    return res.data;
+  } catch (error) {
+    return error.response.data;
+  }
+}
+
+async function release(id, params) {
+  try {
+    const res = await axios.put(`/requests/${id}/release`, params);
+    return res.data;
+  } catch (error) {
+    return error.response.data;
+  }
+}
+
 
 
