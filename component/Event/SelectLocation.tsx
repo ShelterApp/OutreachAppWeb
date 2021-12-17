@@ -5,16 +5,15 @@ import Button from "component/Button";
 import Header from 'component/Header';
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import { use100vh } from 'react-div-100vh'
-interface AddNewCampProps {
+interface SelectLocationProps {
   onSubmit: Function;
   center: any;
   setCenter: Function;
   setZoom: Function;
   zoom: any;
-  title: string;
 }
 
-const AddNewCamp = ({ onSubmit, center, setCenter, setZoom, zoom, title }: AddNewCampProps) => {
+const SelectLocation = ({ onSubmit, center, setCenter, setZoom, zoom }: SelectLocationProps) => {
   const height = `${use100vh()}px`;
   const containerStyle: any = {
     width: '100%',
@@ -35,8 +34,7 @@ const AddNewCamp = ({ onSubmit, center, setCenter, setZoom, zoom, title }: AddNe
   }, [])
   let ref: any;
   return (
-    <main className={styles.mainTop} style={{ position: 'relative', height: '100%', }}>
-      <Header title={title} back="/"/>
+    <>
       <div className={styles.grid} style={{ paddingTop: 0 }}>
         {isLoaded ? (
           <GoogleMap
@@ -72,8 +70,8 @@ const AddNewCamp = ({ onSubmit, center, setCenter, setZoom, zoom, title }: AddNe
       }}>
         <Button text="Next" onClick={() => onSubmit(2)} />
       </div>
-    </main>
+    </>
   )
 }
 
-export default AddNewCamp;
+export default SelectLocation;

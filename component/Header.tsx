@@ -117,13 +117,13 @@ export default Header;
 const routeSideMenu: any = {
   Admin: [
     { text: "Add Camp", link: "/add-camp" },
-    { text: "Add Event", link: "#" },
+    { text: "Add Event", link: "/events/add" },
     { text: "Add Supplies", link: "/supplies/add/" },
     { text: "Add Volunteer", link: "/volunteers/add/" },
     { text: "Add Organization", link: "/organizations/add/" },
     { text: "Add Supply Items", link: "/supply-items/add" },
     { text: "Manage Camps", link: "manage-camps" },
-    { text: "Manage Events", link: "#" },
+    { text: "Manage Events", link: "/events" },
     { text: "Manage Supplies", link: "/supplies" },
     { text: "Manage Volunteer", link: "/volunteers" },
     { text: "Manage Organization", link: "/organizations" },
@@ -142,11 +142,11 @@ const routeSideMenu: any = {
   ],
   OrgLead: [
     { text: "Add Camp", link: "/add-camp" },
-    { text: "Add Event", link: "#" },
+    { text: "Add Event", link: "/events/add" },
     { text: "Add Supply Items", link: "/supply-items/add" },
     { text: "Add Volunteer", link: "/volunteers/add/" },
     { text: "Manage Camps", link: "manage-camps" },
-    { text: "Manage Events", link: "#" },
+    { text: "Manage Events", link: "/events" },
     { text: "Manage Supply Items", link: "/supply-items" },
     { text: "Manage Volunteer", link: "/volunteers" },
     { text: "Manage Requests", link: "/manage-requests" },
@@ -162,7 +162,7 @@ const routeSideMenu: any = {
   ],
   Volunteer: [
     { text: "Add Camp", link: "/add-camp" },
-    { text: "Add Event", link: "#" },
+    { text: "Add Event", link: "/events" },
     { text: "Add Claims", link: "/add-claims" },
     { text: "My Work", link: "/my-work" },
     { text: "Update Profile", link: "/update-profile" },
