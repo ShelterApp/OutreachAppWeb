@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import styles from "styles/Home.module.scss";
 import Button from "component/Button";
 import { userService } from "services";
@@ -12,26 +11,19 @@ import stylesComponent from "component/Component.module.scss";
 import TextInput from "component/TextInput";
 import Select from "component/Select";
 
-type Inputs = {
-  name: string;
-  description: string;
-  numOfPeople: number;
-  numOfPet: number;
-};
-
-interface CampDetailsProps {
+interface CampDetailsPageProps {
   onSubmit: Function;
   previousBack: Function;
-  defaultValues: Inputs;
+  defaultValues: CampDetailsProps;
 }
 
-const CampDetails = ({ onSubmit, previousBack, defaultValues }: CampDetailsProps) => {
+const CampDetails = ({ onSubmit, previousBack, defaultValues }: CampDetailsPageProps) => {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<Inputs>({
+  } = useForm<CampDetailsProps>({
     defaultValues: defaultValues
   });
   // eslint-disable-next-line
@@ -69,6 +61,14 @@ const CampDetails = ({ onSubmit, previousBack, defaultValues }: CampDetailsProps
 
   const [hasPet, setHasPet] = useState({label: 'No', value: false})
   const [type, setType] = useState(optionsType[0]);
+
+  useEffect(() => {
+    const _opt: any = optionsType.find((opt: any) => opt.value === defaultValues.type)
+    setType(_opt)
+
+    const _optHasPet: any = defaultValues.numOfPet > 0 ? {label: 'Yes', value: true} : {label: 'No', value: false};
+    setHasPet(_optHasPet)
+  }, [])
 
   return (
     <main className={styles.mainTop} style={{ position: 'relative', height: '100%', }}>

@@ -1,10 +1,8 @@
 import type { NextPage } from "next";
-import React from 'react';
-import { useState } from "react";
+import React, { useEffect, useState } from 'react';
 import AddNewCamp from "component/AddCamp/AddNewCamp";
 import CampDetails from "component/AddCamp/CampDetails";
 import UnhousedInfo from "component/AddCamp/UnhousedInfo";
-import Supplies from "component/AddCamp/Supplies";
 import { alertService, campsService } from "services";
 import { useRouter } from "next/router";
 import { CampDetailsProps, PeopleProps } from "common/interface";
@@ -13,7 +11,8 @@ const initCampDetails: CampDetailsProps = {
   description: "",
   name: "",
   numOfPeople: 1,
-  numOfPet: 0
+  numOfPet: 0,
+  type: 1
 }
 
 const initPeople: PeopleProps = {
@@ -26,6 +25,43 @@ const initPeople: PeopleProps = {
 }
 
 const EditCamp: NextPage = () => {
+  const router = useRouter();
+  const [record, setRecord] = useState();
+  const { id } = router.query;
+
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await campsService.get(id);
+      if (res && res._id) {
+        setRecord(res)
+        setCampDetails({
+          description: res.description,
+          name: res.name,
+          numOfPeople: res.numOfPeople,
+          numOfPet: res.numOfPet,
+          type: res.type
+        })
+        setCenter({
+          lat: res.location.coordinates[1],
+          lng: res.location.coordinates[0]
+        })
+
+        const _people = res.people.map((o: any) => ({
+          age: o.age,
+          disabled: o.disabled,
+          name: o.name,
+          gender: o.gender,
+          race: o.race,
+          unhouseSince: o.unhouseSince
+        }))
+        setPeople(_people)
+        return;
+      }
+    }
+
+    fetch()
+  }, [id])
+
   const [step, setStep] = useState<number>(1);
 
   const onSubmit = (i: number) => {
@@ -54,7 +90,7 @@ const EditCamp: NextPage = () => {
 
   const onSubmitUnhousedInfo = (list: PeopleProps[]) => {
     setPeople([...list]);
-    setStep(4)
+    createCamp();
   }
 
   const _center = {
@@ -63,9 +99,6 @@ const EditCamp: NextPage = () => {
   };
   const [center, setCenter] = useState(_center);
   const [zoom, setZoom] = useState(10);
-  const [dropSupplies, setDropSupplies] = useState<any[]>([]);
-  const [requestSupplies, setRequestSupplies] = useState<any[]>([]);
-  const router = useRouter();
 
   const createCamp = async () => {
     const data = {
@@ -79,8 +112,6 @@ const EditCamp: NextPage = () => {
           center.lng, center.lat
         ]
       },
-      requestSupplies: requestSupplies,
-      dropSupplies: dropSupplies,
       type: 1,
       status: 1
     }
@@ -89,27 +120,30 @@ const EditCamp: NextPage = () => {
     if (res.statusCode && res.message) {
       alertService.error(res.message)
     } else {
-      router.push('/').then(() => {
-        alertService.success('Camp was created successful!')
+      router.push('/manage-camps').then(() => {
+        alertService.success('Camp was updated successful!')
       })
     }
   }
 
   return (
-    <>
+    <React.Fragment>
       {
-        step === 1 && <AddNewCamp zoom={zoom} setZoom={setZoom} center={center} setCenter={setCenter} onSubmit={onSubmit}/>
+        record && (
+          <>
+            {
+              step === 1 && <AddNewCamp zoom={zoom} setZoom={setZoom} center={center} setCenter={setCenter} onSubmit={onSubmit}/>
+            }
+            {
+              step === 2 && <CampDetails defaultValues={campDetails} previousBack={previousBack} onSubmit={onSubmitCamp}/>
+            }
+            {
+              step === 3 && <UnhousedInfo people={people} previousBack={previousBack} onSubmit={onSubmitUnhousedInfo}/>
+            }
+          </>
+        )
       }
-      {
-        step === 2 && <CampDetails defaultValues={campDetails} previousBack={previousBack} onSubmit={onSubmitCamp}/>
-      }
-      {
-        step === 3 && <UnhousedInfo people={people} previousBack={previousBack} onSubmit={onSubmitUnhousedInfo}/>
-      }
-      {
-        step === 4 && <Supplies dropSupplies={dropSupplies} requestSupplies={requestSupplies} setDropSupplies={setDropSupplies} setRequestSupplies={setRequestSupplies} previousBack={previousBack} onSubmit={createCamp}/>
-      }
-    </>
+    </React.Fragment>
   );
 };
 

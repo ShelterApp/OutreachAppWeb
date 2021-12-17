@@ -104,7 +104,7 @@ const UnhousedInfo = ({
             <form name="form-camp" onSubmit={methods.handleSubmit(submit)}>
               {
                 people.map((p: PeopleProps, i: number) => (
-                  <NestedComponent index={i} key={i} />
+                  <NestedComponent index={i} key={i} obj={p} />
                 ))
               }
 
@@ -121,15 +121,21 @@ const UnhousedInfo = ({
 
 export default UnhousedInfo;
 
-const NestedComponent = ({ index }: { index: number }) => {
+const NestedComponent = ({ index, obj }: { index: number, obj: PeopleProps }) => {
   const {
     register,
+    reset,
     formState: { errors },
   } = useFormContext(); // retrieve all hook methods
   const [checked, setChecked] = useState(true);
   const collapse = () => {
     setChecked(!checked)
   }
+
+  useEffect(() => {
+    reset(obj);
+  }, []);
+
   return (
     <div>
       <p onClick={() => collapse()} className={stylesComponent.unhousedGroup}>
