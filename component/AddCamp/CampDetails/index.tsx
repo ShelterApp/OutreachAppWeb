@@ -41,7 +41,8 @@ const CampDetails = ({ onSubmit, previousBack, defaultValues }: CampDetailsProps
     setLoading(true);
     e.preventDefault();
     let form = {
-      ...data
+      ...data,
+      type: type.value
     }
     if(!hasPet.value) {
       form = {
@@ -58,8 +59,16 @@ const CampDetails = ({ onSubmit, previousBack, defaultValues }: CampDetailsProps
     {label: 'No', value: false}
   ]
 
-  const [hasPet, setHasPet] = useState({label: 'No', value: false})
+  const optionsType = [
+    {label: 'Camps', value: 1},
+    {label: 'CampWithPets', value: 3},
+    {label: 'RV', value: 5},
+    {label: 'SafeParking', value: 7},
+    {label: 'Other', value: 9}
+  ]
 
+  const [hasPet, setHasPet] = useState({label: 'No', value: false})
+  const [type, setType] = useState(optionsType[0]);
 
   return (
     <main className={styles.mainTop} style={{ position: 'relative', height: '100%', }}>
@@ -75,6 +84,13 @@ const CampDetails = ({ onSubmit, previousBack, defaultValues }: CampDetailsProps
           {errors.name && errors.name.type === "required" && (
             <ErrorMessage>Please input name.</ErrorMessage>
           )}
+          <Select
+            label="Type"
+            placeholder="Select Type"
+            options={optionsType}
+            value={type}
+            onChange={setType}
+          />
           <label className={stylesComponent.label}>Description of the Camp</label>
           <textarea
             {...register("description", { required: false })}

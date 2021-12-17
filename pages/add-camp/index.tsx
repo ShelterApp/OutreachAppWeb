@@ -13,7 +13,8 @@ const initCampDetails: CampDetailsProps = {
   description: "",
   name: "",
   numOfPeople: 1,
-  numOfPet: 0
+  numOfPet: 0,
+  type: 1
 }
 
 const initPeople: PeopleProps = {
