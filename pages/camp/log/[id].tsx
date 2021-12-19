@@ -1,36 +1,29 @@
 import type { NextPage } from "next";
-import React, { useEffect,  } from "react";
-// import { useRouter } from "next/router";
+import React, { useEffect,  useState} from "react";
+ import { useRouter } from "next/router";
 import styles from "styles/Home.module.scss";
 // import Button from "component/Button";
-// import {  campsService } from "services";
+ import {  campsService } from "services";
 import Container from '@mui/material/Container';
 import Header from 'component/Header';
 import Button from '@mui/material/Button';
 
 
 const CampLog: NextPage = () => {
-  // const router = useRouter();
-  // const { id } = router.query;
-  // const [camp, setCamp] = useState<any>({});
-  // const [location, setLocation] = useState({ lat: 41.75, lng: 1.8 });
-  // const { isLoaded } = useJsApiLoader({
-  //   id: 'google-map-script',
-  //   googleMapsApiKey: process.env.NEXT_PUBLIC_APIKEY_MAP
-  // } as any);
-
-  // const onUnmount = React.useCallback(function callback() {
-  //   // setMap(null)
-  // }, [])
+  const router = useRouter();
+  const { id } = router.query;
+  const [camp, setCamp] = useState<any>({});
 
   useEffect(() => {
-    // const fetch = async () => {
-    //   const res = await campsService.getLog(id);
-    //   if (res._id){
-    //   } 
-    // }
+    const fetch = async () => {
+      const res = await campsService.getLog(id);
+      if (res.results){
+        setCamp(res.results)
+        // console.log(res);
+      } 
+    }
 
-    // fetch();
+    fetch();
   }, []);
 
   // const renderPeople = () => {
@@ -57,7 +50,8 @@ const CampLog: NextPage = () => {
       <Header title='Camp Log' back='/' />
       <Container maxWidth="sm">
         <div style={{ width: '100%', flexDirection: 'row', display: 'flex', paddingTop: 5 }}>
-          <div style={{ fontSize: 20, padding: '7px 0px' }}><strong> Name: </strong> {camp?.name}</div>
+          <div style={{ fontSize: 20, padding: '7px 0px' }}><strong> Message </strong></div>
+          <div style={{ fontSize: 20, padding: '7px 0px' }}><strong> Time </strong></div>
         </div>
         <div style={{ width: '100%', flexDirection: 'row', display: 'flex', paddingTop: 5 }}>
           <div style={{ fontSize: 20, }}><strong> Description: </strong>{camp?.description}</div>

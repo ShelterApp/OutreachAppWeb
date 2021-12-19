@@ -59,7 +59,7 @@ const Home: NextPage = () => {
     const campsData = await campsService.list(condition);
     setIndexTab(index);
     setCamp(campsData.items);
-    console.log(campsData);
+    // console.log(campsData);
 
   }
 
@@ -74,6 +74,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     const subscription = userService.user.subscribe((x: any) => setUser(x));
+    console.log(user);
     getCamp(0);
     return () => subscription.unsubscribe();
   }, []);
@@ -101,6 +102,8 @@ const Home: NextPage = () => {
         <div className={styles.grid}>
           <ButtonC text="View Camp Details" link={`/camp/detail/${pickerCamp._id}`} />
           <ButtonC text="Report Swept or Inactive " link={`/camp/report/${pickerCamp._id}`}></ButtonC>
+          <ButtonC text="Camp Log" link={`/camp/log/${pickerCamp._id}`}></ButtonC>
+
         </div>
       </Modal>
     )

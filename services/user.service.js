@@ -34,7 +34,7 @@ async function login(username, password) {
     const user = res.data
     userSubject.next(user);
     localStorage.setItem("user", JSON.stringify(user));
-    setToken(user.access_token)
+    setToken(user.access_token);
     return user;
   } catch (error) {
     return error.response.data;
@@ -94,7 +94,9 @@ async function changePassword(data) {
 
 async function getProfile() {
   try {
+    // console.log(userSubject.value);
     const res = await axios.get(`/profile`);
+    localStorage.setItem("user", JSON.stringify({ user: res.data, access_token: userSubject.value.access_token }));
     return res.data;
   } catch (error) {
     if (userSubject.value) {

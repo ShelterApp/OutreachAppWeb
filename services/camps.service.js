@@ -71,8 +71,7 @@ async function log() {
 
 async function getLog(id) {
   try {
-    const res = await axios.get(`/camplogs/${id}`);
-
+    const res = await axios.get(`/auditlogs/camplogs/${id}`);
     return res.data;
   } catch (error) {
     return error.response.data;
