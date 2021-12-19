@@ -10,9 +10,9 @@ export const campsService = {
   getLog
 };
 
-async function list() {
+async function list(params) {
   try {
-    const res = await axios.get(`/camps`);
+    const res = await axios.get(`/camps`, { params });
 
     return res.data;
   } catch (error) {

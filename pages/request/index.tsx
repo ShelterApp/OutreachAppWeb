@@ -25,15 +25,15 @@ const Request: NextPage = () => {
   const [user, setUser] = useState<any>(null);
   const [data, setData] = useState([]);
   const [location, setLocation] = useState([] as number[]);
-  const [indexTab, setIndexTab] = useState<number>(0);
+  const [indexTab, setIndexTab] = useState<number>(null);
 
   useEffect(() => {
     const subscription = userService.user.subscribe((x) => setUser(x));
-    getData();
+    getData(0);
     return () => subscription.unsubscribe();
 
   }, []);
-  const getData = async (type?: number) => {
+  const getData = async (type: number) => {
     const condition = { type: type || null, status: 1, limit: 100 };
     const item = await requestService.list(condition);
     setData(item.items);
@@ -75,7 +75,7 @@ const Request: NextPage = () => {
 
   const renderItem = (item: any, index: number) => {
     let distance = 0;
-    const reportText= (user.user._id==item.createdBy?._id?`Self Reported `: `Reported by ${item.name} `) +`${moment(item.updatedAt).fromNow()}`;
+    const reportText = (user.user._id == item.createdBy?._id ? `Self Reported ` : `Reported by ${item.name} `) + `${moment(item.updatedAt).fromNow()}`;
     if (item.location?.coordinates && location) distance = getDistanceFromLatLonInKm(item.location.coordinates[1], item.location.coordinates[0], location[0], location[1]);
     if (item.type == 3) return <div key={index} style={{ paddingTop: 5 }}>
       <Link href={`/request/detail/${item._id}`} passHref>
@@ -89,9 +89,9 @@ const Request: NextPage = () => {
       </Link>
 
       {!!item.requestInfo.supplies[0]?.supplyName && <div style={{ paddingTop: 7, paddingLeft: 10, }}> Locking for {item.requestInfo.supplies[0]?.supplyName}</div>}
-  <div style={{ paddingTop: 7, paddingLeft: 10, }}>{reportText}</div>
+      <div style={{ paddingTop: 7, paddingLeft: 10, }}>{reportText}</div>
       <div style={{ paddingTop: 10, paddingBottom: 5 }}>
-        <Button style={{ textTransform: 'none',fontSize:16, width: '80%', marginLeft: '10%', padding: 9, borderRadius: 10, backgroundColor: '#5952ff' }} variant="contained"
+        <Button style={{ textTransform: 'none', fontSize: 16, width: '80%', marginLeft: '10%', padding: 9, borderRadius: 10, backgroundColor: '#5952ff' }} variant="contained"
           onClick={() => claimRequest(item._id)} >
           Claim Request
       </Button>
@@ -100,17 +100,17 @@ const Request: NextPage = () => {
     </div>;
     return <div key={index} style={{ paddingTop: 5 }}>
       <Link href={`/request/detail/${item._id}`} passHref>
-      <div style={{ fontSize: 20, paddingLeft: 10, fontWeight: 'bold', position: 'relative' }}>
-        {item.name}
-        {!!distance && <div style={{ position: 'absolute', right: 10, top: 0 }}>
-          {distance} Miles
+        <div style={{ fontSize: 20, paddingLeft: 10, fontWeight: 'bold', position: 'relative' }}>
+          {item.name}
+          {!!distance && <div style={{ position: 'absolute', right: 10, top: 0 }}>
+            {distance} Miles
       </div>}
-      </div>
+        </div>
       </Link>
       <div style={{ paddingTop: 7, paddingLeft: 10, }}> Locking for {item.requestInfo.cate?.parentCateName}</div>
-  <div style={{ paddingTop: 7, paddingLeft: 10, }}>{reportText}</div>
+      <div style={{ paddingTop: 7, paddingLeft: 10, }}>{reportText}</div>
       <div style={{ paddingTop: 10, paddingBottom: 5 }}>
-        <Button style={{ textTransform: 'none',fontSize:16,  width: '80%', marginLeft: '10%', padding: 9, borderRadius: 10, backgroundColor: '#5952ff' }} variant="contained"
+        <Button style={{ textTransform: 'none', fontSize: 16, width: '80%', marginLeft: '10%', padding: 9, borderRadius: 10, backgroundColor: '#5952ff' }} variant="contained"
           onClick={() => claimRequest(item._id)} >
           Claim Request
         </Button>
@@ -126,17 +126,17 @@ const Request: NextPage = () => {
           {!!data && data.map((item, index) => renderItem(item, index))}
         </div>
       </div>
-      <div className={styles.bottomTicky} >
-        <div style={{ height: 40, width: '100%', backgroundColor: 'white', paddingTop: 3 }}>
+      <div className={styles.bottomTicky}>
+        <div style={{ height: 40, width: '100%', backgroundColor: '#cdcad1', borderTopColor: 'f6f3f3', borderWidth: 1, paddingTop: 3 }}>
           <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', }}>
-            <Button style={{ textTransform: 'none', width: '40%', borderRadius: 20, backgroundColor: '#5952ff' }} variant="contained"
+            <Button style={{ textTransform: 'none', width: '40%', borderRadius: 20, color: indexTab == 1 ? 'white' : '#5952FF', backgroundColor: indexTab == 1 ? '#5952FF' : 'white' }} variant='contained'
               onClick={() => getData(1)} >
               User Request
         </Button>
-            <Button style={{ textTransform: 'none', borderRadius: 100, backgroundColor: '#5952ff' }} variant="contained" onClick={() => getData()} >
+            <Button style={{ textTransform: 'none', borderRadius: 100,color: !indexTab ? 'white' : '#5952FF', backgroundColor: !indexTab ? '#5952FF' : 'white'  }} variant="contained" onClick={() => getData(0)} >
               All
         </Button>
-            <Button style={{ textTransform: 'none', width: '40%', borderRadius: 20, backgroundColor: '#5952ff' }} variant="contained" onClick={() => getData(3)} >
+            <Button style={{ textTransform: 'none', width: '40%',  borderRadius: 20, color: indexTab == 3 ? 'white' : '#5952FF', backgroundColor: indexTab == 3 ? '#5952FF' : 'white'  }} variant="contained" onClick={() => getData(3)} >
               Camp Request
         </Button>
           </div>
@@ -156,8 +156,6 @@ const Request: NextPage = () => {
           </div>
         </div>
       </div>
-
-
     </main>
   );
 };
