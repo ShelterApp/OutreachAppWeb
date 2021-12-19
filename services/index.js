@@ -7,3 +7,4 @@ export * from "./request.service"
 export * from './supplies.service'
 export * from './camps.service';
 export * from './supplyItems.service';
+export * from './events.service';

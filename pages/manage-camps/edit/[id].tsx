@@ -116,7 +116,7 @@ const EditCamp: NextPage = () => {
       status: 1
     }
 
-    const res = await campsService.create(data);
+    const res = await campsService.update(id, data);
     if (res.statusCode && res.message) {
       alertService.error(res.message)
     } else {
@@ -132,7 +132,7 @@ const EditCamp: NextPage = () => {
         record && (
           <>
             {
-              step === 1 && <AddNewCamp zoom={zoom} setZoom={setZoom} center={center} setCenter={setCenter} onSubmit={onSubmit}/>
+              step === 1 && <AddNewCamp title='Edit Camp' zoom={zoom} setZoom={setZoom} center={center} setCenter={setCenter} onSubmit={onSubmit}/>
             }
             {
               step === 2 && <CampDetails defaultValues={campDetails} previousBack={previousBack} onSubmit={onSubmitCamp}/>

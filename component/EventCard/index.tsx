@@ -6,54 +6,48 @@ import CardContent from '@mui/material/CardContent';
 import Button from "component/Button";
 import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
+import { getAutomaticTypeDirectiveNames } from 'typescript';
 
-const CampCard = ({camp, handleOpenAlert, edit}: any) => {
+const EventCard = ({event, handleOpenAlert, edit}: any) => {
   const _delete = () => {
-    handleOpenAlert(camp._id)
+    handleOpenAlert(event._id)
   }
   const clickedit = () => {
-    edit(camp._id)
+    edit(event._id)
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  const attendes = event.attendes.map((obj: any) => obj.userName).join(', ');
+
   const card = (
     <React.Fragment>
       <CardContent>
         <Typography variant="body2">
-          <b>Camp Name:</b> {camp.name}
+          <b>Event Name:</b> {event.title}
         </Typography>
         <Typography variant="body2">
-          <b>Created On:</b> {dayjs(camp.createdAt).format("MMMM DD, YYYY")}
+          <b>Created:</b> {dayjs(event.createdAt).format("MMMM DD, YYYY")} By {event.createdBy.name}
         </Typography>
         {
-          camp.createdBy && (
+          event.address && (
             <Typography variant="body2">
-              <b>Created By:</b> {camp.createdBy.name}
+              <b>Location:</b> {event.address}
             </Typography>
           )
         }
         <Typography variant="body2">
-          <b>Updated On:</b> {dayjs(camp.updatedAt).format("MMMM DD, YYYY")}
+          <b>Distribution On:</b> {dayjs(event.startDate).format("DD/MM/YYYY h:mm A")} - {dayjs(event.endDate).format("h:mm A")}
         </Typography>
         {
-          camp.updatedBy && (
+          event.maxAttended && (
             <Typography variant="body2">
-              <b>Updated By:</b> {camp.updatedBy.name}
+              <b>Max Attendes:</b> {event.maxAttended}
             </Typography>
           )
         }
-        {
-          camp.address && (
-            <Typography variant="body2">
-              <b>City:</b> {camp.address}
-            </Typography>
-          )
-        }
-        {
-          camp.description && (
-            <Typography variant="body2">
-              <b>Description:</b> {camp.description}
-            </Typography>
-          )
-        }
+        <Typography variant="body2">
+          <b>Attendes ({event.attendes.length}):</b> {attendes}
+        </Typography>
       </CardContent>
       <CardActions>
         <Button text={'Edit'} onClick={clickedit}/>
@@ -71,4 +65,4 @@ const CampCard = ({camp, handleOpenAlert, edit}: any) => {
   )
 }
 
-export default CampCard;
+export default EventCard;

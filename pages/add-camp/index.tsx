@@ -99,7 +99,7 @@ const AddCamp: NextPage = () => {
   return (
     <>
       {
-        step === 1 && <AddNewCamp zoom={zoom} setZoom={setZoom} center={center} setCenter={setCenter} onSubmit={onSubmit}/>
+        step === 1 && <AddNewCamp title={'Add New Camp'} zoom={zoom} setZoom={setZoom} center={center} setCenter={setCenter} onSubmit={onSubmit}/>
       }
       {
         step === 2 && <CampDetails defaultValues={campDetails} previousBack={previousBack} onSubmit={onSubmitCamp}/>
