@@ -33,6 +33,18 @@ const FormCreateSupplyItem = () => {
     setLoading(true);
     e.preventDefault();
 
+    if(!organization) {
+      alertService.error('Please select organization');
+      setLoading(false);
+      return;
+    }
+
+    if(!supply) {
+      alertService.error('Please select supply');
+      setLoading(false);
+      return;
+    }
+
     const params = {
       qty: parseInt(data.qty),
       organizationId: organization.value,
