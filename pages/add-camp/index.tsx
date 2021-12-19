@@ -18,10 +18,10 @@ const initCampDetails: CampDetailsProps = {
 }
 
 const initPeople: PeopleProps = {
-  age: 18,
+  age: undefined,
   disabled: 'No',
   name: '',
-  gender: 'Male',
+  gender: '',
   race: '',
   unhouseSince: ''
 }
@@ -99,7 +99,7 @@ const AddCamp: NextPage = () => {
     if (res.statusCode && res.message) {
       alertService.error(res.message)
     } else {
-      router.push('/').then(() => {
+      router.push('/manage-camps').then(() => {
         alertService.success('Camp was created successful!')
       })
     }

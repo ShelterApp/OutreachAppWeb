@@ -32,6 +32,8 @@ const raceOption = [
   "Hispanic or Latino",
   "Native Hawaiian or Other Pacific Islander",
   "White",
+  "Prefer to self-disclose",
+  "Prefer not to answer"
 ].map((x: string) => ({ value: x, label: x }));
 const unhouseSinceOption = ["Less than an year", "1 year", "2 year"].map(
   (x: string) => ({ value: x, label: x })
@@ -46,11 +48,6 @@ interface UnhousedInfoProps {
   previousBack: Function;
   people: any;
 }
-
-const defaultValues = {
-  name: "",
-  age: 18,
-};
 
 const UnhousedInfo = ({
   onSubmit,

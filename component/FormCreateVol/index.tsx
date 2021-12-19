@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import ErrorMessage from "component/ErrorMessage";
-import stylesComponent from "component/Component.module.scss";
 import TextInput from "component/TextInput";
 import Button from "component/Button";
 import styles from "styles/Home.module.scss";
@@ -16,21 +15,20 @@ const statuses = [
 
 const roles = [
   {label: 'Volunteer', value: 'Volunteer'},
-  {label: 'OrgLead', value: 'OrgLead'}
+  {label: 'OrgLead', value: 'OrgLead'},
+  {label: 'Admin', value: 'Admin'}
 ]
 
 type Inputs = {
   name: string;
   email: string;
   phone: string;
-  password: string;
 };
 
 const defaultValues: any = {
   name: "",
   email: "",
-  phone: "",
-  password: ""
+  phone: ""
 };
 
 const FormCreateVol = () => {
@@ -126,20 +124,6 @@ const FormCreateVol = () => {
         )}
         {errors.email && errors.email.type === "required" && (
           <ErrorMessage>Please input email.</ErrorMessage>
-        )}
-        <TextInput
-          label="Password"
-          placeholder="Password"
-          register={register("password", { required: true, minLength: 6 })}
-          type="password"
-        />
-        {errors.password && errors.password.type === "minLength" && (
-          <ErrorMessage>
-            Password must be at least 6 characters long.
-          </ErrorMessage>
-        )}
-        {errors.password && errors.password.type === "required" && (
-          <ErrorMessage>Please input password.</ErrorMessage>
         )}
         <Select
           label="Select City"

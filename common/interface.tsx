@@ -1,5 +1,5 @@
 export interface PeopleProps {
-  age: number;
+  age: number | undefined;
   disabled: string;
   gender: string;
   name: string;
