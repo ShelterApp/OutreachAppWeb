@@ -90,7 +90,7 @@ const EditCamp: NextPage = () => {
 
   const onSubmitUnhousedInfo = (list: PeopleProps[]) => {
     setPeople([...list]);
-    createCamp();
+    createCamp(list);
   }
 
   const _center = {
@@ -100,10 +100,10 @@ const EditCamp: NextPage = () => {
   const [center, setCenter] = useState(_center);
   const [zoom, setZoom] = useState(10);
 
-  const createCamp = async () => {
+  const createCamp = async (list: PeopleProps[]) => {
     const data = {
       ...campDetails,
-      people: people,
+      people: [...list],
       numOfPeople: Math.floor(campDetails.numOfPeople),
       numOfPet: Math.floor(campDetails.numOfPet),
       location: {
@@ -112,9 +112,9 @@ const EditCamp: NextPage = () => {
           center.lng, center.lat
         ]
       },
-      type: 1,
       status: 1
     }
+    console.log(data)
 
     const res = await campsService.update(id, data);
     if (res.statusCode && res.message) {
