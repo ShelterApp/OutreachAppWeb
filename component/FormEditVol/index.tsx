@@ -17,7 +17,8 @@ const statuses = [
 
 const roles = [
   {label: 'Volunteer', value: 'Volunteer'},
-  {label: 'OrgLead', value: 'OrgLead'}
+  {label: 'OrgLead', value: 'OrgLead'},
+  {label: 'Admin', value: 'Admin'}
 ]
 
 type Inputs = {

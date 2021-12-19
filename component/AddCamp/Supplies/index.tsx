@@ -169,11 +169,11 @@ const SupplyItem = ({tab, obj, add, remove, supply, updateQty}: any) => {
         <FormControlLabel control={<Checkbox checked={checked} onChange={(e) => onCheck(e.target.checked)} />} label={obj.name} />
       </Grid>
       <Grid item xs={6} style={{display: 'flex', alignItems: 'center' }}>
-        <AddIcon className="cursor-pointer" fontSize="small" onClick={() => handlePlus()}/>
+        <RemoveIcon className="cursor-pointer" fontSize="small" onClick={() => handleRemove()}/>
         <div style={{ marginLeft: 10, marginRight: 10 }}>
           { quantity }
         </div>
-        <RemoveIcon className="cursor-pointer" fontSize="small" onClick={() => handleRemove()}/>
+        <AddIcon className="cursor-pointer" fontSize="small" onClick={() => handlePlus()}/>
       </Grid>
     </Grid>
   )

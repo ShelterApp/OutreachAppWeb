@@ -101,7 +101,7 @@ const CampDetails = ({ onSubmit, previousBack, defaultValues }: CampDetailsPageP
             label="Number of People"
             placeholder="Number of People"
             register={register("numOfPeople", { required: true })}
-            type='tel'
+            type='number'
           />
           {errors.numOfPeople && errors.numOfPeople.type === "required" && (
             <ErrorMessage>Please input number of people.</ErrorMessage>
@@ -120,7 +120,7 @@ const CampDetails = ({ onSubmit, previousBack, defaultValues }: CampDetailsPageP
                   label="Number of Pets"
                   placeholder="Number of Pets"
                   register={register("numOfPet", { required: true })}
-                  type='tel'
+                  type='number'
                 />
                 {errors.numOfPet && errors.numOfPet.type === "required" && (
                   <ErrorMessage>Please input number of pets.</ErrorMessage>

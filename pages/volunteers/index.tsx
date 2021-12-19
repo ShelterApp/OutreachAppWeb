@@ -7,6 +7,12 @@ import Grid from "@mui/material/Grid";
 import AlertDialog from "component/ConfirmationPopUp";
 import Header from "component/Header";
 import Table from "component/Table";
+import dayjs from 'dayjs';
+
+const statuses = [
+  {label: 'Active', value: 1},
+  {label: 'Inactive', value: 0}
+]
 
 const Index: NextPage = () => {
   const router = useRouter();
@@ -54,9 +60,19 @@ const Index: NextPage = () => {
       <Header title="Manage Volunteers" back="/" />
       <Grid container className={'mt-2'}>
         <Table
-          list={list}
-          names={["name", "regionId.name", "action"]}
-          cols={["Name", "City", ""]}
+          list={
+            list.map( o => {
+              const status = statuses.find(oo => oo.value == o.status);
+              const rec: object = {
+                ...o,
+                status: status ? status.label : '',
+                lastedLoginAt: dayjs(o.lastedLoginAt).format("MMMM DD, YYYY")
+              }
+              return rec;
+            })
+          }
+          names={["name", "regionId.name", 'userType', 'status', 'lastedLoginAt', "action"]}
+          cols={["Name", "City", "Role", 'Status', "Last Login", ""]}
           edit={edit}
           handleOpenAlert={handleOpenAlert}
         />

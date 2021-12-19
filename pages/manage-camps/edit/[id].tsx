@@ -71,14 +71,20 @@ const EditCamp: NextPage = () => {
   const [campDetails, setCampDetails] = useState<CampDetailsProps>(initCampDetails)
 
   const onSubmitCamp = (form: any) => {
-    setStep(3)
     setCampDetails({...form})
-    if(people.length > form.numOfPeople) {
-      setPeople([...people.slice(0, form.numOfPeople)]);
+
+    if (form.numOfPeople == 0) {
+      setPeople([])
+      createCamp([], form)
     } else {
-      const _i = form.numOfPeople - people.length;
-      const newPeople = [...Array(_i).fill(0).map(() => ({...initPeople}))];
-      setPeople([...people, ...newPeople]);
+      if(people.length > form.numOfPeople) {
+        setPeople([...people.slice(0, form.numOfPeople)]);
+      } else {
+        const _i = form.numOfPeople - people.length;
+        const newPeople = [...Array(_i).fill(0).map(() => ({...initPeople}))];
+        setPeople([...people, ...newPeople]);
+      }
+      setStep(3)
     }
   }
 
@@ -90,7 +96,7 @@ const EditCamp: NextPage = () => {
 
   const onSubmitUnhousedInfo = (list: PeopleProps[]) => {
     setPeople([...list]);
-    createCamp();
+    createCamp(list, campDetails);
   }
 
   const _center = {
@@ -100,21 +106,21 @@ const EditCamp: NextPage = () => {
   const [center, setCenter] = useState(_center);
   const [zoom, setZoom] = useState(10);
 
-  const createCamp = async () => {
+  const createCamp = async (list: PeopleProps[], camp: any) => {
     const data = {
-      ...campDetails,
-      people: people,
-      numOfPeople: Math.floor(campDetails.numOfPeople),
-      numOfPet: Math.floor(campDetails.numOfPet),
+      ...camp,
+      people: [...list],
+      numOfPeople: Math.floor(camp.numOfPeople),
+      numOfPet: Math.floor(camp.numOfPet),
       location: {
         type: 'Point',
         'coordinates': [
           center.lng, center.lat
         ]
       },
-      type: 1,
       status: 1
     }
+    console.log(data)
 
     const res = await campsService.update(id, data);
     if (res.statusCode && res.message) {

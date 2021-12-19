@@ -18,10 +18,10 @@ const initCampDetails: CampDetailsProps = {
 }
 
 const initPeople: PeopleProps = {
-  age: 18,
+  age: undefined,
   disabled: 'No',
   name: '',
-  gender: 'Male',
+  gender: '',
   race: '',
   unhouseSince: ''
 }
@@ -36,19 +36,28 @@ const AddCamp: NextPage = () => {
   const [campDetails, setCampDetails] = useState<CampDetailsProps>(initCampDetails)
 
   const onSubmitCamp = (form: any) => {
-    setStep(3)
     setCampDetails({...form})
-    if(people.length > form.numOfPeople) {
-      setPeople([...people.slice(0, form.numOfPeople)]);
+    if (form.numOfPeople == 0) {
+      setPeople([])
+      setStep(4)
     } else {
-      const _i = form.numOfPeople - people.length;
-      const newPeople = [...Array(_i).fill(0).map(() => ({...initPeople}))];
-      setPeople([...people, ...newPeople]);
+      if(people.length > form.numOfPeople) {
+        setPeople([...people.slice(0, form.numOfPeople)]);
+      } else {
+        const _i = form.numOfPeople - people.length;
+        const newPeople = [...Array(_i).fill(0).map(() => ({...initPeople}))];
+        setPeople([...people, ...newPeople]);
+      }
+      setStep(3)
     }
   }
 
   const previousBack = (i: number) => {
-    setStep(i)
+    if(i === 3 && people.length == 0) {
+      setStep(2)
+    } else {
+      setStep(i)
+    }
   }
 
   const [people, setPeople] = useState<PeopleProps[]>([])
@@ -90,7 +99,7 @@ const AddCamp: NextPage = () => {
     if (res.statusCode && res.message) {
       alertService.error(res.message)
     } else {
-      router.push('/').then(() => {
+      router.push('/manage-camps').then(() => {
         alertService.success('Camp was created successful!')
       })
     }
