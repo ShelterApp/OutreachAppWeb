@@ -6,9 +6,11 @@ import CardContent from '@mui/material/CardContent';
 import Button from "component/Button";
 import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
-import { getAutomaticTypeDirectiveNames } from 'typescript';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+import CancelIcon from '@mui/icons-material/Cancel';
 
-const EventCard = ({event, handleOpenAlert, edit}: any) => {
+const EventCard = ({event, handleOpenAlert, edit, handleUpdateMaxAttendes, handleRemoveParticipant}: any) => {
   const _delete = () => {
     handleOpenAlert(event._id)
   }
@@ -16,8 +18,18 @@ const EventCard = ({event, handleOpenAlert, edit}: any) => {
     edit(event._id)
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  const attendes = event.attendes.map((obj: any) => obj.userName).join(', ');
+  const handlePlus = () => {
+    handleUpdateMaxAttendes(event._id, Math.floor(event.maxAttended) + 1)
+  }
+
+  const handleMinus = () => {
+    handleUpdateMaxAttendes(event._id, Math.floor(event.maxAttended) - 1)
+  }
+
+  const handleClose = (userId: string) => {
+    const newAttended = event.attendes.filter((user: any) => user.userId !== userId);
+    handleRemoveParticipant(event._id, userId, newAttended)
+  }
 
   const card = (
     <React.Fragment>
@@ -40,13 +52,22 @@ const EventCard = ({event, handleOpenAlert, edit}: any) => {
         </Typography>
         {
           event.maxAttended && (
-            <Typography variant="body2">
-              <b>Max Attendes:</b> {event.maxAttended}
+            <Typography variant="body2" style={{ display: 'flex', alignItems: 'center', gridColumnGap: 5 }}>
+              <b>Max Attendes: </b>
+              <AddIcon className="cursor-pointer" fontSize="small" onClick={handlePlus}/>
+              <span className='maxAttended'>{event.maxAttended}</span>
+              <RemoveIcon className="cursor-pointer" fontSize="small" onClick={handleMinus}/>
             </Typography>
           )
         }
-        <Typography variant="body2">
-          <b>Attendes ({event.attendes.length}):</b> {attendes}
+        <Typography variant="body2" style={{ display: 'flex', alignItems: 'center', gridColumnGap: 5 }}>
+          <b>Attendes ({event.attendes.length}):</b>
+          {event.attendes.map((e: any, key: number) => (
+            <React.Fragment key={key}>
+              { e.userName }
+              <CancelIcon className="cursor-pointer" fontSize="small" onClick={() => handleClose(e.userId)}/>
+            </React.Fragment>
+          ))}
         </Typography>
       </CardContent>
       <CardActions>
