@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from "react";
 import AddNewCamp from "component/AddCamp/AddNewCamp";
 import CampDetails from "component/AddCamp/CampDetails";
@@ -8,6 +8,7 @@ import Supplies from "component/AddCamp/Supplies";
 import { alertService, campsService } from "services";
 import { useRouter } from "next/router";
 import { CampDetailsProps, PeopleProps } from "common/interface";
+import { getLocationAPIMap } from "services/map.service";
 
 const initCampDetails: CampDetailsProps = {
   description: "",
@@ -78,6 +79,11 @@ const AddCamp: NextPage = () => {
   const router = useRouter();
 
   const createCamp = async () => {
+    const locationMap = await getLocationAPIMap(center);
+    let address = "";
+    if (locationMap && locationMap.status === 'OK') {
+      address = locationMap.plus_code.compound_code;
+    }
     const data = {
       ...campDetails,
       people: people,
@@ -92,7 +98,8 @@ const AddCamp: NextPage = () => {
       requestSupplies: requestSupplies,
       dropSupplies: dropSupplies,
       type: 1,
-      status: 1
+      status: 1,
+      address: address
     }
 
     const res = await campsService.create(data);
