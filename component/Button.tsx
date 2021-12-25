@@ -6,15 +6,15 @@ import LoadingButton from '@mui/lab/LoadingButton';
 export interface ButtonProps {
   link?: string;
   text: string;
-  type?:string;
+  type?: string;
   onClick?: Function;
   loading?: boolean | false;
 }
 
-const ButtonComp = ({link, text, onClick, type, loading}: ButtonProps) => {
+const ButtonComp = ({ link, text, onClick, type, loading }: ButtonProps) => {
 
   const clickButton = () => {
-    if(typeof onClick != 'function') return;
+    if (typeof onClick != 'function') return;
     onClick()
   }
 
@@ -26,19 +26,19 @@ const ButtonComp = ({link, text, onClick, type, loading}: ButtonProps) => {
             Submit
           </LoadingButton>
         ) :
-        <>
-          {
-            link ?
-            <Link href={link} passHref>
-              <Button style={{textTransform:'none',fontSize:20}} variant="contained" className={style.card} onClick={clickButton} >
-                {text}
-              </Button>
-            </Link> :
-            <Button style={{textTransform:'none',fontSize:20}} variant="contained" className={style.card} onClick={clickButton} type='submit'>
-              {text}
-            </Button>
-          }
-        </>
+          <>
+            {
+              link ?
+                <Link href={link} passHref>
+                  <Button style={{ textTransform: 'none', fontSize: 20, backgroundColor: '#5952ff', borderRadius: 50,height: 40 }} variant="contained" className={style.card} onClick={clickButton} >
+                    {text}
+                  </Button>
+                </Link> :
+                <Button style={{ textTransform: 'none', fontSize: 20, backgroundColor: '#5952ff', borderRadius: 50,height: 40 }} variant="contained" className={style.card} onClick={clickButton} type='submit'>
+                  {text}
+                </Button>
+            }
+          </>
       }
     </>
   )

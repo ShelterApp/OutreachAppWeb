@@ -60,8 +60,6 @@ const Home: NextPage = () => {
     const campsData = await campsService.list(condition);
     setIndexTab(index);
     setCamp(campsData.items);
-    // console.log(campsData);
-
   }
 
   const height = `${use100vh()}px`;
@@ -75,7 +73,6 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     const subscription = userService.user.subscribe((x: any) => setUser(x));
-    console.log(user);
     getCamp(0);
     return () => subscription.unsubscribe();
   }, []);
@@ -83,7 +80,7 @@ const Home: NextPage = () => {
   const renderMarker = () => {
     const map = camp.map((item: any, index: number) =>
       <Marker key={index}
-        icon={item.type==1?'car.png':null}
+        icon={item.type == 1 ? 'car.png' : null}
         onClick={() => {
           setPickerCamp(camp[index]);
           setShowModal(true);
@@ -101,8 +98,14 @@ const Home: NextPage = () => {
         style={customStyles} >
         <div style={{ fontSize: 20, padding: '6px 10px', fontWeight: 'bold' }}>{pickerCamp?.name}</div>
         <div className={styles.grid}>
+          <ButtonC text="Drop Supplies" link={`/drop-supplies/${pickerCamp._id}`} />
+          <div style={{paddingTop:10}}/>
+          <ButtonC text="Request Supplies" link={`/request-supplies/${pickerCamp._id}`} />
+          <div style={{paddingTop:10}}/>
           <ButtonC text="View Camp Details" link={`/camp/detail/${pickerCamp._id}`} />
+          <div style={{paddingTop:10}}/>
           <ButtonC text="Report Swept or Inactive " link={`/camp/report/${pickerCamp._id}`}></ButtonC>
+          <div style={{paddingTop:10}}/>
           <ButtonC text="Camp Log" link={`/camp/log/${pickerCamp._id}`}></ButtonC>
         </div>
       </Modal>
