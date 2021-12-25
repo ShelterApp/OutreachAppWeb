@@ -4,7 +4,7 @@ import React, {
 
 } from 'react'
 import styles from './Component.module.scss'
-
+import InputPassword from "./InputPassword";
 export interface TextInputProps   {
   style?: object;
   text?: string;
@@ -21,8 +21,15 @@ const TextInput: React.FC<TextInputProps> = forwardRef((props) => {
       {
         props.label && <label className={styles.label}>{props.label}</label>
       }
-      <input type={props.type || 'text'} defaultValue={props.defaultValue} value={props.value}
-       className={styles.input} placeholder={props.placeholder} {...props.register} autoComplete='off'/ >
+      {
+        props.type === "password" ? (
+          <InputPassword placeholder={props.placeholder} register={props.register} />
+        ) : (
+          <>
+            <input type={props.type || 'text'} defaultValue={props.defaultValue} value={props.value} className={styles.input} placeholder={props.placeholder} {...props.register} autoComplete='off'/ >
+          </>
+        )
+      }
     </div>
   )
 })
