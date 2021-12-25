@@ -71,7 +71,7 @@ const SignUp: NextPage = () => {
       <div className={styles.container}>
         <main className={styles.main} style={{height: 'unset', paddingTop: 20}}>
           <div className={styles.titleName}>OutreachApp</div>
-          <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
+          <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%", paddingTop: 20 }}>
             <Select
               label="Select City"
               placeholder="Choose Your City"

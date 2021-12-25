@@ -4,14 +4,14 @@ import { useState, useEffect } from "react";
 import styles from "styles/Home.module.scss";
 import { userService, alertService } from "services";
 import Header from 'component/Header';
-import PanToolIcon from '@mui/icons-material/PanTool';
-import HouseSidingIcon from '@mui/icons-material/HouseSiding';
-import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import Button from '@mui/material/Button';
 import { requestService } from 'services';
 import Link from "next/link";
 import moment from 'moment';
 // import { useRouter } from "next/router";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCampground, faHandsHelping } from "@fortawesome/free-solid-svg-icons";
 
 const containerStyle: any = {
   width: '100%',
@@ -143,15 +143,19 @@ const Request: NextPage = () => {
         </div>
         <div className={styles.bottomTab}>
           <div>
-            <PanToolIcon className="cursor-pointer"
-              fontSize="large" />
+            <FontAwesomeIcon
+              icon={faHandsHelping}
+              className="cursor-pointer icon-custom"
+            />
           </div>
           <Link href='/' passHref>
-            <HouseSidingIcon className="cursor-pointer"
-              fontSize="large" />
+            <FontAwesomeIcon
+              icon={faCampground}
+              className="cursor-pointer icon-custom"
+            />
           </Link>
           <div>
-            <RecordVoiceOverIcon className="cursor-pointer"
+            <EventAvailableIcon className="cursor-pointer"
               fontSize="large" />
           </div>
         </div>
