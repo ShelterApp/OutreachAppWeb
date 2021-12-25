@@ -6,6 +6,7 @@ import UnhousedInfo from "component/AddCamp/UnhousedInfo";
 import { alertService, campsService } from "services";
 import { useRouter } from "next/router";
 import { CampDetailsProps, PeopleProps } from "common/interface";
+import { getLocationAPIMap } from "services/map.service";
 
 const initCampDetails: CampDetailsProps = {
   description: "",
@@ -107,6 +108,12 @@ const EditCamp: NextPage = () => {
   const [zoom, setZoom] = useState(15);
 
   const createCamp = async (list: PeopleProps[], camp: any) => {
+    const locationMap = await getLocationAPIMap(center);
+    let address = "";
+    if (locationMap && locationMap.status === 'OK') {
+      address = locationMap.plus_code.compound_code;
+    }
+
     const data = {
       ...camp,
       people: [...list],
@@ -118,6 +125,7 @@ const EditCamp: NextPage = () => {
           center.lng, center.lat
         ]
       },
+      address: address,
       status: 1
     }
     console.log(data)

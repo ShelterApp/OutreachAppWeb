@@ -4,9 +4,7 @@ import { useState, useEffect } from "react";
 import { userService, campsService } from "services";
 import Container from '@mui/material/Container';
 import Header from 'component/Header';
-import PanToolIcon from '@mui/icons-material/PanTool';
-import HouseSidingIcon from '@mui/icons-material/HouseSiding';
-import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import Link from "next/link";
 import { use100vh } from 'react-div-100vh'
@@ -15,7 +13,8 @@ import styles from "styles/Home.module.scss";
 import ButtonC from "component/Button";
 import Button from '@mui/material/Button';
 import { Car } from "phosphor-react";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCampground, faHandsHelping } from "@fortawesome/free-solid-svg-icons";
 const center = {
   lat: 32.965557,
   lng: -96.71583
@@ -161,15 +160,19 @@ const Home: NextPage = () => {
         </div>
         <div className={styles.bottomTab}>
           <Link href='/request' passHref>
-            <PanToolIcon className="cursor-pointer"
-              fontSize="large" />
+            <FontAwesomeIcon
+              icon={faHandsHelping}
+              className="cursor-pointer icon-custom"
+            />
           </Link>
           <div>
-            <HouseSidingIcon className="cursor-pointer"
-              fontSize="large" />
+            <FontAwesomeIcon
+              icon={faCampground}
+              className="cursor-pointer icon-custom"
+            />
           </div>
           <div>
-            <RecordVoiceOverIcon className="cursor-pointer"
+            <EventAvailableIcon className="cursor-pointer"
               fontSize="large" />
           </div>
         </div>

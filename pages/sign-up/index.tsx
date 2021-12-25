@@ -68,20 +68,17 @@ const SignUp: NextPage = () => {
 
   return (
     <Container maxWidth="sm">
-    <div className={styles.container}>
-      <main className={styles.main}>
-        <div className={styles.titleName}>OutreachApp</div>
-        <div className={styles.grid}>
-          <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
-            <div className={styles.grid}>
-              <Select
-                label="Select City"
-                placeholder="Choose Your City"
-                options={options}
-                value={region}
-                onChange={(e) => onChangeCity(e)}
-              />
-            </div>
+      <div className={styles.container}>
+        <main className={styles.main} style={{height: 'unset', paddingTop: 20}}>
+          <div className={styles.titleName}>OutreachApp</div>
+          <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%", paddingTop: 20 }}>
+            <Select
+              label="Select City"
+              placeholder="Choose Your City"
+              options={options}
+              value={region}
+              onChange={(e) => onChangeCity(e)}
+            />
             <TextInput
               label="Verification Code"
               placeholder="Verification Code"
@@ -136,7 +133,7 @@ const SignUp: NextPage = () => {
             {errors.password && errors.password.type === "required" && (
               <ErrorMessage>Please input password.</ErrorMessage>
             )}
-            <div className={styles.grid}>
+            <div style={{textAlign: 'center'}}>
               <Button
                 text="Sign Up"
                 type="submit"
@@ -144,17 +141,16 @@ const SignUp: NextPage = () => {
               ></Button>
             </div>
             <div className={styles.textNormal}>
-              { "If you don't have a verification code or don't see your Orgaization name listed, Please email us at " }
+              { "If you don't have a verification code, Please email us at " }
               <a href="mailto: shelterappinfo@gmail.com">
                 {" "}
                 shelterappinfo@gmail.com{" "}
               </a>
             </div>
           </form>
-        </div>
-      </main>
-    </div>
-</Container>
+        </main>
+      </div>
+    </Container>
   );
 };
 
