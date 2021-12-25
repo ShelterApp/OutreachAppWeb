@@ -144,7 +144,7 @@ const SignUp: NextPage = () => {
               ></Button>
             </div>
             <div className={styles.textNormal}>
-              { "If you don't have a verification code or don't see your Orgaization name listed, Please email us at " }
+              { "If you don't have a verification code, Please email us at " }
               <a href="mailto: shelterappinfo@gmail.com">
                 {" "}
                 shelterappinfo@gmail.com{" "}

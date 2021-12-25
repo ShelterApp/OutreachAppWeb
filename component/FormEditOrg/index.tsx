@@ -103,7 +103,7 @@ const FormEditOrg = ({ org }: any) => {
         )}
         <TextInput
           label="Email"
-          placeholder="Email or Phone Number"
+          placeholder="Email Address"
           register={register("email", {
             required: true,
             pattern:

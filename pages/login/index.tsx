@@ -49,7 +49,7 @@ const Login: NextPage = () => {
             <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
               <TextInput
                 label="Email"
-                placeholder="Email or Phone Number"
+                placeholder="Email Address"
                 type="email"
                 register={register("email", {
                   required: true,
