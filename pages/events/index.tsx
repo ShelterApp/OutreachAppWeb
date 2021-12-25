@@ -8,6 +8,7 @@ import AlertDialog from "component/ConfirmationPopUp";
 import Header from "component/Header";
 import Container from '@mui/material/Container';
 import EventCard from 'component/EventCard';
+import produce from 'immer';
 
 const Index: NextPage = () => {
   const router = useRouter();
@@ -16,7 +17,9 @@ const Index: NextPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       const res = await eventsService.list();
-      setList(res.items);
+      if (res && res.items) {
+        setList(res.items);
+      }
     };
     fetchData();
   }, []);
@@ -50,6 +53,35 @@ const Index: NextPage = () => {
     handleCloseAlert();
   };
 
+  const handleUpdateMaxAttendes = async (id: string, num: number) => {
+    const maxAttended = num < 0 ? 0 : num;
+
+    const res = await eventsService.update(id, {maxAttended: maxAttended})
+    if (res.statusCode && res.message) {
+      alertService.error(res.message)
+    } else {
+      const index = list.findIndex(v => v._id === id);
+      const _list: any = produce(list, (draftState: any[]) => {
+        draftState[index].maxAttended = maxAttended;
+      });
+
+      setList(_list)
+    }
+  }
+
+  const handleRemoveParticipant = async (id: string, userId: string, newAttended: any[]) => {
+    const res = await eventsService.removeParticipant(id, {userId: userId})
+    if (res.statusCode && res.message) {
+      alertService.error(res.message)
+    } else {
+      const index = list.findIndex(v => v._id === id);
+      const _list: any = produce(list, (draftState: any[]) => {
+        draftState[index].attendes = [...newAttended];
+      });
+      setList(_list);
+    }
+  }
+
   return (
     <main className={styles.mainTop}>
       <Header title="Manage Events" back="/" />
@@ -57,7 +89,7 @@ const Index: NextPage = () => {
         <Grid container className={'mt-2'}>
           {
             list.map((obj: any, index: number) => (
-              <EventCard edit={edit} handleOpenAlert={handleOpenAlert} key={index} event={obj}/>
+              <EventCard edit={edit} handleOpenAlert={handleOpenAlert} handleUpdateMaxAttendes={handleUpdateMaxAttendes} handleRemoveParticipant={handleRemoveParticipant} key={index} event={obj}/>
             ))
           }
         </Grid>

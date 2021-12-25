@@ -104,7 +104,7 @@ const EditCamp: NextPage = () => {
     lng: -96.71583
   };
   const [center, setCenter] = useState(_center);
-  const [zoom, setZoom] = useState(10);
+  const [zoom, setZoom] = useState(15);
 
   const createCamp = async (list: PeopleProps[], camp: any) => {
     const data = {

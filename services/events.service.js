@@ -5,7 +5,8 @@ export const eventsService = {
   create,
   get,
   update,
-  _delete
+  _delete,
+  removeParticipant
 };
 
 async function list() {
@@ -21,6 +22,16 @@ async function list() {
 async function create(params) {
   try {
     const res = await axios.post(`/event`, params);
+
+    return res.data;
+  } catch (error) {
+    return error.response.data;
+  }
+}
+
+async function removeParticipant(id, params) {
+  try {
+    const res = await axios.post(`/event/${id}/remove-paticipant`, params);
 
     return res.data;
   } catch (error) {
