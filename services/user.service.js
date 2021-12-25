@@ -24,7 +24,8 @@ export const userService = {
   confirmEmail,
   getProfile,
   create,
-  updateUser
+  updateUser,
+  getLog
 };
 
 async function login(username, password) {
@@ -174,3 +175,11 @@ async function getById(id) {
   }
 }
 
+async function getLog() {
+  try {
+    const res = await axios.get(`/auditlogs/mywork`);
+    return res.data;
+  } catch (error) {
+    return error.response.data;
+  }
+}
