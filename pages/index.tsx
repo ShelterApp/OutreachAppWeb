@@ -14,6 +14,8 @@ import Modal from 'react-modal';
 import styles from "styles/Home.module.scss";
 import ButtonC from "component/Button";
 import Button from '@mui/material/Button';
+import { Car } from "phosphor-react";
+
 const center = {
   lat: 32.965557,
   lng: -96.71583
@@ -82,9 +84,13 @@ const Home: NextPage = () => {
   const renderMarker = () => {
     const map = camp.map((item: any, index: number) =>
       <Marker key={index}
+        icon={item.type==1?'car.png':null}
         onClick={() => {
           setPickerCamp(camp[index]);
           setShowModal(true);
+        }}
+        render={() => {
+
         }}
         position={{ lat: item?.location.coordinates[1], lng: item.location.coordinates[0] }} />
     )
@@ -145,8 +151,8 @@ const Home: NextPage = () => {
           </Button>
             <Button style={{ textTransform: 'none', width: '40%', borderRadius: 20, color: indexTab == 5 ? 'white' : '#5952FF', backgroundColor: indexTab == 5 ? '#5952FF' : 'white' }} variant='contained'
               onClick={() => getCamp(5)} >
-                {`RV's`}
-          </Button>
+              {`RV's`}
+            </Button>
             <Button style={{ textTransform: 'none', borderRadius: 20, color: !indexTab ? 'white' : '#5952FF', backgroundColor: !indexTab ? '#5952FF' : 'white' }} variant="contained" onClick={() => getCamp(0)} >
               All
         </Button>
