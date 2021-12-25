@@ -89,9 +89,6 @@ const Home: NextPage = () => {
           setPickerCamp(camp[index]);
           setShowModal(true);
         }}
-        render={() => {
-
-        }}
         position={{ lat: item?.location.coordinates[1], lng: item.location.coordinates[0] }} />
     )
     return map
@@ -102,14 +99,12 @@ const Home: NextPage = () => {
       <Modal
         isOpen={showModal}
         onRequestClose={() => setShowModal(false)}
-        style={customStyles}
-      >
+        style={customStyles} >
         <div style={{ fontSize: 20, padding: '6px 10px', fontWeight: 'bold' }}>{pickerCamp?.name}</div>
         <div className={styles.grid}>
           <ButtonC text="View Camp Details" link={`/camp/detail/${pickerCamp._id}`} />
           <ButtonC text="Report Swept or Inactive " link={`/camp/report/${pickerCamp._id}`}></ButtonC>
           <ButtonC text="Camp Log" link={`/camp/log/${pickerCamp._id}`}></ButtonC>
-
         </div>
       </Modal>
     )
@@ -136,8 +131,7 @@ const Home: NextPage = () => {
               mapContainerStyle={containerStyle}
               center={center}
               zoom={10}
-              onUnmount={onUnmount}
-            >
+              onUnmount={onUnmount} >
               {renderMarker()}
             </GoogleMap>
           ) : <></>}
