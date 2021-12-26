@@ -3,11 +3,13 @@ import axios from "helpers/configApi";
 export const requestService = {
   list,
   create,
+  createCamp,
   update,
   get,
   myClaim,
   fullFill,
-  release
+  release,
+
 };
 
 async function list(params) {
@@ -22,6 +24,15 @@ async function list(params) {
 async function create(data) {
   try {
     const res = await axios.post(`/requests`, data);
+    return res.data;
+  } catch (error) {
+    return error.response.data;
+  }
+}
+
+async function createCamp(data) {
+  try {
+    const res = await axios.post(`/requests/camp`, data);
     return res.data;
   } catch (error) {
     return error.response.data;

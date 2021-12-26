@@ -12,10 +12,9 @@ import Modal from 'react-modal';
 import styles from "styles/Home.module.scss";
 import ButtonC from "component/Button";
 import Button from '@mui/material/Button';
-
+import { Car } from "phosphor-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCampground, faHandsHelping } from "@fortawesome/free-solid-svg-icons";
-
 const center = {
   lat: 32.965557,
   lng: -96.71583
@@ -61,8 +60,6 @@ const Home: NextPage = () => {
     const campsData = await campsService.list(condition);
     setIndexTab(index);
     setCamp(campsData.items);
-    // console.log(campsData);
-
   }
 
   const height = `${use100vh()}px`;
@@ -76,7 +73,6 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     const subscription = userService.user.subscribe((x: any) => setUser(x));
-    console.log(user);
     getCamp(0);
     return () => subscription.unsubscribe();
   }, []);
@@ -84,6 +80,7 @@ const Home: NextPage = () => {
   const renderMarker = () => {
     const map = camp.map((item: any, index: number) =>
       <Marker key={index}
+        icon={item.type == 1 ? 'car.png' : null}
         onClick={() => {
           setPickerCamp(camp[index]);
           setShowModal(true);
@@ -98,13 +95,18 @@ const Home: NextPage = () => {
       <Modal
         isOpen={showModal}
         onRequestClose={() => setShowModal(false)}
-        style={customStyles}
-      >
+        style={customStyles} >
         <div style={{ fontSize: 20, padding: '6px 10px', fontWeight: 'bold' }}>{pickerCamp?.name}</div>
         <div className={styles.grid}>
+          <ButtonC text="Drop Supplies" link={`/drop-supplies/${pickerCamp._id}`} />
+          <div style={{paddingTop:10}}/>
+          <ButtonC text="Request Supplies" link={`/request-supplies/${pickerCamp._id}`} />
+          <div style={{paddingTop:10}}/>
           <ButtonC text="View Camp Details" link={`/camp/detail/${pickerCamp._id}`} />
-          <ButtonC text="Report Swept or Inactive " link={`/camp/report/${pickerCamp._id}`}></ButtonC>
+          <div style={{paddingTop:10}}/>
           <ButtonC text="Camp Log" link={`/camp/log/${pickerCamp._id}`}></ButtonC>
+          <div style={{paddingTop:10}}/>
+          <ButtonC text="Report Swept or Inactive " link={`/camp/report/${pickerCamp._id}`}></ButtonC>
 
         </div>
       </Modal>
@@ -132,8 +134,7 @@ const Home: NextPage = () => {
               mapContainerStyle={containerStyle}
               center={center}
               zoom={10}
-              onUnmount={onUnmount}
-            >
+              onUnmount={onUnmount} >
               {renderMarker()}
             </GoogleMap>
           ) : <></>}
@@ -147,8 +148,8 @@ const Home: NextPage = () => {
           </Button>
             <Button style={{ textTransform: 'none', width: '40%', borderRadius: 20, color: indexTab == 5 ? 'white' : '#5952FF', backgroundColor: indexTab == 5 ? '#5952FF' : 'white' }} variant='contained'
               onClick={() => getCamp(5)} >
-                {`RV's`}
-          </Button>
+              {`RV's`}
+            </Button>
             <Button style={{ textTransform: 'none', borderRadius: 20, color: !indexTab ? 'white' : '#5952FF', backgroundColor: !indexTab ? '#5952FF' : 'white' }} variant="contained" onClick={() => getCamp(0)} >
               All
         </Button>

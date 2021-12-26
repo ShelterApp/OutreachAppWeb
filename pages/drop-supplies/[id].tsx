@@ -8,13 +8,14 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { alertService, suppliesService, supplyItemsService } from 'services';
+import { alertService, suppliesService, supplyItemsService,campsService } from 'services';
 import Grid from '@mui/material/Grid';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import { useRouter } from "next/router";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -63,28 +64,29 @@ interface BasicTabsProps {
 const BasicTabs = ({ supplyItems, supplies, add, remove, current_tab, dropSupplies, requestSupplies, updateQty }: BasicTabsProps) => {
   const [value, setValue] = useState(0);
   const tabs = ['dropSupplies', 'requestSupplies'];
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    current_tab(tabs[newValue])
-    setValue(newValue);
-  };
+
+  // const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  //   current_tab(tabs[newValue])
+  //   setValue(newValue);
+  // };
 
   const findSupply = (id: string) => {
     if(tabs[value] === 'requestSupplies') {
-      return requestSupplies.find((obj: any) => obj.supplyId === id)
+      return requestSupplies?.find((obj: any) => obj.supplyId === id)
     } else {
-      return dropSupplies.find((obj: any) => obj.supplyId === id)
+      return dropSupplies?.find((obj: any) => obj.supplyId === id)
     }
   }
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+      {/* <Box sx={{ borderBottom: 1, borderColor: 'divider' }}> */}
+        {/* <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Drop Supplies" {...a11yProps(0)} />
           <Tab label="Request Supplies" {...a11yProps(1)} />
-        </Tabs>
-      </Box>
-      <TabPanel value={value} index={0}>
+        </Tabs> */}
+      {/* </Box> */}
+      {/* <TabPanel value={value} index={0}> */}
         <Grid container spacing={2}>
           <Grid item xs={6}>
             Supply Item
@@ -99,8 +101,8 @@ const BasicTabs = ({ supplyItems, supplies, add, remove, current_tab, dropSuppli
             <SupplyItem tab='dropSupplies' updateQty={updateQty} supply={findSupply(sup._id)} key={index} obj={sup} add={add} remove={remove}/>
           ))
         }
-      </TabPanel>
-      <TabPanel value={value} index={1}>
+      {/* </TabPanel> */}
+      {/* <TabPanel value={value} index={1}>
         <Grid container spacing={2}>
           <Grid item xs={6}>
             Supply Item
@@ -115,7 +117,7 @@ const BasicTabs = ({ supplyItems, supplies, add, remove, current_tab, dropSuppli
             <SupplyItem tab='requestSupplies' updateQty={updateQty} supply={findSupply(sup._id)} key={sup._id} obj={sup} add={add} remove={remove}/>
           ))
         }
-      </TabPanel>
+      </TabPanel> */}
     </Box>
   );
 }
@@ -182,25 +184,29 @@ const SupplyItem = ({tab, obj, add, remove, supply, updateQty}: any) => {
 interface SuppliesProps {
   onSubmit: Function;
   previousBack: Function;
-  dropSupplies: any[];
-  setDropSupplies: Function;
-  requestSupplies: any[];
-  setRequestSupplies: Function;
+  // dropSupplies: any[];
+  // setDropSupplies: Function;
+  // requestSupplies: any[];
+  // setRequestSupplies: Function;
 }
 
-const Supplies = ({ onSubmit, previousBack, dropSupplies, setDropSupplies, requestSupplies, setRequestSupplies }: SuppliesProps) => {
+const Supplies = ({ previousBack }: SuppliesProps) => {
+  const router = useRouter();
+  const { id } = router.query;
   const [supplies, setSupplies] = useState<any[]>([]);
   const [supplyItems, setSupplyItems] = useState<any[]>([]);
+  const [dropSupplies, setDropSupplies] = useState<any[]>([]);
+  const [requestSupplies, setRequestSupplies] = useState<any[]>([]);
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await suppliesService.list();
-      const data = await supplyItemsService.list();
-      const items = data.items.map((i: any) => ({ _id: i.supplyId._id, name: i.supplyId.name, qty: i.qty}));
-      setSupplyItems(items);
-      setSupplies(res.items);
-    };
     fetchData();
   }, [])
+  const fetchData = async () => {
+    const res = await suppliesService.list();
+    const data = await supplyItemsService.list();
+    const items = data.items.map((i: any) => ({ _id: i.supplyId._id, name: i.supplyId.name, qty: i.qty}));
+    setSupplyItems(items);
+    setSupplies(res.items);
+  };
 
   const [tab, setTab] = useState('dropSupplies')
 
@@ -209,6 +215,14 @@ const Supplies = ({ onSubmit, previousBack, dropSupplies, setDropSupplies, reque
       setRequestSupplies([...requestSupplies, { supplyId: id, supplyName: name, qty: quantity }])
     } else {
       setDropSupplies([...dropSupplies, { supplyId: id, supplyName: name, qty: quantity }])
+    }
+  }
+  const onSubmit=async()=>{
+    const res=await  campsService.dropSupply(id,{supplies:dropSupplies});
+    if(res._id){
+      alertService.success('Drop Supplies successful!');
+      fetchData();
+      setDropSupplies([]);
     }
   }
 
@@ -242,11 +256,11 @@ const Supplies = ({ onSubmit, previousBack, dropSupplies, setDropSupplies, reque
 
   return (
     <main className={styles.mainTop} style={{ position: 'relative', height: '100%', }}>
-      <Header title='Drop/Request supplies' onClick={() => previousBack(3)}/>
+      <Header title='Drop supplies' back='/'/>
       <Container maxWidth="sm">
         <div className={styles.grid}>
           <BasicTabs current_tab={current_tab} updateQty={updateQty} dropSupplies={dropSupplies} requestSupplies={requestSupplies} add={add} remove={remove} supplyItems={supplyItems} supplies={supplies}/>
-          <Button text="Done" onClick={() => onSubmit()}/>
+          <Button text="Submit" onClick={() => onSubmit()}/>
         </div>
       </Container>
     </main>
