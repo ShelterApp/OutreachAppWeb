@@ -15,22 +15,13 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 const CampLog: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
-  const [value, setValue] = useState<string>('1');
+  const [value, setValue] = useState<number>(1);
 
-  useEffect(() => {
-    const fetch = async () => {
-      // const res = await campsService.getLog(id);
-      // if (res._id) {
-      // }
-    }
-
-    fetch();
-  }, []);
   const onClick = async () => {
     const req = {
       status: value,
     }
-    const res =await campsService.update(id, req);
+    const res =await campsService.changeStatus(id, req);
     console.log(res);
   }
 
@@ -43,10 +34,10 @@ const CampLog: NextPage = () => {
             aria-label="gender"
             name="controlled-radio-buttons-group"
             value={value}
-            onChange={(e) => setValue(e.target.value)}>
-            <FormControlLabel value="1" control={<Radio />} label="Active Camp" />
-            <FormControlLabel value="3" control={<Radio />} label="Inactive Camp" />
-            <FormControlLabel value="5" control={<Radio />} label="Lost in Sweep" />
+            onChange={(e) => setValue(parseInt(e.target.value))}>
+            <FormControlLabel value={1} control={<Radio />} label="Active Camp" />
+            <FormControlLabel value={3} control={<Radio />} label="Inactive Camp" />
+            <FormControlLabel value={5} control={<Radio />} label="Lost in Sweep" />
           </RadioGroup>
           <Button text="Save" type="submit" onClick={() => onClick()}></Button>
         </div>

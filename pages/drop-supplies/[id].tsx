@@ -260,7 +260,7 @@ const Supplies = ({ previousBack }: SuppliesProps) => {
       <Container maxWidth="sm">
         <div className={styles.grid}>
           <BasicTabs current_tab={current_tab} updateQty={updateQty} dropSupplies={dropSupplies} requestSupplies={requestSupplies} add={add} remove={remove} supplyItems={supplyItems} supplies={supplies}/>
-          <Button text="Done" onClick={() => onSubmit()}/>
+          <Button text="Submit" onClick={() => onSubmit()}/>
         </div>
       </Container>
     </main>

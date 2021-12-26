@@ -8,7 +8,8 @@ export const campsService = {
   _delete,
   log,
   getLog,
-  dropSupply
+  dropSupply,
+  changeStatus
 };
 
 async function list(params) {
@@ -82,6 +83,16 @@ async function getLog(id) {
 async function dropSupply(id, params) {
   try {
     const res = await axios.post(`/camps/${id}/drop-supply`, params);
+
+    return res.data;
+  } catch (error) {
+    return error.response.data;
+  }
+}
+
+async function changeStatus(id, params) {
+  try {
+    const res = await axios.put(`/camps/${id}/change-status`, params);
 
     return res.data;
   } catch (error) {

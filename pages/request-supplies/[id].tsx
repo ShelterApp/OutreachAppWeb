@@ -180,7 +180,7 @@ const Supplies = () => {
       <Container maxWidth="sm">
         <div className={styles.grid}>
           <BasicTabs  updateQty={updateQty} requestSupplies={requestSupplies} add={add} remove={remove} supplyItems={supplyItems} supplies={supplies}/>
-          <Button text="Done" onClick={() => onSubmit()}/>
+          <Button text="Submit" onClick={() => onSubmit()}/>
         </div>
       </Container>
     </main>

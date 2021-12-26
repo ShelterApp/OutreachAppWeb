@@ -104,9 +104,10 @@ const Home: NextPage = () => {
           <div style={{paddingTop:10}}/>
           <ButtonC text="View Camp Details" link={`/camp/detail/${pickerCamp._id}`} />
           <div style={{paddingTop:10}}/>
-          <ButtonC text="Report Swept or Inactive " link={`/camp/report/${pickerCamp._id}`}></ButtonC>
-          <div style={{paddingTop:10}}/>
           <ButtonC text="Camp Log" link={`/camp/log/${pickerCamp._id}`}></ButtonC>
+          <div style={{paddingTop:10}}/>
+          <ButtonC text="Report Swept or Inactive " link={`/camp/report/${pickerCamp._id}`}></ButtonC>
+
         </div>
       </Modal>
     )
