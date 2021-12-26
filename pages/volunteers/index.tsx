@@ -66,7 +66,7 @@ const Index: NextPage = () => {
               const rec: object = {
                 ...o,
                 status: status ? status.label : '',
-                lastedLoginAt: dayjs(o.lastedLoginAt).format("MMMM DD, YYYY"),
+                lastedLoginAt: o.lastedLoginAt ? dayjs(o.lastedLoginAt).format("MMMM DD, YYYY") : '',
                 createdBy: o.createdBy ? o.createdBy.name : ''
               }
               return rec;
