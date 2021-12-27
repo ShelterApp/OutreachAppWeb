@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { userService } from "services";
 import style from "component/Component.module.scss";
 import { Alert } from 'component/Alert';
+import '@fortawesome/fontawesome-svg-core/styles.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();

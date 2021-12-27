@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useState } from "react";
 import AddNewCamp from "component/AddCamp/AddNewCamp";
 import CampDetails from "component/AddCamp/CampDetails";

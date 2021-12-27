@@ -66,13 +66,14 @@ const Index: NextPage = () => {
               const rec: object = {
                 ...o,
                 status: status ? status.label : '',
-                lastedLoginAt: dayjs(o.lastedLoginAt).format("MMMM DD, YYYY")
+                lastedLoginAt: o.lastedLoginAt ? dayjs(o.lastedLoginAt).format("MMMM DD, YYYY") : '',
+                createdBy: o.createdBy ? o.createdBy.name : ''
               }
               return rec;
             })
           }
-          names={["name", "regionId.name", 'userType', 'status', 'lastedLoginAt', "action"]}
-          cols={["Name", "City", "Role", 'Status', "Last Login", ""]}
+          names={["name", "regionId.name", 'userType', 'status', 'lastedLoginAt', "createdBy", "action"]}
+          cols={["Name", "City", "Role", 'Status', "Last Login", "Created Info"]}
           edit={edit}
           handleOpenAlert={handleOpenAlert}
         />
