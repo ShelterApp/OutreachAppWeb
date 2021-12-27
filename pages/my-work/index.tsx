@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 import React, { useEffect,  useState} from "react";
- import { useRouter } from "next/router";
 import styles from "styles/Home.module.scss";
  import {  userService } from "services";
 import Container from '@mui/material/Container';
@@ -8,7 +7,6 @@ import Header from 'component/Header';
 import dayjs from 'dayjs';
 
 const MyWork: NextPage = () => {
-  const router = useRouter();
   const [camp, setCamp] = useState<any>([]);
 
   useEffect(() => {

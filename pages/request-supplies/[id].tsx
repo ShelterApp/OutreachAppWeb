@@ -4,59 +4,24 @@ import styles from "styles/Home.module.scss";
 import Button from "component/Button";
 import Container from '@mui/material/Container';
 import Header from 'component/Header';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { alertService, suppliesService, supplyItemsService,requestService } from 'services';
 import Grid from '@mui/material/Grid';
-import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { useRouter } from "next/router";
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          {children}
-        </Box>
-      )}
-    </div>
-  );
-}
-
 interface BasicTabsProps {
   supplies: any[];
-  supplyItems: any[];
   add: Function;
   remove: Function;
   requestSupplies: any[];
   updateQty: Function;
 }
 
-const BasicTabs = ({ supplyItems, supplies, add, remove, requestSupplies, updateQty }: BasicTabsProps) => {
-  const [value, setValue] = useState(0);
-
-  
-
+const BasicTabs = ({  supplies, add, remove, requestSupplies, updateQty }: BasicTabsProps) => {
 
   const findSupply = (id: string) => {
       return requestSupplies?.find((obj: any) => obj.supplyId === id)
