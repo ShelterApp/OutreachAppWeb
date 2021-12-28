@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React from 'react';
 import { useState, useEffect } from "react";
 import styles from "styles/Home.module.scss";
@@ -55,7 +57,7 @@ interface BasicTabsProps {
 const BasicTabs = ({ supplyItems, supplies, add, remove, requestSupplies, updateQty }: BasicTabsProps) => {
   const [value, setValue] = useState(0);
 
-  
+
 
 
   const findSupply = (id: string) => {
@@ -85,7 +87,7 @@ const SupplyItem = ({ obj, add, remove, supply, updateQty}: any) => {
   const [quantity, setQuantity] = useState<any>(supply ? supply.qty : 0)
   const handlePlus = () => {
     if (quantity >= 0) {
-     
+
       setQuantity(quantity + 1)
     } else {
       setQuantity(0)

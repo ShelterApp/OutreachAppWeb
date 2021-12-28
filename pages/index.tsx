@@ -12,7 +12,6 @@ import Modal from 'react-modal';
 import styles from "styles/Home.module.scss";
 import ButtonC from "component/Button";
 import Button from '@mui/material/Button';
-import { Car } from "phosphor-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCampground, faHandsHelping } from "@fortawesome/free-solid-svg-icons";
 const center = {
