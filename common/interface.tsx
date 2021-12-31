@@ -13,4 +13,5 @@ export interface CampDetailsProps {
   numOfPeople: number;
   numOfPet: number;
   type: number;
+  address: string;
 }

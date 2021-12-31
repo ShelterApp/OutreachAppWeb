@@ -98,6 +98,11 @@ const CampDetails = ({ onSubmit, previousBack, defaultValues }: CampDetailsPageP
             placeholder="Description of the Camp"
           />
           <TextInput
+            label="Address"
+            placeholder="Address"
+            register={register("address", { required: false })}
+          />
+          <TextInput
             label="Number of People"
             placeholder="Number of People"
             register={register("numOfPeople", { required: true })}

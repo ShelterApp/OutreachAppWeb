@@ -15,7 +15,8 @@ const initCampDetails: CampDetailsProps = {
   name: "",
   numOfPeople: 1,
   numOfPet: 0,
-  type: 1
+  type: 1,
+  address: ''
 }
 
 const initPeople: PeopleProps = {
@@ -30,7 +31,16 @@ const initPeople: PeopleProps = {
 const AddCamp: NextPage = () => {
   const [step, setStep] = useState<number>(1);
 
-  const onSubmit = (i: number) => {
+  const onSubmit = async (i: number) => {
+    const locationMap = await getLocationAPIMap(center);
+    let address = "";
+    if (locationMap && locationMap.status === 'OK') {
+      address = locationMap.plus_code.compound_code;
+    }
+    setCampDetails({
+      ...campDetails,
+      address: address
+    })
     setStep(i)
   }
 
@@ -79,11 +89,6 @@ const AddCamp: NextPage = () => {
   const router = useRouter();
 
   const createCamp = async () => {
-    const locationMap = await getLocationAPIMap(center);
-    let address = "";
-    if (locationMap && locationMap.status === 'OK') {
-      address = locationMap.plus_code.compound_code;
-    }
     const data = {
       ...campDetails,
       people: people,
@@ -98,10 +103,8 @@ const AddCamp: NextPage = () => {
       requestSupplies: requestSupplies,
       dropSupplies: dropSupplies,
       type: 1,
-      status: 1,
-      address: address
+      status: 1
     }
-
     const res = await campsService.create(data);
     if (res.statusCode && res.message) {
       alertService.error(res.message)
