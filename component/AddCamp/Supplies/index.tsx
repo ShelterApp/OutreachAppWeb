@@ -6,15 +6,15 @@ import Container from '@mui/material/Container';
 import Header from 'component/Header';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { alertService, suppliesService, supplyItemsService } from 'services';
 import Grid from '@mui/material/Grid';
-import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import Collapse from '@mui/material/Collapse';
+import Select from 'component/Select';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -58,9 +58,11 @@ interface BasicTabsProps {
   dropSupplies: any[];
   requestSupplies: any[];
   updateQty: Function;
+  options: any[];
 }
 
-const BasicTabs = ({ supplyItems, supplies, add, remove, current_tab, dropSupplies, requestSupplies, updateQty }: BasicTabsProps) => {
+const BasicTabs = ({ supplyItems, supplies, add, remove, current_tab, dropSupplies, requestSupplies, updateQty, options }: BasicTabsProps) => {
+  const [_supplies, setSupplies] = useState<any[]>([])
   const [value, setValue] = useState(0);
   const tabs = ['dropSupplies', 'requestSupplies'];
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -75,6 +77,24 @@ const BasicTabs = ({ supplyItems, supplies, add, remove, current_tab, dropSuppli
       return dropSupplies.find((obj: any) => obj.supplyId === id)
     }
   }
+
+  const [adding, setAdding] = useState(false)
+
+  const openAddItem = () => {
+    setAdding(!adding)
+  }
+
+  const addSupply = (obj: any) => {
+    const _list = [..._supplies];
+    _list.push(obj);
+    setSupplies([..._list]);
+    add(obj._id, obj.qty, obj.name)
+    setAdding(false)
+  }
+
+  useEffect(() => {
+    setSupplies([...supplies]);
+  }, [supplies])
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -111,10 +131,18 @@ const BasicTabs = ({ supplyItems, supplies, add, remove, current_tab, dropSuppli
         </Grid>
         <br/>
         {
-          supplies.length > 0 && supplies.map((sup: any, index: number) => (
-            <SupplyItem tab='requestSupplies' updateQty={updateQty} supply={findSupply(sup._id)} key={sup._id} obj={sup} add={add} remove={remove}/>
+          _supplies.length > 0 && _supplies.map((sup: any, index: number) => (
+            <SupplyItem tab='requestSupplies' updateQty={updateQty} supply={findSupply(sup._id)} key={index} obj={sup} add={add} remove={remove}/>
           ))
         }
+        <Grid xs={12} item className='text-center' style={{ marginBottom: 15, marginTop: 15 }}>
+          <a href='#' onClick={openAddItem}><b><u>Add Supply Item</u></b></a>
+        </Grid>
+        <Grid xs={12} item>
+          <Collapse in={adding}>
+            <NewItem list={_supplies} addSupply={addSupply} supplies={options}/>
+          </Collapse>
+        </Grid>
       </TabPanel>
     </Box>
   );
@@ -122,7 +150,7 @@ const BasicTabs = ({ supplyItems, supplies, add, remove, current_tab, dropSuppli
 
 const SupplyItem = ({tab, obj, add, remove, supply, updateQty}: any) => {
   // console.log(obj)
-  const [quantity, setQuantity] = useState<any>(supply ? supply.qty : 0)
+  const [quantity, setQuantity] = useState<number>(supply ? supply.qty : 0)
   const handlePlus = () => {
     if (quantity >= 0) {
       if(tab === 'dropSupplies') {
@@ -191,13 +219,15 @@ interface SuppliesProps {
 const Supplies = ({ onSubmit, previousBack, dropSupplies, setDropSupplies, requestSupplies, setRequestSupplies }: SuppliesProps) => {
   const [supplies, setSupplies] = useState<any[]>([]);
   const [supplyItems, setSupplyItems] = useState<any[]>([]);
+  const [options, setOptions] = useState<any[]>([]);
   useEffect(() => {
     const fetchData = async () => {
       const res = await suppliesService.list();
       const data = await supplyItemsService.list();
       const items = data.items.map((i: any) => ({ _id: i.supplyId._id, name: i.supplyId.name, qty: i.qty}));
       setSupplyItems(items);
-      setSupplies(res.items);
+      setSupplies(items);
+      setOptions(res.items.map((opt: any) => ({ label: opt.name, value: opt._id })))
     };
     fetchData();
   }, [])
@@ -214,10 +244,10 @@ const Supplies = ({ onSubmit, previousBack, dropSupplies, setDropSupplies, reque
 
   const remove = (id: string) => {
     if(tab === 'requestSupplies') {
-      const new_list = requestSupplies.filter((obj: any) => obj.id !== id);
+      const new_list = requestSupplies.filter((obj: any) => obj.supplyId !== id);
       setRequestSupplies([...new_list])
     } else {
-      const new_list = dropSupplies.filter((obj: any) => obj.id !== id);
+      const new_list = dropSupplies.filter((obj: any) => obj.supplyId !== id);
       setDropSupplies([...new_list])
     }
   }
@@ -245,7 +275,7 @@ const Supplies = ({ onSubmit, previousBack, dropSupplies, setDropSupplies, reque
       <Header title='Drop/Request supplies' onClick={() => previousBack(3)}/>
       <Container maxWidth="sm">
         <div className={styles.grid}>
-          <BasicTabs current_tab={current_tab} updateQty={updateQty} dropSupplies={dropSupplies} requestSupplies={requestSupplies} add={add} remove={remove} supplyItems={supplyItems} supplies={supplies}/>
+          <BasicTabs current_tab={current_tab} updateQty={updateQty} dropSupplies={dropSupplies} requestSupplies={requestSupplies} add={add} remove={remove} supplyItems={supplyItems} supplies={supplies} options={options}/>
           <Button text="Done" onClick={() => onSubmit()}/>
         </div>
       </Container>
@@ -254,3 +284,67 @@ const Supplies = ({ onSubmit, previousBack, dropSupplies, setDropSupplies, reque
 }
 
 export default Supplies;
+
+
+const NewItem = ({ list, supplies, addSupply }: any) => {
+  const [supply, setSupply] = useState<any>();
+  const [quantity, setQuantity] = useState<number>(0);
+  const [loading, setLoading] = useState(false);
+  const onAddSupply = async (obj: any) => {
+    setLoading(true)
+    setQuantity(0)
+    setSupply(undefined)
+    addSupply(obj)
+    alertService.success('Supply Item was added successful!')
+    setLoading(false)
+  }
+
+  const onChangeSupply = (e: any) => {
+    const item = list.find((o: any) => o._id == e.value);
+    if (item === undefined) {
+      setSupply(e)
+    } else {
+      alertService.error('This item was existed')
+    }
+  }
+
+  const onChangeQty = (e: any) => {
+    if (e.target.value < 0) {
+      setQuantity(0)
+    } else {
+      setQuantity(e.target.value)
+    }
+  }
+
+  const onSubmit = () => {
+    if(!supply) {
+      alertService.error('Please select supply')
+      return;
+    }
+    if(Math.floor(quantity) > 0) {
+      onAddSupply({_id: supply.value, qty: Math.floor(quantity), name: supply.label})
+    } else {
+      alertService.error('Please input quantity greater 0')
+    }
+  }
+
+  return (
+    <Grid container spacing={2} style={{ margin: 'auto' }}>
+      <Grid xs={6} item>
+        <Select
+          label=""
+          placeholder=""
+          options={supplies}
+          value={supply}
+          onChange={onChangeSupply}
+        />
+      </Grid>
+      <Grid xs={6} item style={{display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <input value={quantity} min="0" onChange={onChangeQty} type='number' style={{ marginLeft: 10, marginRight: 10, width: 50 }}/>
+      </Grid>
+      <Grid xs={8} item className='text-center' style={{ paddingTop: 15, margin: 'auto' }}>
+        <Button text="Add" onClick={onSubmit} loading={loading}/>
+      </Grid>
+    </Grid>
+  )
+}

@@ -229,10 +229,10 @@ const Supplies = ({ previousBack }: SuppliesProps) => {
 
   const remove = (id: string) => {
     if(tab === 'requestSupplies') {
-      const new_list = requestSupplies.filter((obj: any) => obj.id !== id);
+      const new_list = requestSupplies.filter((obj: any) => obj.supplyId !== id);
       setRequestSupplies([...new_list])
     } else {
-      const new_list = dropSupplies.filter((obj: any) => obj.id !== id);
+      const new_list = dropSupplies.filter((obj: any) => obj.supplyId !== id);
       setDropSupplies([...new_list])
     }
   }
