@@ -15,14 +15,10 @@ import { useRouter } from "next/router";
 
 interface BasicTabsProps {
   supplies: any[];
-  add: Function;
-  remove: Function;
   requestSupplies: any[];
-  updateQty: Function;
 }
 
 const BasicTabs = ({  supplies, add, remove, requestSupplies, updateQty }: BasicTabsProps) => {
-
   const findSupply = (id: string) => {
       return requestSupplies?.find((obj: any) => obj.supplyId === id)
   }
