@@ -154,10 +154,10 @@ const Request: NextPage = () => {
               className="cursor-pointer icon-custom"
             />
           </Link>
-          <div>
+          <Link href='/events/list' passHref>
             <EventAvailableIcon className="cursor-pointer"
               fontSize="large" />
-          </div>
+          </Link>
         </div>
       </div>
     </main>

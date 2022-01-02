@@ -7,12 +7,24 @@ export const eventsService = {
   update,
   _delete,
   removeParticipant,
-  unjoin
+  unjoin,
+  join,
+  myEvent
 };
 
 async function list() {
   try {
     const res = await axios.get(`/event`);
+
+    return res.data;
+  } catch (error) {
+    return error.response.data;
+  }
+}
+
+async function myEvent() {
+  try {
+    const res = await axios.get(`/event/my-event`);
 
     return res.data;
   } catch (error) {
@@ -33,6 +45,16 @@ async function create(params) {
 async function unjoin(id) {
   try {
     const res = await axios.post(`/event/${id}/unjoin`);
+
+    return res.data;
+  } catch (error) {
+    return error.response.data;
+  }
+}
+
+async function join(id) {
+  try {
+    const res = await axios.post(`/event/${id}/join`);
 
     return res.data;
   } catch (error) {

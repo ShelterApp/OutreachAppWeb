@@ -11,7 +11,7 @@ const Index: NextPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await eventsService.list();
+      const res = await eventsService.myEvent();
       if (res && res.items) {
         setList(res.items);
       }
