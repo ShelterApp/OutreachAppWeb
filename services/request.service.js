@@ -57,9 +57,9 @@ async function get(id) {
   }
 }
 
-async function myClaim() {
+async function myClaim(params) {
   try {
-    const res = await axios.get(`/requests/my-claim`,);
+    const res = await axios.get(`/requests/my-claim`, { params });
     return res.data;
   } catch (error) {
     return error.response.data;

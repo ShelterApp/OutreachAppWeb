@@ -7,7 +7,7 @@ import Button from "component/Button";
 import Container from '@mui/material/Container';
 import Header from 'component/Header';
 import Box from '@mui/material/Box';
-import { alertService, suppliesService, supplyItemsService,requestService } from 'services';
+import { alertService, suppliesService, supplyItemsService, requestService } from 'services';
 import Grid from '@mui/material/Grid';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -52,12 +52,12 @@ const BasicTabs = ({ supplies, add, remove, requestSupplies, updateQty, options 
   }
   return (
     <Box sx={{ width: '100%' }}>
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
-            Supply Item
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          Supply Item
           </Grid>
-          <Grid item xs={6}>
-            Quantity
+        <Grid item xs={6}>
+          Quantity
           </Grid>
         </Grid>
         <br/>
@@ -89,7 +89,7 @@ const SupplyItem = ({ obj, add, remove, supply, updateQty}: any) => {
     }
   }
   const handleRemove = () => {
-    if(quantity > 1) {
+    if (quantity > 1) {
       setQuantity(quantity - 1)
     } else {
       setQuantity(0)
@@ -108,7 +108,7 @@ const SupplyItem = ({ obj, add, remove, supply, updateQty}: any) => {
   const [checked, setChecked] = useState<boolean>(supply ? true : false)
   const onCheck = (b: boolean) => {
     setChecked(b)
-    if(b) {
+    if (b) {
       add(obj._id, quantity, obj.name)
     } else {
       remove(obj._id)
@@ -116,16 +116,16 @@ const SupplyItem = ({ obj, add, remove, supply, updateQty}: any) => {
   }
 
   return (
-    <Grid container spacing={2} style={{ borderBottom: '1px solid gray'}}>
+    <Grid container spacing={2} style={{ borderBottom: '1px solid gray' }}>
       <Grid item xs={6}>
         <FormControlLabel control={<Checkbox checked={checked} onChange={(e) => onCheck(e.target.checked)} />} label={obj.name} />
       </Grid>
-      <Grid item xs={6} style={{display: 'flex', alignItems: 'center' }}>
-        <RemoveIcon className="cursor-pointer" fontSize="small" onClick={() => handleRemove()}/>
+      <Grid item xs={6} style={{ display: 'flex', alignItems: 'center' }}>
+        <RemoveIcon className="cursor-pointer" fontSize="small" onClick={() => handleRemove()} />
         <div style={{ marginLeft: 10, marginRight: 10 }}>
-          { quantity }
+          {quantity}
         </div>
-        <AddIcon className="cursor-pointer" fontSize="small" onClick={() => handlePlus()}/>
+        <AddIcon className="cursor-pointer" fontSize="small" onClick={() => handlePlus()} />
       </Grid>
     </Grid>
   )
@@ -149,11 +149,11 @@ const Supplies = () => {
     setOptions(res.items.map((opt: any) => ({ label: opt.name, value: opt._id })))
   };
   const add = (id: string, quantity: number, name: string) => {
-      setRequestSupplies([...requestSupplies, { supplyId: id, supplyName: name, qty: quantity }])
+    setRequestSupplies([...requestSupplies, { supplyId: id, supplyName: name, qty: quantity }])
   }
-  const onSubmit=async()=>{
-    const res=await  requestService.createCamp({campId:id, supplies:requestSupplies});
-    if(res._id){
+  const onSubmit = async () => {
+    const res = await requestService.createCamp({ campId: id, supplies: requestSupplies });
+    if (res._id) {
       alertService.success('Request Supplies successful!');
       fetchData();
       setRequestSupplies([]);
@@ -166,15 +166,15 @@ const Supplies = () => {
   }
 
   const updateQty = (qty: number, id: string) => {
-      const _requestSupplies = [...requestSupplies];
-      const objIndex = _requestSupplies.findIndex((obj => obj.supplyId == id));
-      _requestSupplies[objIndex].qty = qty
-      setRequestSupplies([..._requestSupplies])
+    const _requestSupplies = [...requestSupplies];
+    const objIndex = _requestSupplies.findIndex((obj => obj.supplyId == id));
+    _requestSupplies[objIndex].qty = qty
+    setRequestSupplies([..._requestSupplies])
   }
 
   return (
     <main className={styles.mainTop} style={{ position: 'relative', height: '100%', }}>
-      <Header title='Request supplies' back='/'/>
+      <Header title='Request supplies' back='/' />
       <Container maxWidth="sm">
         <div className={styles.grid}>
           <BasicTabs  updateQty={updateQty} requestSupplies={requestSupplies} add={add} remove={remove} supplies={supplies} options={options}/>

@@ -25,9 +25,9 @@ const MyClaims: NextPage = () => {
     return () => subscription.unsubscribe();
 
   }, []);
-  const getData = async (type?: number) => {
-    const condition = { type: type || null, status: 1, limit: 100 };
-    const item = await requestService.list(condition);
+  const getData = async () => {
+    const condition = { skip:0,  limit: 100 };
+    const item = await requestService.myClaim(condition);
     setData(item.items);
     navigator.geolocation.getCurrentPosition((position) => {
       if (position.coords)
@@ -56,11 +56,17 @@ const MyClaims: NextPage = () => {
     return deg * (Math.PI / 180)
   }
 
-  const claimMyClaims = async (id: string) => {
+  const fullFill = async (id: string) => {
     const result = await requestService.update(id, { status: 3 });
     if (result.status == 204) {
-      // getData(indexTab);
-      alertService.success("Claim MyClaims successful. ");
+      alertService.success("Claim MyClaims successful.");
+    }
+  }
+  const release =async (id:string)=>{
+    const result = await requestService.update(id, { status: 1 });
+    getData();
+    if (result.status == 204) {
+      alertService.success("Release request successful.");
     }
   }
 
@@ -83,11 +89,11 @@ const MyClaims: NextPage = () => {
       <div style={{ paddingTop: 7, paddingLeft: 10, }}>{reportText}</div>
       <div style={{ paddingTop: 10, paddingBottom: 5 }}>
         <Button style={{ textTransform: 'none', fontSize: 16, width: '45%', marginLeft: '3%', padding: 9, borderRadius: 10, backgroundColor: '#5952ff' }} variant="contained"
-          onClick={() => claimMyClaims(item._id)} >
+          onClick={() => fullFill(item._id)} >
           Fulfill Request
       </Button>
         <Button style={{ textTransform: 'none', fontSize: 16, width: '45%', marginLeft: '3%', padding: 9, borderRadius: 10, backgroundColor: '#5952ff' }} variant="contained"
-          onClick={() => claimMyClaims(item._id)} >
+          onClick={() => release(item._id)} >
           Release Request
       </Button>
       </div>
@@ -106,11 +112,11 @@ const MyClaims: NextPage = () => {
       <div style={{ paddingTop: 7, paddingLeft: 10, }}>{reportText}</div>
       <div style={{ paddingTop: 10, paddingBottom: 5 }}>
         <Button style={{ textTransform: 'none', fontSize: 16, width: '45%', marginLeft: '3%', padding: 9, borderRadius: 10, backgroundColor: '#5952ff' }} variant="contained"
-          onClick={() => claimMyClaims(item._id)} >
+          onClick={() => fullFill(item._id)} >
           Fulfill Request
       </Button>
         <Button style={{ textTransform: 'none', fontSize: 16, width: '45%', marginLeft: '3%', padding: 9, borderRadius: 10, backgroundColor: '#5952ff' }} variant="contained"
-          onClick={() => claimMyClaims(item._id)} >
+          onClick={() => release(item._id)} >
           Release Request
       </Button>
       </div>

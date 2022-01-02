@@ -25,7 +25,9 @@ export const userService = {
   getProfile,
   create,
   updateUser,
-  getLog
+  getLog,
+  getPage,
+  getReport
 };
 
 async function login(username, password) {
@@ -95,7 +97,6 @@ async function changePassword(data) {
 
 async function getProfile() {
   try {
-    // console.log(userSubject.value);
     const res = await axios.get(`/profile`);
     localStorage.setItem("user", JSON.stringify({ user: res.data, access_token: userSubject.value.access_token }));
     return res.data;
@@ -178,6 +179,24 @@ async function getById(id) {
 async function getLog() {
   try {
     const res = await axios.get(`/auditlogs/mywork`);
+    return res.data;
+  } catch (error) {
+    return error.response.data;
+  }
+}
+
+async function getPage(indentifier) {
+  try {
+    const res = await axios.get(`/pages/${indentifier}`);
+    return res.data;
+  } catch (error) {
+    return error.response.data;
+  }
+}
+
+async function getReport(params) {
+  try {
+    const res = await axios.get(`/reports`, { params });
     return res.data;
   } catch (error) {
     return error.response.data;

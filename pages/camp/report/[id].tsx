@@ -2,15 +2,13 @@ import type { NextPage } from "next";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import styles from "styles/Home.module.scss";
-// import Button from "component/Button";
-import { campsService } from "services";
-import Container from '@mui/material/Container';
+import { alertService,campsService } from "services";
 import Header from 'component/Header';
 import Button from "component/Button";
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-
+import Container from '@mui/material/Container';
 
 const CampLog: NextPage = () => {
   const router = useRouter();
@@ -22,7 +20,8 @@ const CampLog: NextPage = () => {
       status: value,
     }
     const res =await campsService.changeStatus(id, req);
-    console.log(res);
+    if(res._id)
+    alertService.success('Camp Status was updated successful!')
   }
 
   return (
