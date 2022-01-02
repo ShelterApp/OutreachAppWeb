@@ -9,7 +9,6 @@ import Select from "component/Select";
 const MyDashboard: NextPage = () => {
   const [value, setValue] = useState<object>('');
   const [yearValue, setYearValue] = useState<object>({ value: new Date().getFullYear(), label: new Date().getFullYear() });
-  const [id, setId] = useState<string>('');
   const init = async (item) => {
     const condition = { year:item?.value || yearValue.value,  };
     const res = await userService.getReport(condition);
@@ -20,9 +19,10 @@ const MyDashboard: NextPage = () => {
     init();
   }, []);
   const renderDistributed = (item) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return item.map((item, index) => <div key={index} style={{ fontSize: 20, padding: '7px 0px' }}> # {item.supplyName} Distributed: {item.count}</div>)
   }
-  const setYear = async (item: any) => {
+  const setYear =  (item: any) => {
     init(item);
   }
 

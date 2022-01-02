@@ -134,8 +134,17 @@ const Supplies = () => {
   }
 
   const remove = (id: string) => {
-    const new_list = dropSupplies.filter((obj: any) => obj.id !== id);
-    setDropSupplies([...new_list])
+    if(tab === 'requestSupplies') {
+      const new_list = requestSupplies.filter((obj: any) => obj.supplyId !== id);
+      setRequestSupplies([...new_list])
+    } else {
+      const new_list = dropSupplies.filter((obj: any) => obj.supplyId !== id);
+      setDropSupplies([...new_list])
+    }
+  }
+
+  const current_tab = (value: string) => {
+    setTab(value)
   }
 
   const updateQty = (qty: number, id: string) => {
