@@ -13,7 +13,8 @@ const initCampDetails: CampDetailsProps = {
   name: "",
   numOfPeople: 1,
   numOfPet: 0,
-  type: 1
+  type: 1,
+  address: ""
 }
 
 const initPeople: PeopleProps = {
@@ -40,7 +41,8 @@ const EditCamp: NextPage = () => {
           name: res.name,
           numOfPeople: res.numOfPeople,
           numOfPet: res.numOfPet,
-          type: res.type
+          type: res.type,
+          address: res.address
         })
         setCenter({
           lat: res.location.coordinates[1],
@@ -65,7 +67,16 @@ const EditCamp: NextPage = () => {
 
   const [step, setStep] = useState<number>(1);
 
-  const onSubmit = (i: number) => {
+  const onSubmit = async (i: number) => {
+    const locationMap = await getLocationAPIMap(center);
+    let address = "";
+    if (locationMap && locationMap.status === 'OK') {
+      address = locationMap.plus_code.compound_code;
+    }
+    setCampDetails({
+      ...campDetails,
+      address: address
+    })
     setStep(i)
   }
 

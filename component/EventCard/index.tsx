@@ -48,7 +48,7 @@ const EventCard = ({event, handleOpenAlert, edit, handleUpdateMaxAttendes, handl
           )
         }
         <Typography variant="body2">
-          <b>Distribution On:</b> {dayjs(event.startDate).format("DD/MM/YYYY h:mm A")} - {dayjs(event.endDate).format("h:mm A")}
+          <b>Distribution On:</b> {dayjs(event.startDate).format("MM/DD/YY h:mm A")} - {dayjs(event.endDate).format("h:mm A")}
         </Typography>
         {
           event.maxAttended && (
