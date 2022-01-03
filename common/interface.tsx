@@ -5,6 +5,7 @@ export interface PeopleProps {
   name: string;
   race: string;
   unhouseSince: string;
+  homeless: string;
 }
 
 export interface CampDetailsProps {
@@ -14,4 +15,5 @@ export interface CampDetailsProps {
   numOfPet: number;
   type: number;
   address: string;
+  status: number;
 }

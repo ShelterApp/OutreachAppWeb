@@ -16,7 +16,8 @@ const initCampDetails: CampDetailsProps = {
   numOfPeople: 1,
   numOfPet: 0,
   type: 1,
-  address: ''
+  address: '',
+  status: 1
 }
 
 const initPeople: PeopleProps = {
@@ -25,7 +26,8 @@ const initPeople: PeopleProps = {
   name: '',
   gender: '',
   race: '',
-  unhouseSince: ''
+  unhouseSince: '',
+  homeless: 'No'
 }
 
 const AddCamp: NextPage = () => {
@@ -121,7 +123,7 @@ const AddCamp: NextPage = () => {
         step === 1 && <AddNewCamp title={'Add New Camp'} zoom={zoom} setZoom={setZoom} center={center} setCenter={setCenter} onSubmit={onSubmit}/>
       }
       {
-        step === 2 && <CampDetails defaultValues={campDetails} previousBack={previousBack} onSubmit={onSubmitCamp}/>
+        step === 2 && <CampDetails isNew defaultValues={campDetails} previousBack={previousBack} onSubmit={onSubmitCamp}/>
       }
       {
         step === 3 && <UnhousedInfo people={people} previousBack={previousBack} onSubmit={onSubmitUnhousedInfo}/>

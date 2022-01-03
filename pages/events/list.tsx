@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCampground, faHandsHelping } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import Router from "next/router";
 
 const Index: NextPage = () => {
   const [list, setList] = useState<any[]>([]);
@@ -32,7 +33,6 @@ const Index: NextPage = () => {
   }, []);
 
   const isJoined = (attendes: any[]) => {
-    console.log(user)
     const _user = attendes.find((obj: any) => obj.userId === user._id);
     return !_user;
   }
@@ -60,9 +60,11 @@ const Index: NextPage = () => {
             list.map((obj: any, index: number) => (
               <div key={index} style={{width: '100%'}}>
                 <div style={{padding: 10}}>
-                  <h3 className="mt-0">{obj.title}</h3>
-                  <p>Distribution: {dayjs(obj.startDate).format("MMMM DD, YYYY")} from {dayjs(obj.startDate).format("hh:mm A")} - {dayjs(obj.endDate).format("hh:mm A")}</p>
-                  <p>{obj.countAttended} members attending out of {obj.maxAttended}</p>
+                  <div style={{cursor: 'pointer'}} onClick={() => Router.push(`/events/${obj._id}`)}>
+                    <h3 className="mt-0">{obj.title}</h3>
+                    <p>Distribution: {dayjs(obj.startDate).format("MMMM DD, YYYY")} from {dayjs(obj.startDate).format("hh:mm A")} - {dayjs(obj.endDate).format("hh:mm A")}</p>
+                    <p>{obj.countAttended} members attending out of {obj.maxAttended}</p>
+                  </div>
                   {
                     isJoined(obj.attendes) && (
                       <div style={{textAlign: 'center'}}>
