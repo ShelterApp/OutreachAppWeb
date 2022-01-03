@@ -43,10 +43,10 @@ const MyDashboard: NextPage = () => {
         <div style={{ fontSize: 20, padding: '7px 0px' }}> Total Volunteers: {value.totalVolunteer}</div>
         <div style={{ fontSize: 20, padding: '7px 0px' }}> Total Items Distributed: {value.itemDistributed?.length}</div>
         <div style={{ fontSize: 20, padding: '7px 0px' }}> Total Pending Distribution: {value.itemPending?.length}</div>
-        {!!value.itemDistributed && renderDistributed(value.itemDistributed)}
         <div style={{ fontSize: 20, padding: '7px 0px' }}> # User Requests Served: {value.totalUserRequestServed}</div>
         <div style={{ fontSize: 20, padding: '7px 0px' }}> # Camp Requests Served: {value.totalCampRequestServed}</div>
         <div style={{ fontSize: 20, padding: '7px 0px' }}> # Events Conducted: {value.eventConducted}</div>
+        {!!value.itemDistributed && renderDistributed(value.itemDistributed)}
       </Container>
     </main>
   );

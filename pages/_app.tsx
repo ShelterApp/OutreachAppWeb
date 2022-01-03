@@ -40,7 +40,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     const notAuthorizedPath = ['/login/', "/sign-up", "/sign-up/", '/forgot-password/', 'help-screen/','/forgotpassword/','/sigupconfirm/'];
     const authorizedPath = ["/request/detail/", "/request/","/update-profile/", "/update-password/", "/organizations/add/", "/organizations/", "/volunteers/add/", "/volunteers/",
      '/add-camp/','/camp/detail/','/camp/log/','/camp/report/','/my-claims/','/manage-request/','/manage-camps/', '/events/', '/events/add/','/my-work/',
-    '/drop-supplies/','/request-supplies/', '/my-events/','/about/','/terms-of-use','/privacy-policy','/my-dashboard','/all-inventory', '/events/list/'];
+    '/drop-supplies/','/request-supplies/', '/my-events/','/about/','/terms-of-use','/privacy-policy','/my-dashboard','/all-inventory', '/events/list/','/fulfill'];
     const publicPaths: any[] = [] ;
 
     if (publicPaths.includes(path)) {

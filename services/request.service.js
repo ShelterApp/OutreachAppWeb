@@ -69,7 +69,7 @@ async function myClaim(params) {
 async function fullFill(id, params) {
   try {
     const res = await axios.put(`/requests/${id}/fullfill`, params);
-    return res.data;
+    return res;
   } catch (error) {
     return error.response.data;
   }

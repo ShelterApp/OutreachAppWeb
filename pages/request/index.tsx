@@ -21,7 +21,6 @@ const containerStyle: any = {
   overflow: 'hidden'
 };
 const Request: NextPage = () => {
-  // const router = useRouter();
   const [user, setUser] = useState<any>(null);
   const [data, setData] = useState([]);
   const [location, setLocation] = useState([] as number[]);

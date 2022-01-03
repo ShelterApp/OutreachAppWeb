@@ -56,12 +56,6 @@ const MyClaims: NextPage = () => {
     return deg * (Math.PI / 180)
   }
 
-  const fullFill = async (id: string) => {
-    const result = await requestService.update(id, { status: 3 });
-    if (result.status == 204) {
-      alertService.success("Claim MyClaims successful.");
-    }
-  }
   const release =async (id:string)=>{
     const result = await requestService.update(id, { status: 1 });
     getData();
@@ -88,10 +82,11 @@ const MyClaims: NextPage = () => {
       {!!item.requestInfo.supplies[0]?.supplyName && <div style={{ paddingTop: 7, paddingLeft: 10, }}> Locking for {item.requestInfo.supplies[0]?.supplyName}</div>}
       <div style={{ paddingTop: 7, paddingLeft: 10, }}>{reportText}</div>
       <div style={{ paddingTop: 10, paddingBottom: 5 }}>
-        <Button style={{ textTransform: 'none', fontSize: 16, width: '45%', marginLeft: '3%', padding: 9, borderRadius: 10, backgroundColor: '#5952ff' }} variant="contained"
-          onClick={() => fullFill(item._id)} >
+      <Link href={`/fulfill/${item._id}`} passHref>
+      <Button style={{ textTransform: 'none', fontSize: 16, width: '45%', marginLeft: '3%', padding: 9, borderRadius: 10, backgroundColor: '#5952ff' }} variant="contained"  >
           Fulfill Request
       </Button>
+        </Link>
         <Button style={{ textTransform: 'none', fontSize: 16, width: '45%', marginLeft: '3%', padding: 9, borderRadius: 10, backgroundColor: '#5952ff' }} variant="contained"
           onClick={() => release(item._id)} >
           Release Request
@@ -111,10 +106,11 @@ const MyClaims: NextPage = () => {
       <div style={{ paddingTop: 7, paddingLeft: 10, }}> Locking for {item.requestInfo.cate?.parentCateName}</div>
       <div style={{ paddingTop: 7, paddingLeft: 10, }}>{reportText}</div>
       <div style={{ paddingTop: 10, paddingBottom: 5 }}>
-        <Button style={{ textTransform: 'none', fontSize: 16, width: '45%', marginLeft: '3%', padding: 9, borderRadius: 10, backgroundColor: '#5952ff' }} variant="contained"
-          onClick={() => fullFill(item._id)} >
+      <Link href={`/fulfill/${item._id}`} passHref>
+      <Button style={{ textTransform: 'none', fontSize: 16, width: '45%', marginLeft: '3%', padding: 9, borderRadius: 10, backgroundColor: '#5952ff' }} variant="contained"  >
           Fulfill Request
       </Button>
+        </Link>
         <Button style={{ textTransform: 'none', fontSize: 16, width: '45%', marginLeft: '3%', padding: 9, borderRadius: 10, backgroundColor: '#5952ff' }} variant="contained"
           onClick={() => release(item._id)} >
           Release Request
