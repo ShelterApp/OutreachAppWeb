@@ -1,27 +1,27 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import React, { useState, useEffect } from 'react';
 import styles from "styles/Home.module.scss";
 import Button from "component/Button";
-import { userService } from "services";
 import Container from '@mui/material/Container';
 import Header from 'component/Header';
-import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import { useForm } from "react-hook-form";
 import ErrorMessage from "component/ErrorMessage";
 import stylesComponent from "component/Component.module.scss";
 import TextInput from "component/TextInput";
 import Select from "component/Select";
+import { CampDetailsProps } from 'common/interface';
 
 interface CampDetailsPageProps {
   onSubmit: Function;
   previousBack: Function;
   defaultValues: CampDetailsProps;
+  isNew?: boolean | false;
 }
 
-const CampDetails = ({ onSubmit, previousBack, defaultValues }: CampDetailsPageProps) => {
+const CampDetails = ({ onSubmit, previousBack, defaultValues, isNew }: CampDetailsPageProps) => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<CampDetailsProps>({
     defaultValues: defaultValues
@@ -29,7 +29,7 @@ const CampDetails = ({ onSubmit, previousBack, defaultValues }: CampDetailsPageP
   // eslint-disable-next-line
   const [loading, setLoading] = useState(false);
 
-  const submit = async (data: any, e: any) => {
+  const submit = (data: any, e: any) => {
     setLoading(true);
     e.preventDefault();
     let form = {
@@ -39,7 +39,8 @@ const CampDetails = ({ onSubmit, previousBack, defaultValues }: CampDetailsPageP
     if(!hasPet.value) {
       form = {
         ...data,
-        numOfPet: 0
+        numOfPet: 0,
+        status: isNew ? 1 : status.value
       }
     }
     onSubmit(form)
@@ -59,12 +60,23 @@ const CampDetails = ({ onSubmit, previousBack, defaultValues }: CampDetailsPageP
     {label: 'Other', value: 9}
   ]
 
+  const statusOptions = [
+    {label: 'Actived', value: 1},
+    {label: 'Inactive', value: 3},
+    {label: 'Lostinsweet', value: 5}
+  ]
+
   const [hasPet, setHasPet] = useState({label: 'No', value: false})
   const [type, setType] = useState(optionsType[0]);
+  const [status, setStatus] = useState(statusOptions[0]);
 
   useEffect(() => {
     const _opt: any = optionsType.find((opt: any) => opt.value === defaultValues.type)
     setType(_opt)
+
+    const _status: any = statusOptions.find((opt: any) => opt.value === defaultValues.status)
+    console.log(defaultValues)
+    setStatus(_status)
 
     const _optHasPet: any = defaultValues.numOfPet > 0 ? {label: 'Yes', value: true} : {label: 'No', value: false};
     setHasPet(_optHasPet)
@@ -131,6 +143,17 @@ const CampDetails = ({ onSubmit, previousBack, defaultValues }: CampDetailsPageP
                   <ErrorMessage>Please input number of pets.</ErrorMessage>
                 )}
               </>
+            )
+          }
+          {
+            !isNew && (
+              <Select
+                label="Status"
+                placeholder="Status"
+                options={statusOptions}
+                value={status}
+                onChange={setStatus}
+              />
             )
           }
           <div className={styles.grid}>

@@ -14,7 +14,8 @@ const initCampDetails: CampDetailsProps = {
   numOfPeople: 1,
   numOfPet: 0,
   type: 1,
-  address: ""
+  address: "",
+  status: 1
 }
 
 const initPeople: PeopleProps = {
@@ -23,7 +24,8 @@ const initPeople: PeopleProps = {
   name: '',
   gender: 'Male',
   race: '',
-  unhouseSince: ''
+  unhouseSince: '',
+  homeless: 'No'
 }
 
 const EditCamp: NextPage = () => {
@@ -42,7 +44,8 @@ const EditCamp: NextPage = () => {
           numOfPeople: res.numOfPeople,
           numOfPet: res.numOfPet,
           type: res.type,
-          address: res.address
+          address: res.address,
+          status: res.status
         })
         setCenter({
           lat: res.location.coordinates[1],
@@ -55,7 +58,8 @@ const EditCamp: NextPage = () => {
           name: o.name,
           gender: o.gender,
           race: o.race,
-          unhouseSince: o.unhouseSince
+          unhouseSince: o.homeless === 'Yes' ? o.unhouseSince : '',
+          homeless: o.homeless
         }))
         setPeople(_people)
         return;
@@ -136,8 +140,7 @@ const EditCamp: NextPage = () => {
           center.lng, center.lat
         ]
       },
-      address: address,
-      status: 1
+      address: address
     }
     console.log(data)
 

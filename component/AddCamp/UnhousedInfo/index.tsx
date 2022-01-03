@@ -43,6 +43,11 @@ const disabledOption = ["Yes", "No"].map((x: string) => ({
   label: x,
 }));
 
+const optionsHomeless = ["Yes", "No"].map((x: string) => ({
+  value: x,
+  label: x,
+}));
+
 interface UnhousedInfoProps {
   onSubmit: Function;
   previousBack: Function;
@@ -69,9 +74,11 @@ const UnhousedInfo = ({
         race: data[`race-${index}`],
         gender: data[`gender-${index}`],
         name: data[`name-${index}`],
-        unhouseSince: data[`unhouseSince-${index}`],
+        unhouseSince: data[`homeless-${index}`] === 'Yes' ? data[`unhouseSince-${index}`] : '',
+        homeless: data[`homeless-${index}`]
       }
     })
+    console.log(list)
 
     onSubmit(list);
     setLoading(false);
@@ -122,6 +129,7 @@ const NestedComponent = ({ index, obj }: { index: number, obj: PeopleProps }) =>
   const {
     register,
     reset,
+    watch,
     formState: { errors },
   } = useFormContext(); // retrieve all hook methods
   const [checked, setChecked] = useState(true);
@@ -201,15 +209,31 @@ const NestedComponent = ({ index, obj }: { index: number, obj: PeopleProps }) =>
           <ErrorMessage>Please input disabled.</ErrorMessage>
         )}
         <SelectComponent
-          label='Unhoused Since'
-          {...register(`unhouseSince-${index}`, {
+          label='HomeLess'
+          {...register(`homeless-${index}`, {
             required: true
           })}
-          options={unhouseSinceOption}
+          options={optionsHomeless}
         />
-        {errors[`unhouseSince-${index}`] && errors[`unhouseSince-${index}`].type === "required" && (
-          <ErrorMessage>Please input unhouseSince.</ErrorMessage>
+        {errors[`homeless-${index}`] && errors[`homeless-${index}`].type === "required" && (
+          <ErrorMessage>Please input homeless.</ErrorMessage>
         )}
+        {
+          watch(`homeless-${index}`) === 'Yes' && (
+            <>
+              <SelectComponent
+                label='Unhoused Since'
+                {...register(`unhouseSince-${index}`, {
+                  required: true
+                })}
+                options={unhouseSinceOption}
+              />
+              {errors[`unhouseSince-${index}`] && errors[`unhouseSince-${index}`].type === "required" && (
+                <ErrorMessage>Please input unhouseSince.</ErrorMessage>
+              )}
+            </>
+          )
+        }
       </Collapse>
     </div>
   );
