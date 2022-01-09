@@ -54,9 +54,9 @@ const CampDetails = ({ onSubmit, previousBack, defaultValues, isNew }: CampDetai
 
   const optionsType = [
     {label: 'Camps', value: 1},
-    {label: 'CampWithPets', value: 3},
+    {label: 'Camp with Pets', value: 3},
     {label: 'RV', value: 5},
-    {label: 'SafeParking', value: 7},
+    {label: 'Safe Parking', value: 7},
     {label: 'Other', value: 9}
   ]
 

@@ -42,13 +42,7 @@ const Home: NextPage = () => {
     id: 'google-map-script',
     googleMapsApiKey: process.env.NEXT_PUBLIC_APIKEY_MAP
   } as any);
-  // const [map, setMap] = React.useState(null)
-  // const onLoad = React.useCallback(function callback(map) {
-  //   const bounds = new window.google.maps.LatLngBounds();
-  //   console.log(bounds);
-  //   map.fitBounds(bounds);
-  //   setMap(map)
-  // }, [])
+
   const onUnmount = React.useCallback(function callback() {
     // setMap(null)
   }, [])
@@ -163,20 +157,32 @@ const Home: NextPage = () => {
         </div>
         <div className={styles.bottomTab}>
           <Link href='/request' passHref>
+          <div style={{height:'100%',flexDirection:'column',display:'flex',justifyContent:'space-evenly'}}>
             <FontAwesomeIcon
+              style={{width:'100%'}}
               icon={faHandsHelping}
               className="cursor-pointer icon-custom"
             />
+            <div>Requests</div>
+            </div>
           </Link>
-          <div>
+          <div style={{height:'100%',flexDirection:'column',display:'flex',justifyContent:'space-evenly'}}>
             <FontAwesomeIcon
+              style={{width:'100%'}}
               icon={faCampground}
               className="cursor-pointer icon-custom"
             />
+            <div>Camps</div>
           </div>
           <Link href='/events/list' passHref>
-            <EventAvailableIcon className="cursor-pointer"
-              fontSize="large" />
+            <div>
+            <EventAvailableIcon 
+              style={{width:'100%'}}
+              className="cursor-pointer"
+              fontSize='large'
+              />
+            <div>Events</div>
+            </div>
           </Link>
         </div>
       </main>

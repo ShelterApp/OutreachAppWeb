@@ -209,7 +209,7 @@ const NestedComponent = ({ index, obj }: { index: number, obj: PeopleProps }) =>
           <ErrorMessage>Please input disabled.</ErrorMessage>
         )}
         <SelectComponent
-          label='HomeLess'
+          label='Homeless'
           {...register(`homeless-${index}`, {
             required: true
           })}

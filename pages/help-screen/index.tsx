@@ -231,20 +231,21 @@ const HelpScreen: NextPage = () => {
             <textarea
               {...register("note", { required: true })}
               className={stylesComponent.input}
+              rows={5}
               placeholder="Any other details you would like to add"
             />
             {errors.note && errors.note.type === "required" && (
               <ErrorMessage>Please input description.</ErrorMessage>
             )}
-            <FormControlLabel
+
+            {!!location.length &&<FormControlLabel
               control={
                 <Checkbox
                   checked={checked}
                   onChange={(e) => setChecked(e.target.checked)}
                 />
               }
-              label="Add your location"
-            />
+              label="Add your location" />}
             <div style= {{ textAlign: 'center'}}>
               <Button
                 text="Request for Help"

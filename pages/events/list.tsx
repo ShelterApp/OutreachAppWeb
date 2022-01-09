@@ -84,21 +84,33 @@ const Index: NextPage = () => {
       <div className={styles.bottomTicky}>
         <div className={styles.bottomTab}>
           <Link href='/request' passHref>
+          <div style={{height:'100%',flexDirection:'column',display:'flex',justifyContent:'space-evenly'}}>
             <FontAwesomeIcon
+              style={{width:'100%'}}
               icon={faHandsHelping}
               className="cursor-pointer icon-custom"
             />
+            <div>Requests</div>
+            </div>
           </Link>
           <Link href='/' passHref>
+          <div style={{height:'100%',flexDirection:'column',display:'flex',justifyContent:'space-evenly'}}>
             <FontAwesomeIcon
+              style={{width:'100%'}}
               icon={faCampground}
               className="cursor-pointer icon-custom"
             />
+            <div>Camps</div>
+          </div>
           </Link>
           <div>
-            <EventAvailableIcon className="cursor-pointer"
-              fontSize="large" />
-          </div>
+            <EventAvailableIcon 
+              style={{width:'100%'}}
+              className="cursor-pointer"
+              fontSize='large'
+              />
+            <div>Events</div>
+            </div>
         </div>
       </div>
     </main>

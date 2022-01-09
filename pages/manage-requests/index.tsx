@@ -155,21 +155,35 @@ const ManageRequest: NextPage = () => {
             </div>
           </div>
           <div className={styles.bottomTab}>
-            <div>
-              <FontAwesomeIcon
-                icon={faHandsHelping}
-                className="cursor-pointer icon-custom"
-              />
+          <Link href='/request' passHref>
+          <div style={{height:'100%',flexDirection:'column',display:'flex',justifyContent:'space-evenly'}}>
+            <FontAwesomeIcon
+              style={{width:'100%'}}
+              icon={faHandsHelping}
+              className="cursor-pointer icon-custom"
+            />
+            <div>Requests</div>
             </div>
+          </Link>
             <Link href='/' passHref>
-              <FontAwesomeIcon
-                icon={faCampground}
-                className="cursor-pointer icon-custom"
-              />
+            <div style={{height:'100%',flexDirection:'column',display:'flex',justifyContent:'space-evenly'}}>
+            <FontAwesomeIcon
+              style={{width:'100%'}}
+              icon={faCampground}
+              className="cursor-pointer icon-custom"
+            />
+            <div>Camps</div>
+          </div>
             </Link>
             <Link href='/events/list' passHref>
-              <EventAvailableIcon className="cursor-pointer"
-                fontSize="large" />
+            <div>
+            <EventAvailableIcon 
+              style={{width:'100%'}}
+              className="cursor-pointer"
+              fontSize='large'
+              />
+            <div>Events</div>
+            </div>
             </Link>
           </div>
         </div>

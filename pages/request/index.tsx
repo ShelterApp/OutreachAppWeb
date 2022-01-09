@@ -141,21 +141,33 @@ const Request: NextPage = () => {
           </div>
         </div>
         <div className={styles.bottomTab}>
-          <div>
+        <div style={{height:'100%',flexDirection:'column',display:'flex',justifyContent:'space-evenly'}}>
             <FontAwesomeIcon
+              style={{width:'100%'}}
               icon={faHandsHelping}
               className="cursor-pointer icon-custom"
             />
-          </div>
+            <div>Requests</div>
+            </div>
           <Link href='/' passHref>
+          <div style={{height:'100%',flexDirection:'column',display:'flex',justifyContent:'space-evenly'}}>
             <FontAwesomeIcon
+              style={{width:'100%'}}
               icon={faCampground}
               className="cursor-pointer icon-custom"
             />
+            <div>Camps</div>
+          </div>
           </Link>
           <Link href='/events/list' passHref>
-            <EventAvailableIcon className="cursor-pointer"
-              fontSize="large" />
+            <div>
+            <EventAvailableIcon 
+              style={{width:'100%'}}
+              className="cursor-pointer"
+              fontSize='large'
+              />
+            <div>Events</div>
+            </div>
           </Link>
         </div>
       </div>
