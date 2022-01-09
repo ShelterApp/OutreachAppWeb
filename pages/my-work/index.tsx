@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-plus-operands */
 import type { NextPage } from "next";
 import React, { useEffect, useState } from "react";
 import styles from "styles/Home.module.scss";
