@@ -8,8 +8,8 @@ import Button from '@mui/material/Button';
 import Link from "next/link";
 import moment from 'moment';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCampground, faHandsHelping } from "@fortawesome/free-solid-svg-icons";
-import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import {  faHandsHelping } from "@fortawesome/free-solid-svg-icons";
+import Image from 'next/image';
 
 const containerStyle: any = {
   width: '100%',
@@ -156,34 +156,20 @@ const ManageRequest: NextPage = () => {
           </div>
           <div className={styles.bottomTab}>
           <Link href='/request' passHref>
-          <div style={{height:'100%',flexDirection:'column',display:'flex',justifyContent:'space-evenly'}}>
+          <div style={{height:'100%',width:100, flexDirection:'column',display:'flex',justifyContent:'space-evenly'}}>
             <FontAwesomeIcon
               style={{width:'100%'}}
               icon={faHandsHelping}
               className="cursor-pointer icon-custom"
             />
-            <div>Requests</div>
+            <div style={{textAlign:'center'}}>Requests</div>
             </div>
           </Link>
             <Link href='/' passHref>
-            <div style={{height:'100%',flexDirection:'column',display:'flex',justifyContent:'space-evenly'}}>
-            <FontAwesomeIcon
-              style={{width:'100%'}}
-              icon={faCampground}
-              className="cursor-pointer icon-custom"
-            />
-            <div>Camps</div>
-          </div>
+            <Image src='/icon/Home.svg' width='100%' height='60%'/>
             </Link>
             <Link href='/events/list' passHref>
-            <div>
-            <EventAvailableIcon 
-              style={{width:'100%'}}
-              className="cursor-pointer"
-              fontSize='large'
-              />
-            <div>Events</div>
-            </div>
+            <Image src='/icon/Events.svg' width='100%' height='60%'/>
             </Link>
           </div>
         </div>

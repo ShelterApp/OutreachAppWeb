@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { userService, campsService } from "services";
 import Container from '@mui/material/Container';
 import Header from 'component/Header';
-import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import Link from "next/link";
 import { use100vh } from 'react-div-100vh'
@@ -13,7 +12,8 @@ import styles from "styles/Home.module.scss";
 import ButtonC from "component/Button";
 import Button from '@mui/material/Button';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCampground, faHandsHelping } from "@fortawesome/free-solid-svg-icons";
+import {  faHandsHelping } from "@fortawesome/free-solid-svg-icons";
+import Image from 'next/image';
 const center = {
   lat: 32.965557,
   lng: -96.71583
@@ -63,6 +63,14 @@ const Home: NextPage = () => {
     position: 'relative',
     overflow: 'hidden'
   };
+  const renderIcon=(type:number)=>{
+    if(type==1) return '/icon/camps.svg';
+    else if(type==3) return '/icon/Pets.svg';
+    else if(type==5) return '/icon/RV_Camp.svg';
+    // else if(type==7) return '/icon/RV_Camp.svg';
+    return '/icon/Frame_14.svg';
+    // else if(type==7) return '/icon/'
+  }
 
   useEffect(() => {
     const subscription = userService.user.subscribe((x: any) => setUser(x));
@@ -70,10 +78,11 @@ const Home: NextPage = () => {
     return () => subscription.unsubscribe();
   }, []);
 
+
   const renderMarker = () => {
     const map = camp.map((item: any, index: number) =>
       <Marker key={index}
-        icon={item.type == 1 ? 'car.png' : null}
+         icon={renderIcon(item.type)}
         onClick={() => {
           setPickerCamp(camp[index]);
           setShowModal(true);
@@ -100,7 +109,6 @@ const Home: NextPage = () => {
           <ButtonC text="Camp Log" link={`/camp/log/${pickerCamp._id}`}></ButtonC>
           <div style={{paddingTop:10}}/>
           <ButtonC text="Report Swept or Inactive " link={`/camp/report/${pickerCamp._id}`}></ButtonC>
-
         </div>
       </Modal>
     )
@@ -157,32 +165,20 @@ const Home: NextPage = () => {
         </div>
         <div className={styles.bottomTab}>
           <Link href='/request' passHref>
-          <div style={{height:'100%',flexDirection:'column',display:'flex',justifyContent:'space-evenly'}}>
+            <div style={{height:'100%',width:100, flexDirection:'column',display:'flex',justifyContent:'space-evenly'}}>
             <FontAwesomeIcon
               style={{width:'100%'}}
               icon={faHandsHelping}
               className="cursor-pointer icon-custom"
             />
-            <div>Requests</div>
+            <div style={{textAlign:'center'}}>Requests</div>
             </div>
           </Link>
-          <div style={{height:'100%',flexDirection:'column',display:'flex',justifyContent:'space-evenly'}}>
-            <FontAwesomeIcon
-              style={{width:'100%'}}
-              icon={faCampground}
-              className="cursor-pointer icon-custom"
-            />
-            <div>Camps</div>
+          <div>
+            <Image src='/icon/Home.svg' width='100%' height='60%'/>
           </div>
           <Link href='/events/list' passHref>
-            <div>
-            <EventAvailableIcon 
-              style={{width:'100%'}}
-              className="cursor-pointer"
-              fontSize='large'
-              />
-            <div>Events</div>
-            </div>
+              <Image src='/icon/Events.svg' width='100%' height='60%'/>
           </Link>
         </div>
       </main>

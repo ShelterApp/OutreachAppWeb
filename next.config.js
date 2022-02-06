@@ -6,8 +6,8 @@ module.exports = {
   },
   publicRuntimeConfig: {
     apiUrl: process.env.NODE_ENV === 'development'
-      ? 'https://beta-api.outreachapp.org' // development api
-      : 'https://beta-api.outreachapp.org' // production api
+      ? 'https://tathung.xyz' // development api
+      : 'https://tathung.xyz/' // production api
   },
   trailingSlash: true,
   typescript: {

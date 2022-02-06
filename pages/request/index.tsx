@@ -4,14 +4,15 @@ import { useState, useEffect } from "react";
 import styles from "styles/Home.module.scss";
 import { userService, alertService } from "services";
 import Header from 'component/Header';
-import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+// import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import Button from '@mui/material/Button';
 import { requestService } from 'services';
 import Link from "next/link";
 import moment from 'moment';
 // import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCampground, faHandsHelping } from "@fortawesome/free-solid-svg-icons";
+import {  faHandsHelping } from "@fortawesome/free-solid-svg-icons";
+import Image from 'next/image';
 
 const containerStyle: any = {
   width: '100%',
@@ -141,33 +142,19 @@ const Request: NextPage = () => {
           </div>
         </div>
         <div className={styles.bottomTab}>
-        <div style={{height:'100%',flexDirection:'column',display:'flex',justifyContent:'space-evenly'}}>
-            <FontAwesomeIcon
-              style={{width:'100%'}}
-              icon={faHandsHelping}
-              className="cursor-pointer icon-custom"
-            />
-            <div>Requests</div>
+        <div style={{height:'100%',width:100,flexDirection:'column',display:'flex',justifyContent:'space-evenly'}}>
+          <FontAwesomeIcon
+                style={{width:'100%'}}
+                icon={faHandsHelping}
+                className="cursor-pointer icon-custom"
+              />
+            <div style={{textAlign:'center'}}>Requests</div>
             </div>
           <Link href='/' passHref>
-          <div style={{height:'100%',flexDirection:'column',display:'flex',justifyContent:'space-evenly'}}>
-            <FontAwesomeIcon
-              style={{width:'100%'}}
-              icon={faCampground}
-              className="cursor-pointer icon-custom"
-            />
-            <div>Camps</div>
-          </div>
+            <Image src='/icon/Home.svg' width='100%' height='60%'/>
           </Link>
           <Link href='/events/list' passHref>
-            <div>
-            <EventAvailableIcon 
-              style={{width:'100%'}}
-              className="cursor-pointer"
-              fontSize='large'
-              />
-            <div>Events</div>
-            </div>
+            <Image src='/icon/Events.svg' width='100%' height='60%'/>
           </Link>
         </div>
       </div>

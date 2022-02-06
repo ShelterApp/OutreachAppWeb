@@ -8,8 +8,8 @@ import dayjs from 'dayjs';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCampground, faHandsHelping } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
-import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import Router from "next/router";
+import Image from 'next/image';
 
 const Index: NextPage = () => {
   const [list, setList] = useState<any[]>([]);
@@ -84,32 +84,20 @@ const Index: NextPage = () => {
       <div className={styles.bottomTicky}>
         <div className={styles.bottomTab}>
           <Link href='/request' passHref>
-          <div style={{height:'100%',flexDirection:'column',display:'flex',justifyContent:'space-evenly'}}>
+          <div style={{height:'100%',width:100,flexDirection:'column',display:'flex',justifyContent:'space-evenly'}}>
             <FontAwesomeIcon
               style={{width:'100%'}}
               icon={faHandsHelping}
               className="cursor-pointer icon-custom"
             />
-            <div>Requests</div>
+            <div style={{textAlign:'center'}}>Requests</div>
             </div>
           </Link>
           <Link href='/' passHref>
-          <div style={{height:'100%',flexDirection:'column',display:'flex',justifyContent:'space-evenly'}}>
-            <FontAwesomeIcon
-              style={{width:'100%'}}
-              icon={faCampground}
-              className="cursor-pointer icon-custom"
-            />
-            <div>Camps</div>
-          </div>
+            <Image src='/icon/Home.svg' width='100%' height='60%'/>
           </Link>
           <div>
-            <EventAvailableIcon 
-              style={{width:'100%'}}
-              className="cursor-pointer"
-              fontSize='large'
-              />
-            <div>Events</div>
+            <Image src='/icon/Events.svg' width='100%' height='60%'/>
             </div>
         </div>
       </div>
