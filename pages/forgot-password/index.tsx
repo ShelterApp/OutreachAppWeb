@@ -20,6 +20,7 @@ const ForgotPassword: NextPage = () => {
   const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
     const res = await userService.forgotPassword(data);
     if (res && res.message) {
+      if(res.message=='cannot_found_user') return alertService.error('User not Found. Please enter a valid email.')
       alertService.error(res.message)
     } else {
       alertService.success('Please check your email to reset password.');
@@ -31,9 +32,9 @@ const ForgotPassword: NextPage = () => {
     <div className={styles.container}>
       <main className={styles.main}>
         <div className={styles.titleName}>OutreachApp</div>
-        <div className={styles.grid}>
+        {/* <div className={styles.grid}> */}
           <form onSubmit={handleSubmit(onSubmit)} style={{width:'100%'}}>
-            <div className={styles.grid}>
+            {/* <div className={styles.grid}> */}
             <TextInput
               label="Email"
               type="email"
@@ -44,7 +45,7 @@ const ForgotPassword: NextPage = () => {
               })}
               placeholder="Enter email or phone"
             />
-            </div>
+            {/* </div> */}
             {errors.email && errors.email.type === "pattern" && (
               <ErrorMessage>Email must be valid.</ErrorMessage>
             )}
@@ -55,7 +56,7 @@ const ForgotPassword: NextPage = () => {
                 <Button text="Reset" type='submit'></Button>
               </div>
           </form>
-        </div>
+        {/* </div> */}
       </main>
     </div>
     </Container>

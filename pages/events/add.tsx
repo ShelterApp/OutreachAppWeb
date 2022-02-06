@@ -15,6 +15,7 @@ const Add: NextPage = () => {
       ...params
     })
     if (res.statusCode && res.message) {
+      if(res.message=='startdate_must_be_before_enddate') return  alertService.error('Start Time must be before End Time.')
       alertService.error(res.message)
     } else {
       router.push('/events/').then(() => {

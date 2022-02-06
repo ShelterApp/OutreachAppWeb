@@ -74,10 +74,8 @@ const FormCreateEvent = ({onSubmit, data}: FormProps) => {
     setLoading(false);
   };
 
-  console.log(day)
   useEffect(() => {
     if (data && data._id) {
-      console.log(data.startDate)
       setDay(new Date(data.startDate))
       setStartTime(new Date(data.startDate))
       setEndTime(new Date(data.endDate))
@@ -119,7 +117,10 @@ const FormCreateEvent = ({onSubmit, data}: FormProps) => {
         <InputDate
           label={'Select Day'}
           value={day}
-          setValue={setDay}
+          setValue={(e:any)=>{
+            if(e< new Date() && e.getDate()!== new Date().getDate()) return alertService.error('Please choose another day.')
+            setDay(e)
+          }}
         />
         <Grid container spacing={2}>
           <Grid item xs={6}>

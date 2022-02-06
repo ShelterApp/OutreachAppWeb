@@ -31,7 +31,6 @@ const FormCreateOrg = () => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: defaultValues
@@ -55,10 +54,10 @@ const FormCreateOrg = () => {
 
   return (
     <React.Fragment>
-      <form name="form_org" onSubmit={handleSubmit(submit)}>
+      <form name="form_org" autoComplete="off" onSubmit={handleSubmit(submit)}>
         <TextInput
           label="Name"
-          placeholder="Name"
+          placeholder=" Organization Name"
           register={register("name", { required: true })}
         />
         {errors.name && errors.name.type === "required" && (
@@ -68,7 +67,7 @@ const FormCreateOrg = () => {
         <textarea
           {...register("description", { required: true })}
           className={stylesComponent.input}
-          placeholder="Updated Description"
+          placeholder="Description of the Organization"
         />
         {errors.description && errors.description.type === "required" && (
           <ErrorMessage>Please input description.</ErrorMessage>
@@ -84,8 +83,13 @@ const FormCreateOrg = () => {
         <TextInput
           label="Phone"
           placeholder="Phone"
-          register={register("phone", { required: true })}
+          register={register("phone", { required: true,
+            pattern:/^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g
+          })}
         />
+         {errors.phone && errors.phone.type === "pattern" && (
+              <ErrorMessage>Phone number must be valid.</ErrorMessage>
+            )}
         {errors.phone && errors.phone.type === "required" && (
           <ErrorMessage>Please input phone.</ErrorMessage>
         )}

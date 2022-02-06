@@ -43,7 +43,7 @@ const disabledOption = ["Yes", "No"].map((x: string) => ({
   label: x,
 }));
 
-const optionsHomeless = ["Yes", "No"].map((x: string) => ({
+const optionsHomeless = [ "No",'Unknown', "Less than 1 month",'1 to 6 months','6 to 12 months','More than 12 months'].map((x: string) => ({
   value: x,
   label: x,
 }));
@@ -161,7 +161,7 @@ const NestedComponent = ({ index, obj }: { index: number, obj: PeopleProps }) =>
           )}
         <TextInput
           label="Age"
-          placeholder="Age"
+          placeholder="Estimated age"
           register={register(`age-${index}`, {
             required: true,
             min: 1,

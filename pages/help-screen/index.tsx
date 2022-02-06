@@ -203,8 +203,8 @@ const HelpScreen: NextPage = () => {
               <ErrorMessage>Please input phone.</ErrorMessage>
             )}
             <Select
-              label="I'm Locking For"
-              placeholder="I'm Locking For"
+              label="I'm Looking For"
+              placeholder="I'm Looking For"
               options={categories0}
               value={parentCate}
               onChange={(e) => onChangeCategory0(e)}

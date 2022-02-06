@@ -8,7 +8,7 @@ import Container from '@mui/material/Container';
 const Add: NextPage = () => {
   return (
     <main className={styles.mainTop}>
-      <Header title='Add Supply Item' back='/' />
+      <Header title='Add Supply' back='/' />
       <Container maxWidth="sm">
         <div className={styles.grid}>
           <FormCreateSupply />

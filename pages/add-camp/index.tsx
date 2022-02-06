@@ -36,8 +36,8 @@ const AddCamp: NextPage = () => {
   const onSubmit = async (i: number) => {
     const locationMap = await getLocationAPIMap(center);
     let address = "";
-    if (locationMap && locationMap.status === 'OK') {
-      address = locationMap.plus_code.compound_code;
+    if (locationMap.results && locationMap.results[0]) {
+      address = locationMap.results[0]?.formatted_address;
     }
     setCampDetails({
       ...campDetails,

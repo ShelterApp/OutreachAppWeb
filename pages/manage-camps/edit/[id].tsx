@@ -74,8 +74,8 @@ const EditCamp: NextPage = () => {
   const onSubmit = async (i: number) => {
     const locationMap = await getLocationAPIMap(center);
     let address = "";
-    if (locationMap && locationMap.status === 'OK') {
-      address = locationMap.plus_code.compound_code;
+    if (locationMap.results && locationMap.results[0]) {
+      address = locationMap.results[0]?.formatted_address;
     }
     setCampDetails({
       ...campDetails,
@@ -125,10 +125,9 @@ const EditCamp: NextPage = () => {
   const createCamp = async (list: PeopleProps[], camp: any) => {
     const locationMap = await getLocationAPIMap(center);
     let address = "";
-    if (locationMap && locationMap.status === 'OK') {
-      address = locationMap.plus_code.compound_code;
+    if (locationMap.results && locationMap.results[0]) {
+      address = locationMap.results[0]?.formatted_address;
     }
-
     const data = {
       ...camp,
       people: [...list],

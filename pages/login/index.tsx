@@ -28,8 +28,7 @@ const Login: NextPage = () => {
       .login(data.email, data.password)
       .then((res) => {
         if (res.statusCode && res.statusCode == "401") {
-          alertService.error(res.message)
-          return;
+          return alertService.error('Please enter Valid credentials')
         }
         // get return url from query parameters or default to '/'
         const returnUrl = router.query.returnUrl?.toString() || "/";

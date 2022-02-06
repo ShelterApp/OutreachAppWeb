@@ -29,6 +29,7 @@ const UpdateProfile: NextPage = () => {
       regionId: region ? region.value : "",
     };
     const res = await userService.update(user);
+    console.log(res);
     if (res && res._id) {
       alertService.success("Your profile was updated successful.");
     } else {
@@ -86,8 +87,14 @@ const UpdateProfile: NextPage = () => {
             <TextInput
               label="Phone"
               placeholder="Update Phone"
-              register={register("phone", { required: true })}
+              register={register("phone", { 
+                required: true,
+                pattern:/^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g
+               })}
             />
+             {errors.phone && errors.phone.type === "pattern" && (
+              <ErrorMessage>Phone number must be valid.</ErrorMessage>
+            )}
             {errors.phone && errors.phone.type === "required" && (
               <ErrorMessage>Please input phone.</ErrorMessage>
             )}

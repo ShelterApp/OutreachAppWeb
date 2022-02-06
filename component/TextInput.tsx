@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 /* eslint-disable react/prop-types */
 import React, {
   forwardRef,
@@ -23,10 +24,10 @@ const TextInput: React.FC<TextInputProps> = forwardRef((props) => {
       }
       {
         props.type === "password" ? (
-          <InputPassword placeholder={props.placeholder} register={props.register} />
+          <InputPassword placeholder={props.placeholder} register={props.register}/>
         ) : (
           <>
-            <input type={props.type || 'text'} defaultValue={props.defaultValue} value={props.value} className={styles.input} placeholder={props.placeholder} {...props.register} autoComplete='off'/ >
+            <input type={props.type || 'text'} defaultValue={props.defaultValue} value={props.value} className={styles.input} placeholder={props.placeholder} {...props.register} autoComplete="off" autoFill='off'/>
           </>
         )
       }

@@ -37,13 +37,10 @@ const CampDetails = ({ onSubmit, previousBack, defaultValues, isNew }: CampDetai
       type: type.value
     }
     if(!hasPet.value) {
-      form = {
-        ...data,
-        numOfPet: 0,
-        status: isNew ? 1 : status.value
-      }
+      form =Object.assign({numOfPet: 0,
+        status: isNew ? 1 : status.value },form)  
     }
-    onSubmit(form)
+     onSubmit(form)
     setLoading(false);
   };
 
@@ -75,7 +72,6 @@ const CampDetails = ({ onSubmit, previousBack, defaultValues, isNew }: CampDetai
     setType(_opt)
 
     const _status: any = statusOptions.find((opt: any) => opt.value === defaultValues.status)
-    console.log(defaultValues)
     setStatus(_status)
 
     const _optHasPet: any = defaultValues.numOfPet > 0 ? {label: 'Yes', value: true} : {label: 'No', value: false};

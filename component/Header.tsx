@@ -118,10 +118,10 @@ const routeSideMenu: any = {
   Admin: [
     { text: "Add Camp", link: "/add-camp" },
     { text: "Add Event", link: "/events/add" },
-    { text: "Add Supplies", link: "/supplies/add/" },
+    { text: "Add Supply", link: "/supplies/add/" },
     { text: "Add Volunteer", link: "/volunteers/add/" },
     { text: "Add Organization", link: "/organizations/add/" },
-    { text: "Add Supply Items", link: "/supply-items/add" },
+    { text: "Add Supply Item", link: "/supply-items/add" },
     { text: "Manage Camps", link: "manage-camps" },
     { text: "Manage Events", link: "/events" },
     { text: "Manage Supplies", link: "/supplies" },
@@ -143,7 +143,7 @@ const routeSideMenu: any = {
   OrgLead: [
     { text: "Add Camp", link: "/add-camp" },
     { text: "Add Event", link: "/events/add" },
-    { text: "Add Supply Items", link: "/supply-items/add" },
+    { text: "Add Supply Item", link: "/supply-items/add" },
     { text: "Add Volunteer", link: "/volunteers/add/" },
     { text: "Manage Camps", link: "manage-camps" },
     { text: "Manage Events", link: "/events" },

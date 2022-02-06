@@ -201,7 +201,7 @@ const SupplyItem = ({obj, updateQty}: any) => {
     if (e.target.value < 0) {
       setQuantity(0)
     } else {
-      setQuantity(e.target.value)
+      setQuantity(parseInt(e.target.value))
     }
   }
 
