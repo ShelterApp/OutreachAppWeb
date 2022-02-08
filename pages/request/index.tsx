@@ -12,7 +12,6 @@ import moment from 'moment';
 // import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {  faHandsHelping } from "@fortawesome/free-solid-svg-icons";
-import Image from 'next/image';
 
 const containerStyle: any = {
   width: '100%',
@@ -151,10 +150,10 @@ const Request: NextPage = () => {
             <div style={{textAlign:'center'}}>Requests</div>
             </div>
           <Link href='/' passHref>
-            <Image src='/icon/Home.svg' width='100%' height='60%'/>
+          <img src='/icon/Home.svg' height='60' width='100'/>
           </Link>
           <Link href='/events/list' passHref>
-            <Image src='/icon/Events.svg' width='100%' height='60%'/>
+          <img src='/icon/Events.svg' height='60' width='100'/>
           </Link>
         </div>
       </div>

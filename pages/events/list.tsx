@@ -6,10 +6,10 @@ import Header from "component/Header";
 import Button from '@mui/material/Button';
 import dayjs from 'dayjs';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCampground, faHandsHelping } from "@fortawesome/free-solid-svg-icons";
+import {  faHandsHelping } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import Router from "next/router";
-import Image from 'next/image';
+
 
 const Index: NextPage = () => {
   const [list, setList] = useState<any[]>([]);
@@ -94,10 +94,10 @@ const Index: NextPage = () => {
             </div>
           </Link>
           <Link href='/' passHref>
-            <Image src='/icon/Home.svg' width='100%' height='60%'/>
+          <img src='/icon/Home.svg' height='60' width='100'/>
           </Link>
           <div>
-            <Image src='/icon/Events.svg' width='100%' height='60%'/>
+          <img src='/icon/Events.svg' height='60' width='100'/>
             </div>
         </div>
       </div>

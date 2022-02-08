@@ -34,6 +34,7 @@
         "@typescript-eslint/no-misused-promises": "off",
         "@typescript-eslint/no-unsafe-call": "off",
         "no-undef": "off",
-        "@typescript-eslint/restrict-template-expressions": "off"
+        "@typescript-eslint/restrict-template-expressions": "off",
+        "@next/next/no-img-element": "off"
     }
 }

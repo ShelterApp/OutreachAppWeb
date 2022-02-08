@@ -13,7 +13,6 @@ import ButtonC from "component/Button";
 import Button from '@mui/material/Button';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {  faHandsHelping } from "@fortawesome/free-solid-svg-icons";
-import Image from 'next/image';
 const center = {
   lat: 32.965557,
   lng: -96.71583
@@ -175,10 +174,10 @@ const Home: NextPage = () => {
             </div>
           </Link>
           <div>
-            <Image src='/icon/Home.svg' width='100%' height='60%'/>
+            <img src='/icon/Home.svg' height='60' width='100'/>
           </div>
           <Link href='/events/list' passHref>
-              <Image src='/icon/Events.svg' width='100%' height='60%'/>
+            <img src='/icon/Events.svg' height='60' width='100'/>
           </Link>
         </div>
       </main>
