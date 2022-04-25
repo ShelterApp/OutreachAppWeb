@@ -7,7 +7,7 @@ import Button from "component/Button";
 import Container from '@mui/material/Container';
 import Header from 'component/Header';
 import Box from '@mui/material/Box';
-import { alertService, suppliesService, supplyItemsService, requestService } from 'services';
+import { userService,alertService, suppliesService, supplyItemsService, requestService } from 'services';
 import Grid from '@mui/material/Grid';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -134,16 +134,19 @@ const SupplyItem = ({ obj, add, remove, supply, updateQty}: any) => {
 const Supplies = () => {
   const router = useRouter();
   const { id } = router.query;
+  const [user, setUser] = useState<any>(null);
   const [supplies, setSupplies] = useState<any[]>([]);
   const [requestSupplies, setRequestSupplies] = useState<any[]>([]);
   const [options, setOptions] = useState<any[]>([]);
 
   useEffect(() => {
-    fetchData();
+    const subscription = userService.user.subscribe((x) => setUser(x));
+    if(user) fetchData();
+    return () => subscription.unsubscribe();
   }, [])
   const fetchData = async () => {
     const res = await suppliesService.list();
-    const data = await supplyItemsService.list();
+    const data = await supplyItemsService.list({organizationId:user.user.organizationId});
     const items = data.items.map((i: any) => ({ _id: i.supplyId._id, name: i.supplyId.name, qty: i.qty}));
     setSupplies(items);
     setOptions(res.items.map((opt: any) => ({ label: opt.name, value: opt._id })))

@@ -45,10 +45,8 @@ const UpdateProfile: NextPage = () => {
       const res = await regionsService.list();
       const regions = res.items.map((region: any) => ({value: region._id, label: region.name}));
       setOptions(regions)
-
       if (userService.userValue) {
         const user = userService.userValue.user;
-
         reset({
           name: user.name,
           phone: user.phone,

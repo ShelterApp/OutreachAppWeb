@@ -12,11 +12,10 @@ import styles from "styles/Home.module.scss";
 import ButtonC from "component/Button";
 import Button from '@mui/material/Button';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {  faHandsHelping } from "@fortawesome/free-solid-svg-icons";
-const center = {
-  lat: 32.965557,
-  lng: -96.71583
-};
+import {  faCampground,faHandsHelping } from "@fortawesome/free-solid-svg-icons";
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+
+// const center = ;
 const customStyles = {
   content: {
     top: '40%',
@@ -36,7 +35,10 @@ const Home: NextPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [pickerCamp, setPickerCamp] = useState({});
   const [indexTab, setIndexTab] = useState<number>(0);
-
+  const [center,setCenter]=useState({
+    lat: 32.965557,
+    lng: -96.71583
+  });
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: process.env.NEXT_PUBLIC_APIKEY_MAP
@@ -62,18 +64,26 @@ const Home: NextPage = () => {
     position: 'relative',
     overflow: 'hidden'
   };
-  const renderIcon=(type:number)=>{
-    if(type==1) return '/icon/camps.svg';
-    else if(type==3) return '/icon/Pets.svg';
-    else if(type==5) return '/icon/RV_Camp.svg';
-    // else if(type==7) return '/icon/RV_Camp.svg';
-    return '/icon/Frame_14.svg';
-    // else if(type==7) return '/icon/'
+  const renderIcon=()=>{
+    return '/icon/camps.svg';
+    // if(type==1) return '/icon/camps.svg';
+    // else if(type==3) return '/icon/Pets.svg';
+    // else if(type==5) return '/icon/RV_Camp.svg';
+    // // else if(type==7) return '/icon/RV_Camp.svg';
+    // return '/icon/Frame_14.svg';
+    // // else if(type==7) return '/icon/'
   }
 
   useEffect(() => {
-    const subscription = userService.user.subscribe((x: any) => setUser(x));
-    getCamp(0);
+    const subscription = userService.user.subscribe((x: any) =>{
+      setUser(x);
+      
+      setCenter({
+        lat:x.user.regionId.lat,
+        lng: x.user.regionId.lng,
+      })
+    } );
+      getCamp(0);
     return () => subscription.unsubscribe();
   }, []);
 
@@ -164,20 +174,32 @@ const Home: NextPage = () => {
         </div>
         <div className={styles.bottomTab}>
           <Link href='/request' passHref>
-            <div style={{height:'100%',width:100, flexDirection:'column',display:'flex',justifyContent:'space-evenly'}}>
+          <div style={{height:'100%',flexDirection:'column',display:'flex',justifyContent:'space-evenly'}}>
             <FontAwesomeIcon
               style={{width:'100%'}}
               icon={faHandsHelping}
               className="cursor-pointer icon-custom"
             />
-            <div style={{textAlign:'center'}}>Requests</div>
+            <div>Requests</div>
             </div>
           </Link>
-          <div>
-            <img src='/icon/Home.svg' height='60' width='100'/>
+          <div style={{height:'100%',flexDirection:'column',display:'flex',justifyContent:'space-evenly'}}>
+            <FontAwesomeIcon
+              style={{width:'100%'}}
+              icon={faCampground}
+              className="cursor-pointer icon-custom"
+            />
+            <div>Home</div>
           </div>
           <Link href='/events/list' passHref>
-            <img src='/icon/Events.svg' height='60' width='100'/>
+          <div>
+            <EventAvailableIcon 
+              style={{width:'100%'}}
+              className="cursor-pointer"
+              fontSize='large'
+              />
+            <div>Events</div>
+            </div>
           </Link>
         </div>
       </main>

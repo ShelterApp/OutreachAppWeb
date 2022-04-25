@@ -6,7 +6,7 @@ import Button from "component/Button";
 import Container from '@mui/material/Container';
 import Header from 'component/Header';
 import Box from '@mui/material/Box';
-import { alertService, suppliesService, supplyItemsService, campsService } from 'services';
+import {userService, alertService, suppliesService, supplyItemsService, campsService } from 'services';
 import Grid from '@mui/material/Grid';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -107,15 +107,20 @@ const SupplyItem = ({ tab, obj, add, remove, supply, updateQty }: any) => {
 const Supplies = () => {
   const router = useRouter();
   const { id } = router.query;
+  const [user, setUser] = useState<any>(null);
   const [supplies, setSupplies] = useState<any[]>([]);
   const [supplyItems, setSupplyItems] = useState<any[]>([]);
   const [dropSupplies, setDropSupplies] = useState<any[]>([]);
   useEffect(() => {
-    fetchData();
-  }, [])
+    const subscription = userService.user.subscribe((x: any) => setUser(x));
+    console.log(subscription);
+    if(user) fetchData();
+    return () => subscription.unsubscribe();
+
+  }, [user])
   const fetchData = async () => {
     const res = await suppliesService.list();
-    const data = await supplyItemsService.list();
+    const data = await supplyItemsService.list({organizationId:user.user.organizationId});
     const items = data.items.map((i: any) => ({ _id: i.supplyId._id, name: i.supplyId.name, qty: i.qty }));
     setSupplyItems(items);
     setSupplies(res.items);
@@ -141,10 +146,6 @@ const Supplies = () => {
       const new_list = dropSupplies.filter((obj: any) => obj.supplyId !== id);
       setDropSupplies([...new_list])
     }
-  }
-
-  const current_tab = (value: string) => {
-    setTab(value)
   }
 
   const updateQty = (qty: number, id: string) => {

@@ -58,9 +58,9 @@ const CampDetails = ({ onSubmit, previousBack, defaultValues, isNew }: CampDetai
   ]
 
   const statusOptions = [
-    {label: 'Actived', value: 1},
-    {label: 'Inactive', value: 3},
-    {label: 'Lostinsweet', value: 5}
+    {label: 'Active Camp', value: 1},
+    {label: 'Inactive Camp', value: 3},
+    {label: 'Lost in Sweep', value: 5}
   ]
 
   const [hasPet, setHasPet] = useState({label: 'No', value: false})

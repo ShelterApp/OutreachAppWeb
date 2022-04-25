@@ -6,9 +6,10 @@ import Header from "component/Header";
 import Button from '@mui/material/Button';
 import dayjs from 'dayjs';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {  faHandsHelping } from "@fortawesome/free-solid-svg-icons";
+import {  faHandsHelping,faCampground } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import Router from "next/router";
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 
 
 const Index: NextPage = () => {
@@ -94,10 +95,22 @@ const Index: NextPage = () => {
             </div>
           </Link>
           <Link href='/' passHref>
-          <img src='/icon/Home.svg' height='60' width='100'/>
+          <div style={{height:'100%',flexDirection:'column',display:'flex',justifyContent:'space-evenly'}}>
+            <FontAwesomeIcon
+              style={{width:'100%'}}
+              icon={faCampground}
+              className="cursor-pointer icon-custom"
+            />
+            <div>Home</div>
+            </div>
           </Link>
           <div>
-          <img src='/icon/Events.svg' height='60' width='100'/>
+            <EventAvailableIcon 
+              style={{width:'100%'}}
+              className="cursor-pointer"
+              fontSize='large'
+              />
+            <div>Events</div>
             </div>
         </div>
       </div>

@@ -35,7 +35,6 @@ const FormEditSupply = ({ record }: any) => {
   } = useForm<Inputs>({
     defaultValues: defaultValues
   });
-  // eslint-disable-next-line
   const [loading, setLoading] = useState(false);
 
   const submit = async (data: any, e: any) => {
@@ -46,7 +45,7 @@ const FormEditSupply = ({ record }: any) => {
       ...data,
       status: status.value
     }
-
+if(record.name===params.name) delete params.name;
     const res = await suppliesService.update(record._id, params);
     if (res.statusCode && res.message) {
       alertService.error(res.message)

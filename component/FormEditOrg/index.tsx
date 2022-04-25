@@ -15,6 +15,7 @@ type Inputs = {
   description: string;
   address: string;
   phone: string;
+  code:string;
 };
 
 const defaultValues: any = {
@@ -22,7 +23,8 @@ const defaultValues: any = {
   description: "",
   address: "",
   phone: "",
-  email: ""
+  email: "",
+  code:'',
 };
 
 const FormEditOrg = ({ org }: any) => {
@@ -59,7 +61,8 @@ const FormEditOrg = ({ org }: any) => {
         description: org.description,
         address: org.address,
         phone: org.phone,
-        email: org.email
+        email: org.email,
+        code:org.code,
       });
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -117,6 +120,12 @@ const FormEditOrg = ({ org }: any) => {
         {errors.email && errors.email.type === "required" && (
           <ErrorMessage>Please input email.</ErrorMessage>
         )}
+         <TextInput
+          label="Verification Code"
+          placeholder="Verification Code"
+          register={register("code", { required: true })}
+        />
+        
         <label className={stylesComponent.label}>Created On</label>
         <input disabled className={stylesComponent.input} value={dayjs(org.createdAt).format("MMMM DD, YYYY")} placeholder="Created On"/>
         <label className={stylesComponent.label}>Last Updated</label>

@@ -8,7 +8,8 @@ import Button from '@mui/material/Button';
 import Link from "next/link";
 import moment from 'moment';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {  faHandsHelping } from "@fortawesome/free-solid-svg-icons";
+import { faCampground, faHandsHelping } from "@fortawesome/free-solid-svg-icons";
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 
 
 const containerStyle: any = {
@@ -166,10 +167,23 @@ const ManageRequest: NextPage = () => {
             </div>
           </Link>
             <Link href='/' passHref>
-            <img src='/icon/Home.svg' height='60' width='100'/>
-            </Link>
+            <div style={{height:'100%',flexDirection:'column',display:'flex',justifyContent:'space-evenly'}}>
+            <FontAwesomeIcon
+              style={{width:'100%'}}
+              icon={faCampground}
+              className="cursor-pointer icon-custom"
+            />
+            <div>Home</div>
+          </div>            </Link>
             <Link href='/events/list' passHref>
-            <img src='/icon/Events.svg' height='60' width='100'/>
+            <div>
+            <EventAvailableIcon 
+              style={{width:'100%'}}
+              className="cursor-pointer"
+              fontSize='large'
+              />
+            <div>Events</div>
+            </div>
             </Link>
           </div>
         </div>

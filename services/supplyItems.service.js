@@ -9,10 +9,9 @@ export const supplyItemsService = {
   createMany
 };
 
-async function list() {
+async function list(params) {
   try {
-    const res = await axios.get(`/supplies-items`);
-
+    const res = await axios.get(`/supplies-items`, { params });
     return res.data;
   } catch (error) {
     return error.response.data;
