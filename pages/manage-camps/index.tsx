@@ -14,12 +14,12 @@ const Index: NextPage = () => {
   const [list, setList] = useState<any[]>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await campsService.list();
-      setList(res.items);
-    };
     fetchData();
   }, []);
+  const fetchData = async (condition?:any ) => {
+    const res = await campsService.list(condition);
+    setList(res.items);
+  };
 
   const edit = (id: string) => {
     router.push(`/manage-camps/edit/${id}`);
@@ -50,9 +50,18 @@ const Index: NextPage = () => {
     handleCloseAlert();
   };
 
+  const onChangeSearch=(e:string)=>{
+    const condition={
+      sortBy:'createdAt',
+      sortType:'desc',
+      keyword:e
+    }
+    fetchData(e?condition:null );
+  }
+
   return (
     <main className={styles.mainTop}>
-      <Header title="Manage Camps" back="/" />
+      <Header title="Manage Camps" back="/" displaySearch onChangeSearch={onChangeSearch}/>
       <Container maxWidth="sm">
         <Grid container className={'mt-2'}>
           {

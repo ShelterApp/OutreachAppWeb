@@ -7,7 +7,7 @@ import Header from 'component/Header';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import { alertService, suppliesService, supplyItemsService } from 'services';
+import {userService, alertService, suppliesService, supplyItemsService } from 'services';
 import Grid from '@mui/material/Grid';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -218,19 +218,22 @@ interface SuppliesProps {
 
 const Supplies = ({ onSubmit, previousBack, dropSupplies, setDropSupplies, requestSupplies, setRequestSupplies }: SuppliesProps) => {
   const [supplies, setSupplies] = useState<any[]>([]);
+  const [user, setUser] = useState<any>(null);
   const [supplyItems, setSupplyItems] = useState<any[]>([]);
   const [options, setOptions] = useState<any[]>([]);
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await suppliesService.list();
-      const data = await supplyItemsService.list();
-      const items = data.items.map((i: any) => ({ _id: i.supplyId._id, name: i.supplyId.name, qty: i.qty}));
-      setSupplyItems(items);
-      setSupplies(items);
-      setOptions(res.items.map((opt: any) => ({ label: opt.name, value: opt._id })))
-    };
-    fetchData();
-  }, [])
+    const subscription = userService.user.subscribe((x: any) => setUser(x));
+    if(user) fetchData();
+    return () => subscription.unsubscribe();
+  }, [user]);
+  const fetchData = async () => {
+    const res = await suppliesService.list();
+    const data =  await supplyItemsService.list({organizationId:user.user.organizationId});
+    const items = data.items.map((i: any) => ({ _id: i.supplyId._id, name: i.supplyId.name, qty: i.qty}));
+    setSupplyItems(items);
+    setSupplies(items);
+    setOptions(res.items.map((opt: any) => ({ label: opt.name, value: opt._id })))
+  };
 
   const [tab, setTab] = useState('dropSupplies')
 

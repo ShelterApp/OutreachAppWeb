@@ -113,7 +113,6 @@ const Supplies = () => {
   const [dropSupplies, setDropSupplies] = useState<any[]>([]);
   useEffect(() => {
     const subscription = userService.user.subscribe((x: any) => setUser(x));
-    console.log(subscription);
     if(user) fetchData();
     return () => subscription.unsubscribe();
 

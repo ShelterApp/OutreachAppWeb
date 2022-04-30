@@ -44,8 +44,8 @@ const FormEditOrg = ({ org }: any) => {
     setLoading(true);
     e.preventDefault();
     const res = await organizationService.update(org._id, data)
-    if (org.statusCode && org.message) {
-      alertService.error(org.message)
+    if (res.statusCode && res.message) {
+      alertService.error(res.message)
     } else {
       router.push('/organizations/').then(() => {
         alertService.success('Organization was updated successful!')

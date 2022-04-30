@@ -8,9 +8,9 @@ export const organizationService = {
   _delete
 };
 
-async function list() {
+async function list(params) {
   try {
-    const res = await axios.get(`/organizations`);
+    const res = await axios.get(`/organizations`, { params });
 
     return res.data;
   } catch (error) {

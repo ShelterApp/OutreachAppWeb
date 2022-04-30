@@ -1,8 +1,11 @@
-import React from "react";
+import React ,{useEffect,useRef} from "react";
 import Link from "next/link";
 import style from "./Component.module.scss";
 import MenuIcon from "@mui/icons-material/Menu";
+// import {  faCampground,fama } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import Search from '@mui/icons-material/Search';
 import Drawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
@@ -10,13 +13,18 @@ import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import { userService } from "services";
+import InputBase from '@mui/material/InputBase';
+import { useDebounce } from 'use-debounce';
 
 export interface ButtonProps {
   title?: string;
   search?: boolean;
+  displaySearch?:boolean;
   onClick?: Function;
   user?: any;
   back?: string;
+  onChangeSearch?:Function; 
+
 }
 interface Role<String> {
   Admin: object[];
@@ -24,8 +32,21 @@ interface Role<String> {
   volunteer: object[];
 }
 
-const Header = ({ title, user, back, onClick }: ButtonProps) => {
+const Header = ({ title,displaySearch, user, back, onClick, onChangeSearch }: ButtonProps) => {
   const [state, setState] = React.useState(false);
+  const [isSearch,setIsSearch]= React.useState(false);
+  const [valueSearch, setValueSearch]= React.useState('');
+  const [textSearch]= useDebounce(valueSearch, 1000);
+  const isMounted = useRef(false)
+
+  useEffect(()=>{
+    if(isMounted.current){
+      onChangeSearch && onChangeSearch(textSearch);
+    } else {
+     isMounted.current = true;
+    }
+
+  },[textSearch])
   const logout = () => {
     userService.logout();
   };
@@ -57,7 +78,7 @@ const Header = ({ title, user, back, onClick }: ButtonProps) => {
     <div className={style.containerHeader}>
       <div
         className={style.center}
-        style={{ width: "15%", paddingLeft: 10 }}>
+        style={{ paddingLeft: 10,minWidth:70  }}>
         {
           onClick && typeof onClick === 'function' && (
             <button
@@ -98,11 +119,32 @@ const Header = ({ title, user, back, onClick }: ButtonProps) => {
       </div>
       <div
         className={style.titleHeader}
-        style={{ width: "70%", textAlign: "center", color: "white"  ,paddingTop:4 }} >
-        {title}
+        style={{ width: "70%", textAlign: "center", color: "white",  }} >
+        {!isSearch?<div style={{paddingTop:4,fontWeight:500}}>{title} </div> :
+          <InputBase 
+          autoFocus={true}
+          id="search-input-e"
+          value={valueSearch}
+          onChange={(e)=>setValueSearch(e.target.value)}
+          style={{backgroundColor:'white',width:'100%',marginTop:-4,paddingLeft:10, borderRadius:4}}
+          placeholder='Search'
+          /> }
+      
       </div>
-      <div className={style.center} style={{ width: "15%" }}>
-        {/* <SearchIcon className="cursor-pointer" fontSize="large" /> */}
+      <div className={style.center} style={{textAlign:'center',paddingTop:2,minWidth:70  }}>
+       {
+         displaySearch && !isSearch ?<Search className="cursor-pointer" fontSize="large" 
+         onClick={()=>setIsSearch(true)  }
+         style={{paddingTop:4}}/>:
+         displaySearch?
+          <div style={{paddingRight:10}} 
+          onClick={()=>{
+            setIsSearch(false);
+            setValueSearch('');
+          }}
+          >Cancel</div>:null
+       } 
+        
       </div>
       <Drawer
         anchor="left"

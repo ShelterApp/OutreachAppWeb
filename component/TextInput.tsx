@@ -15,6 +15,7 @@ export interface TextInputProps   {
   defaultValue?: string;
   value?: string;
   label?: string;
+  onChange?:Function;
 }
 const TextInput: React.FC<TextInputProps> = forwardRef((props) => {
   return (
@@ -27,7 +28,9 @@ const TextInput: React.FC<TextInputProps> = forwardRef((props) => {
           <InputPassword placeholder={props.placeholder} register={props.register}/>
         ) : (
           <>
-            <input type={props.type || 'text'} defaultValue={props.defaultValue} value={props.value} className={styles.input} placeholder={props.placeholder} {...props.register} autoComplete="off" autoFill='off'/>
+            <input type={props.type || 'text'} defaultValue={props.defaultValue} 
+            onChange={props.onChange}
+            value={props.value} className={styles.input} placeholder={props.placeholder} {...props.register} autoComplete="off" autoFill='off'/>
           </>
         )
       }

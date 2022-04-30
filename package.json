@@ -2,9 +2,9 @@
     "name": "outreach-app",
     "private": true,
     "scripts": {
-        "dev": "next dev",
+        "dev": "next dev -p 1234",
         "build": "next build && next export",
-        "start": "next start",
+        "start": "next start -p 1234",
         "lint": "next lint --fix"
     },
     "dependencies": {
@@ -38,7 +38,8 @@
         "react-select": "^5.2.1",
         "rxjs": "^7.4.0",
         "sass": "^1.43.4",
-        "styled-components": "^5.3.3"
+        "styled-components": "^5.3.3",
+        "use-debounce": "^7.0.1"
     },
     "devDependencies": {
         "@next/eslint-plugin-next": "^12.0.4",

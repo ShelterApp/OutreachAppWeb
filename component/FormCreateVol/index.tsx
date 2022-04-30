@@ -45,13 +45,23 @@ const FormCreateVol = () => {
   const [loading, setLoading] = useState(false);
 
   const submit = async (data: any, e: any) => {
-    setLoading(true);
     e.preventDefault();
-
+    // if(!role){
+    //   return alertService.error('Please select role!')
+    // }else
+     if(!status){
+      return alertService.error('Please select status!')
+    }else if(!region){
+      return alertService.error('Please select city!')
+    }else if(!organization){
+      return alertService.error('Please select organization!')
+    }
+    setLoading(true);
     const params = {
       ...data,
-      status: status.value,
-      userType: role.value,
+      phone:phoneNumber,
+      status: status?.value,
+      userType: 'Volunteer',
       organizationId: organization.value,
       regionId: region.value
     }
@@ -70,7 +80,8 @@ const FormCreateVol = () => {
   const [options, setOptions] = useState([])
   const [region, setRegion] = useState<any>(null);
   const [status, setStatus] = useState<any>(null);
-  const [role, setRole] = useState<any>(null);
+  // const [role, setRole] = useState<any>(null);
+  const [phoneNumber, setPhone]= useState<any>('');
   const [organization, setOrganization] = useState<any>();
   const [organizations, setOrganizations] = useState([])
 
@@ -90,6 +101,21 @@ const FormCreateVol = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const formatPhoneNumber=(value)=> {
+    // if input value is falsy eg if the user deletes the input, then just return
+    if (!value) return value;
+  
+    const phoneNumber = value.replace(/[^\d]/g, '');
+    const phoneNumberLength = phoneNumber.length;
+    if (phoneNumberLength < 4) return phoneNumber;
+    if (phoneNumberLength < 7) {
+      return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
+    }
+    return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
+      3,  6
+    )}-${phoneNumber.slice(6, 10)}`;
+  }
+
   return (
     <React.Fragment>
       <form name="form-vol" onSubmit={handleSubmit(submit)}>
@@ -104,7 +130,10 @@ const FormCreateVol = () => {
         <TextInput
           label="Phone"
           placeholder="Volunteer Phone"
-          register={register("phone", { required: true })}
+          value={phoneNumber}
+          onChange={(e:string)=> setPhone(formatPhoneNumber(e.target.value))
+          }
+          // register={register("phone", { required: true })}
         />
         {errors.phone && errors.phone.type === "required" && (
           <ErrorMessage>Please input phone.</ErrorMessage>
@@ -132,13 +161,13 @@ const FormCreateVol = () => {
           value={region}
           onChange={setRegion}
         />
-        <Select
+        {/* <Select
           label="Select Role"
           placeholder="Role"
           options={roles}
           value={role}
           onChange={setRole}
-        />
+        /> */}
         <Select
           label="Select Status"
           placeholder="Status"

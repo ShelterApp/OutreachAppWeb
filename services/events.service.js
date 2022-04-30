@@ -12,9 +12,9 @@ export const eventsService = {
   myEvent
 };
 
-async function list() {
+async function list(params) {
   try {
-    const res = await axios.get(`/event`);
+    const res = await axios.get(`/event`, { params });
 
     return res.data;
   } catch (error) {

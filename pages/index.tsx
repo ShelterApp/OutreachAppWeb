@@ -76,12 +76,14 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     const subscription = userService.user.subscribe((x: any) =>{
+      if(x && x.user){
       setUser(x);
+        setCenter({
+          lat:x.user.regionId.lat,
+          lng: x.user.regionId.lng,
+        })
+      }
       
-      setCenter({
-        lat:x.user.regionId.lat,
-        lng: x.user.regionId.lng,
-      })
     } );
       getCamp(0);
     return () => subscription.unsubscribe();
@@ -174,31 +176,31 @@ const Home: NextPage = () => {
         </div>
         <div className={styles.bottomTab}>
           <Link href='/request' passHref>
-          <div style={{height:'100%',flexDirection:'column',display:'flex',justifyContent:'space-evenly'}}>
+          <div style={{height:'100%',flexDirection:'column',display:'flex',justifyContent:'space-evenly', minWidth:70}}>
             <FontAwesomeIcon
               style={{width:'100%'}}
               icon={faHandsHelping}
               className="cursor-pointer icon-custom"
             />
-            <div>Requests</div>
+            <div style={{textAlign:'center',width:'100%'}}>Requests</div>
             </div>
           </Link>
-          <div style={{height:'100%',flexDirection:'column',display:'flex',justifyContent:'space-evenly'}}>
+          <div style={{height:'100%',flexDirection:'column',display:'flex',justifyContent:'space-evenly',minWidth:70}}>
             <FontAwesomeIcon
               style={{width:'100%'}}
               icon={faCampground}
               className="cursor-pointer icon-custom"
             />
-            <div>Home</div>
+            <div style={{textAlign:'center',width:'100%'}}>Home</div>
           </div>
-          <Link href='/events/list' passHref>
+          <Link href='/events/list' passHref >
           <div>
             <EventAvailableIcon 
-              style={{width:'100%'}}
+              style={{width:'100%',minWidth:70}}
               className="cursor-pointer"
               fontSize='large'
               />
-            <div>Events</div>
+            <div style={{textAlign:'center',width:'100%'}}>Events</div>
             </div>
           </Link>
         </div>

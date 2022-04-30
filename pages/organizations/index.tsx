@@ -13,12 +13,23 @@ const Index: NextPage = () => {
   const [orgs, setOrgs] = useState<any[]>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await organizationService.list();
-      setOrgs(res.items);
-    };
+   
     fetchData();
   }, []);
+
+  const fetchData = async (condition?:any) => {
+    const res = await organizationService.list(condition);
+    setOrgs(res.items);
+  };
+
+  const onChangeSearch=(e:string)=>{
+    const condition={
+      sortBy:'createdAt',
+      sortType:'desc',
+      keyword:e
+    }
+    fetchData(e?condition:null );
+  }
 
   const edit = (id: string) => {
     router.push(`/organizations/edit/${id}`);
@@ -51,7 +62,7 @@ const Index: NextPage = () => {
 
   return (
     <main className={styles.mainTop}>
-      <Header title="Manage Organizations" back="/" />
+      <Header title="Manage Organizations" back="/" displaySearch onChangeSearch={onChangeSearch}/>
       <Grid container className="mt-2">
         <Table
           list={orgs}

@@ -142,32 +142,32 @@ const Request: NextPage = () => {
           </div>
         </div>
         <div className={styles.bottomTab}>
-        <div style={{height:'100%',width:100,flexDirection:'column',display:'flex',justifyContent:'space-evenly'}}>
+        <div style={{height:'100%',flexDirection:'column',display:'flex',justifyContent:'space-evenly',minWidth:70}}>
           <FontAwesomeIcon
                 style={{width:'100%'}}
                 icon={faHandsHelping}
                 className="cursor-pointer icon-custom"
               />
-            <div style={{textAlign:'center'}}>Requests</div>
+            <div style={{textAlign:'center',width:'100%'}}>Requests</div>
             </div>
           <Link href='/' passHref>
-          <div style={{height:'100%',flexDirection:'column',display:'flex',justifyContent:'space-evenly'}}>
+          <div style={{height:'100%',flexDirection:'column',display:'flex',justifyContent:'space-evenly',minWidth:70}}>
             <FontAwesomeIcon
               style={{width:'100%'}}
               icon={faCampground}
               className="cursor-pointer icon-custom"
             />
-            <div>Home</div>
+            <div style={{textAlign:'center',width:'100%'}}>Home</div>
           </div>
           </Link>
           <Link href='/events/list' passHref>
           <div>
             <EventAvailableIcon 
-              style={{width:'100%'}}
+              style={{width:'100%',minWidth:70}}
               className="cursor-pointer"
               fontSize='large'
               />
-            <div>Events</div>
+            <div style={{textAlign:'center',width:'100%'}}>Events</div>
             </div>
           </Link>
         </div>

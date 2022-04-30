@@ -30,8 +30,8 @@ const ManageRequest: NextPage = () => {
     return () => subscription.unsubscribe();
 
   }, []);
-  const getData = async (type: number) => {
-    const condition = { status: type || null, limit: 1000 };
+  const getData = async (type: number,keyword?:string) => {
+    const condition = { status: type || null, limit: 1000,keyword };
     const item = await requestService.list(condition);
     setData(item.items);
     setIndexType(type);
@@ -68,6 +68,10 @@ const ManageRequest: NextPage = () => {
       getData(indexType);
       alertService.success("Update request successful.");
     }
+  }
+  
+  const onChangeSearch=(e:string)=>{
+    getData(indexType,e );
   }
 
   const renderItem = (item: any, index: number) => {
@@ -133,7 +137,7 @@ const ManageRequest: NextPage = () => {
   }
   return (
     <main className={styles.mainTop} style={{ position: 'relative', height: '100%', }}>
-      <Header title='Manage Requests' back='/' />
+      <Header title='Manage Requests' back='/' displaySearch onChangeSearch={onChangeSearch}/>
       <div className={styles.grid} style={{ paddingTop: 0, }}>
         <div style={containerStyle}>
           {!!data && data.map((item, index) => renderItem(item, index))}
@@ -157,34 +161,37 @@ const ManageRequest: NextPage = () => {
           </div>
           <div className={styles.bottomTab}>
           <Link href='/request' passHref>
-          <div style={{height:'100%',width:100, flexDirection:'column',display:'flex',justifyContent:'space-evenly'}}>
+          <div style={{height:'100%', flexDirection:'column',
+          minWidth:70,
+          display:'flex',justifyContent:'space-evenly'}}>
             <FontAwesomeIcon
               style={{width:'100%'}}
               icon={faHandsHelping}
               className="cursor-pointer icon-custom"
             />
-            <div style={{textAlign:'center'}}>Requests</div>
+            <div style={{textAlign:'center',width:'100%'}}>Requests</div>
             </div>
           </Link>
-            <Link href='/' passHref>
-            <div style={{height:'100%',flexDirection:'column',display:'flex',justifyContent:'space-evenly'}}>
+          <Link href='/' passHref>
+            <div style={{height:'100%',flexDirection:'column',display:'flex',justifyContent:'space-evenly', minWidth:70,}}>
             <FontAwesomeIcon
               style={{width:'100%'}}
               icon={faCampground}
               className="cursor-pointer icon-custom"
             />
-            <div>Home</div>
-          </div>            </Link>
-            <Link href='/events/list' passHref>
-            <div>
-            <EventAvailableIcon 
-              style={{width:'100%'}}
-              className="cursor-pointer"
-              fontSize='large'
-              />
-            <div>Events</div>
-            </div>
-            </Link>
+            <div style={{textAlign:'center',width:'100%'}}>Home</div>
+          </div>            
+          </Link>
+          <Link href='/events/list' passHref >
+          <div>
+          <EventAvailableIcon 
+            style={{width:'100%',minWidth:70,}}
+            className="cursor-pointer"
+            fontSize='large'
+            />
+          <div style={{textAlign:'center',width:'100%'}}>Events</div>
+          </div>
+          </Link>
           </div>
         </div>
       </div>

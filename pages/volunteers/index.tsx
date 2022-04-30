@@ -19,12 +19,18 @@ const Index: NextPage = () => {
   const [list, setList] = useState<any[]>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await userService.list({ userType: "Volunteer" });
-      setList(res.items);
-    };
+  
     fetchData();
   }, []);
+
+  const fetchData = async (keyword?:string) => {
+    const res = await userService.list({ userType: "Volunteer" ,keyword});
+    setList(res.items);
+  };
+
+  const onChangeSearch=(e:string)=>{
+    fetchData(e );
+  }
 
   const edit = (id: string) => {
     router.push(`/volunteers/edit/${id}`);
@@ -57,7 +63,7 @@ const Index: NextPage = () => {
 
   return (
     <main className={styles.mainTop}>
-      <Header title="Manage Volunteers" back="/" />
+      <Header title="Manage Volunteers" back="/" displaySearch onChangeSearch={onChangeSearch}/>
       <Grid container className={'mt-2'}>
         <Table
           list={
