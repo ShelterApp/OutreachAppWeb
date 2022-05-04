@@ -36,7 +36,7 @@ const CampLog: NextPage = () => {
         {item.items.map((a,index2)=>` ${a.qty} ${a.name} ${index2!=item.items.length-1?',':''}`)}
 
         </div>
-        <div style={{ fontSize: 20, fontStyle: 'inherit', paddingBottom: 10 }}>{dayjs(item.createdAt).format("MM/DD/YY")} </div>
+        <div style={{ fontSize: 20, fontStyle: 'inherit', paddingBottom: 10,whiteSpace:'nowrap' }}>{dayjs(item.createdAt).format("MM/DD/YY HH:mm")} </div>
 
       </div>)
   };

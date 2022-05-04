@@ -37,10 +37,12 @@ const FormCreateOrg = () => {
   });
   // eslint-disable-next-line
   const [loading, setLoading] = useState(false);
+  const [phoneNumber, setPhone]= useState<any>('');
 
   const submit = async (data: any, e: any) => {
     setLoading(true);
     e.preventDefault();
+    data.phone=phoneNumber;
     const org = await organizationService.create(data)
     if (org.statusCode && org.message) {
       alertService.error(org.message)
@@ -51,6 +53,20 @@ const FormCreateOrg = () => {
     }
     setLoading(false);
   };
+
+  const formatPhoneNumber=(value:string)=> {
+    if (!value) return value;
+  
+    const phoneNumber = value.replace(/[^\d]/g, '');
+    const phoneNumberLength = phoneNumber.length;
+    if (phoneNumberLength < 4) return phoneNumber;
+    if (phoneNumberLength < 7) {
+      return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
+    }
+    return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
+      3,  6
+    )}-${phoneNumber.slice(6, 10)}`;
+  }
 
   return (
     <React.Fragment>
@@ -83,14 +99,10 @@ const FormCreateOrg = () => {
         <TextInput
           label="Phone"
           placeholder="Phone"
-          register={register("phone", { required: true,
-            pattern:/^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g
-          })}
+          value={phoneNumber}
+          onChange={(e:string)=> setPhone(formatPhoneNumber(e.target.value))}
         />
-         {errors.phone && errors.phone.type === "pattern" && (
-              <ErrorMessage>Phone number must be valid.</ErrorMessage>
-            )}
-        {errors.phone && errors.phone.type === "required" && (
+         {!phoneNumber.length && (
           <ErrorMessage>Please input phone.</ErrorMessage>
         )}
         <TextInput

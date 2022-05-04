@@ -39,6 +39,21 @@ const FormEditOrg = ({ org }: any) => {
   });
   // eslint-disable-next-line
   const [loading, setLoading] = useState(false);
+  const [phoneNumber, setPhone]= useState<any>('');
+
+  const formatPhoneNumber=(value:string)=> {
+    if (!value) return value;
+  
+    const phoneNumber = value.replace(/[^\d]/g, '');
+    const phoneNumberLength = phoneNumber.length;
+    if (phoneNumberLength < 4) return phoneNumber;
+    if (phoneNumberLength < 7) {
+      return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
+    }
+    return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
+      3,  6
+    )}-${phoneNumber.slice(6, 10)}`;
+  }
 
   const submit = async (data: any, e: any) => {
     setLoading(true);
@@ -56,11 +71,12 @@ const FormEditOrg = ({ org }: any) => {
 
   useEffect(() => {
     if (org && org._id) {
+      setPhone(org.phone)
       reset({
         name: org.name,
         description: org.description,
         address: org.address,
-        phone: org.phone,
+        // phone: org.phone,
         email: org.email,
         code:org.code,
       });
@@ -99,11 +115,9 @@ const FormEditOrg = ({ org }: any) => {
         <TextInput
           label="Phone"
           placeholder="Phone"
-          register={register("phone", { required: true })}
+          value={phoneNumber}
+          onChange={(e:string)=> setPhone(formatPhoneNumber(e.target.value))}
         />
-        {errors.phone && errors.phone.type === "required" && (
-          <ErrorMessage>Please input phone.</ErrorMessage>
-        )}
         <TextInput
           label="Email"
           placeholder="Email Address"

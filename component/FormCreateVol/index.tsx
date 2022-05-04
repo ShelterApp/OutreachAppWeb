@@ -13,11 +13,11 @@ const statuses = [
   {label: 'Inactive', value: 0}
 ]
 
-const roles = [
-  {label: 'Volunteer', value: 'Volunteer'},
-  {label: 'OrgLead', value: 'OrgLead'},
-  {label: 'Admin', value: 'Admin'}
-]
+// const roles = [
+//   {label: 'Volunteer', value: 'Volunteer'},
+//   {label: 'OrgLead', value: 'OrgLead'},
+//   {label: 'Admin', value: 'Admin'}
+// ]
 
 type Inputs = {
   name: string;
@@ -98,11 +98,9 @@ const FormCreateVol = () => {
     }
 
     fetch();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const formatPhoneNumber=(value)=> {
-    // if input value is falsy eg if the user deletes the input, then just return
+  const formatPhoneNumber=(value:string)=> {
     if (!value) return value;
   
     const phoneNumber = value.replace(/[^\d]/g, '');
@@ -131,11 +129,10 @@ const FormCreateVol = () => {
           label="Phone"
           placeholder="Volunteer Phone"
           value={phoneNumber}
-          onChange={(e:string)=> setPhone(formatPhoneNumber(e.target.value))
-          }
+          onChange={(e:string)=> setPhone(formatPhoneNumber(e.target.value))}
           // register={register("phone", { required: true })}
         />
-        {errors.phone && errors.phone.type === "required" && (
+        {!phoneNumber.length && (
           <ErrorMessage>Please input phone.</ErrorMessage>
         )}
         <TextInput

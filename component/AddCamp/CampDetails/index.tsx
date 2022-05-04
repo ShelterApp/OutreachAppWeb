@@ -34,11 +34,13 @@ const CampDetails = ({ onSubmit, previousBack, defaultValues, isNew }: CampDetai
     e.preventDefault();
     let form = {
       ...data,
-      type: type.value
+      type: type.value,
+      status:status.value ,
     }
     if(!hasPet.value) {
       form =Object.assign({numOfPet: 0,
-        status: isNew ? 1 : status.value },form)  
+        // status: isNew ? 1 : status.value 
+      },form)  
     }
      onSubmit(form)
     setLoading(false);

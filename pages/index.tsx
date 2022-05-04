@@ -64,12 +64,11 @@ const Home: NextPage = () => {
     position: 'relative',
     overflow: 'hidden'
   };
-  const renderIcon=()=>{
-    return '/icon/camps.svg';
-    // if(type==1) return '/icon/camps.svg';
-    // else if(type==3) return '/icon/Pets.svg';
-    // else if(type==5) return '/icon/RV_Camp.svg';
-    // // else if(type==7) return '/icon/RV_Camp.svg';
+  const renderIcon=(type:any)=>{
+    //return '/icon/camps.svg';
+     if(type==1 ||type== 9) return '/icon/camps.svg';
+     else if(type==3) return '/icon/Pets.svg';
+     else if(type==5 || type==7) return '/icon/RV_Camp.svg';
     // return '/icon/Frame_14.svg';
     // // else if(type==7) return '/icon/'
   }
@@ -115,9 +114,9 @@ const Home: NextPage = () => {
           <div style={{paddingTop:10}}/>
           <ButtonC text="Request Supplies" link={`/request-supplies/${pickerCamp._id}`} />
           <div style={{paddingTop:10}}/>
-          <ButtonC text="View Camp Details" link={`/camp/detail/${pickerCamp._id}`} />
+          <ButtonC text="Camp Description" link={`/camp/detail/${pickerCamp._id}`} />
           <div style={{paddingTop:10}}/>
-          <ButtonC text="Camp Log" link={`/camp/log/${pickerCamp._id}`}></ButtonC>
+          <ButtonC text="Camp Details" link={`/camp/log/${pickerCamp._id}`}></ButtonC>
           <div style={{paddingTop:10}}/>
           <ButtonC text="Report Swept or Inactive " link={`/camp/report/${pickerCamp._id}`}></ButtonC>
         </div>

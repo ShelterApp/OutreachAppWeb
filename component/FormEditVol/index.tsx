@@ -51,6 +51,7 @@ const FormEditVol = ({ vol }: any) => {
     const params = {
       ...data,
       status: status.value,
+      phone:phoneNumber,
       userType: role.value,
       regionId: region.value
     }
@@ -70,6 +71,7 @@ const FormEditVol = ({ vol }: any) => {
   const [region, setRegion] = useState<any>();
   const [status, setStatus] = useState<any>(statuses[0]);
   const [role, setRole] = useState<any>(roles[0]);
+  const [phoneNumber, setPhone]= useState<any>('');
 
   useEffect(() => {
     const fetch = async () => {
@@ -83,7 +85,7 @@ const FormEditVol = ({ vol }: any) => {
           name: vol.name,
           phone: vol.phone
         });
-
+        setPhone(vol.phone)
         setRole(roles.find(r => r.value === vol.userType))
         setStatus(statuses.find(r => r.value === vol.status))
         setRegion(regions.find((opt: any) => opt.value === vol.regionId._id));
@@ -93,6 +95,21 @@ const FormEditVol = ({ vol }: any) => {
     fetch();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [vol]);
+
+  const formatPhoneNumber=(value:string)=> {
+    // if input value is falsy eg if the user deletes the input, then just return
+    if (!value) return value;
+  
+    const phoneNumber = value.replace(/[^\d]/g, '');
+    const phoneNumberLength = phoneNumber.length;
+    if (phoneNumberLength < 4) return phoneNumber;
+    if (phoneNumberLength < 7) {
+      return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
+    }
+    return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
+      3,  6
+    )}-${phoneNumber.slice(6, 10)}`;
+  }
 
   return (
     <React.Fragment>
@@ -129,9 +146,12 @@ const FormEditVol = ({ vol }: any) => {
         <TextInput
           label="Phone"
           placeholder="Phone"
-          register={register("phone", { required: true })}
+          value={phoneNumber}
+          onChange={(e:string)=> setPhone(formatPhoneNumber(e.target.value))
+          }
+          // register={register("phone", { required: true })}
         />
-        {errors.phone && errors.phone.type === "required" && (
+        {!phoneNumber.length && (
           <ErrorMessage>Please input phone.</ErrorMessage>
         )}
         <label className={stylesComponent.label}>Email</label>

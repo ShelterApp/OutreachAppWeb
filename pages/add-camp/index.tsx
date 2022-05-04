@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import React from 'react';
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import AddNewCamp from "component/AddCamp/AddNewCamp";
 import CampDetails from "component/AddCamp/CampDetails";
 import UnhousedInfo from "component/AddCamp/UnhousedInfo";
@@ -9,6 +9,7 @@ import { alertService, campsService } from "services";
 import { useRouter } from "next/router";
 import { CampDetailsProps, PeopleProps } from "common/interface";
 import { getLocationAPIMap } from "services/map.service";
+import styles from "styles/Home.module.scss";
 
 const initCampDetails: CampDetailsProps = {
   description: "",
@@ -84,11 +85,24 @@ const AddCamp: NextPage = () => {
     lat: 32.965557,
     lng: -96.71583
   };
-  const [center, setCenter] = useState(_center);
-  const [zoom, setZoom] = useState(10);
+  const [center, setCenter] = useState({});
+  const [zoom, setZoom] = useState(12);
   const [dropSupplies, setDropSupplies] = useState<any[]>([]);
   const [requestSupplies, setRequestSupplies] = useState<any[]>([]);
   const router = useRouter();
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      if (position.coords){
+        setCenter({
+          lat :position.coords.latitude,
+          lng: position.coords.longitude
+        })
+      }else {
+        setCenter(_center)
+      }
+    });
+  }, []);
 
   const createCamp = async () => {
     const data = {
@@ -119,8 +133,19 @@ const AddCamp: NextPage = () => {
 
   return (
     <>
+          {!center.lat && (
+            <div style={{position:'absolute',display:'flex',alignItems:'center',flexDirection:'column',width:'100%',top:'45%' }}>
+              <div className={styles.loading}>
+                <div />
+                <div />
+                <div />
+                <div />
+              </div>
+              <div>Loading your location</div>
+            </div>
+          ) }
       {
-        step === 1 && <AddNewCamp title={'Add New Camp'} zoom={zoom} setZoom={setZoom} center={center} setCenter={setCenter} onSubmit={onSubmit}/>
+        step === 1 &&center.lat && <AddNewCamp title={'Add New Camp'} zoom={zoom} setZoom={setZoom} center={center} setCenter={setCenter} onSubmit={onSubmit}/>
       }
       {
         step === 2 && <CampDetails isNew defaultValues={campDetails} previousBack={previousBack} onSubmit={onSubmitCamp}/>

@@ -28,7 +28,9 @@ const Index: NextPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       const user = userService.userValue.user;
-      const res = await supplyItemsService.list();
+      const res = await supplyItemsService.list({
+        organizationId:user.organizationId
+      });
       const _res = await suppliesService.list();
       setOrganizationId(user.organizationId)
       const _list = res.items.map((i: any) => ({ supplyId: i.supplyId._id, qty: i.qty, name: i.supplyId.name }))

@@ -16,6 +16,13 @@ const containerStyle: any = {
   position: 'relative',
   overflow: 'hidden'
 };
+const campType={
+  1:'Camps',
+  3:'Camp with Pets',
+  5:'RV',
+  7:'Safe Parking',
+  9:'Other'
+}
 
 const CampDetail: NextPage = () => {
   const router = useRouter();
@@ -67,8 +74,11 @@ const CampDetail: NextPage = () => {
     <main className={styles.mainTop}>
       <Header title='Camp Details' back='/' />
       <Container maxWidth="sm">
+      <div style={{ width: '100%', flexDirection: 'row', display: 'flex', paddingTop: 10 }}>
+          <div style={{ fontSize: 20, }}><strong> Camp Type: </strong> {campType[camp?.type]}</div>
+        </div>
         <div style={{ width: '100%', flexDirection: 'row', display: 'flex', paddingTop: 5 }}>
-          <div style={{ fontSize: 20, padding: '7px 0px' }}><strong> Name: </strong> {camp?.name}</div>
+          <div style={{ fontSize: 20, }}><strong> Name: </strong> {camp?.name}</div>
         </div>
         <div style={{ width: '100%', flexDirection: 'row', display: 'flex', paddingTop: 5 }}>
           <div style={{ fontSize: 20, }}><strong> Description: </strong>{camp?.description}</div>
