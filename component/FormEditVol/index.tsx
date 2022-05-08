@@ -5,7 +5,7 @@ import stylesComponent from "component/Component.module.scss";
 import TextInput from "component/TextInput";
 import Button from "component/Button";
 import styles from "styles/Home.module.scss";
-import { alertService, organizationService, regionsService, userService } from "services";
+import { alertService, regionsService, userService } from "services";
 import { useRouter } from "next/router";
 import Select from "component/Select";
 import dayjs from "dayjs";

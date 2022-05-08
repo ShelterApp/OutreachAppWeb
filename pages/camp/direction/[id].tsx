@@ -5,7 +5,7 @@ import styles from "styles/Home.module.scss";
 import {  campsService, } from "services";
 import Container from '@mui/material/Container';
 import Header from 'component/Header';
-import { GoogleMap, useJsApiLoader, Marker, } from '@react-google-maps/api';
+import { GoogleMap, useJsApiLoader, Marker,DirectionsRenderer } from '@react-google-maps/api';
 
 const containerStyle: any = {
   width: '100%',
@@ -18,11 +18,9 @@ const containerStyle: any = {
 const CampDirection: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
-  // const [camp, setCamp] = useState<any>({});
-  const [location, setLocation] = useState({ });
-  const [userLocation, setUserLocation] = useState({ });
-  // const [directions, setDirections] = useState("");
-
+  const [location, setLocation] = useState({ lat: -73.97, lng: 40.77 });
+  const [userLocation, setUserLocation] = useState(null);
+  const [directions, setDirections] = useState(null);
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: process.env.NEXT_PUBLIC_APIKEY_MAP
@@ -36,12 +34,26 @@ const CampDirection: NextPage = () => {
   useEffect(() => {
     const fetch = async () => {
       const res = await campsService.get(id);
+      const destination= {lat:res.location.coordinates[1],lng:res.location.coordinates[0]};
+      setLocation(destination)
       if (res._id){
         navigator.geolocation.getCurrentPosition((position) => {
-          setUserLocation({ lat: position.coords.latitude, lng: position.coords.longitude });
+          // const origin={lat: 48.60931203240536, lng: -122.33188984055126};
+          const origin={ lat: position.coords.latitude, lng: position.coords.longitude };
+          setUserLocation(origin);
+        const directionsService = new google.maps.DirectionsService();
+        directionsService.route({
+          origin:origin ,
+          destination: destination,
+          travelMode: google.maps.TravelMode.DRIVING
+        },(result, status) => {
+          if (status === google.maps.DirectionsStatus.OK) {
+            setDirections(result);
+          } else {
+            console.error(`error fetching directions ${result}`);
+          }
+        })
         });
-        // setCamp(res);
-        setLocation({lat:res.location.coordinates[1],lng:res.location.coordinates[0]})
       } 
     }
 
@@ -50,27 +62,22 @@ const CampDirection: NextPage = () => {
 
   return (
     <main className={styles.mainTop}>
-      <Header title='Camp Direction' back='/' />
+      <Header title='Camp Direction' back={`/camp/detail/${id}`} />
       <Container maxWidth="sm">
         <div className={styles.grid} style={{ paddingTop: 20 }}>
-            {!!isLoaded &&
+            {!!isLoaded &&location &&
               (
                 <GoogleMap
                   mapContainerStyle={containerStyle}
                   center={location}
-                  // zoom={9}
+                   zoom={6}
                   onUnmount={onUnmount} >
-                    {/* <DirectionsRenderer 
-                    directions={
-                      origin:userLocation,
-                      destination:location,
-                      travelMode: 'DRIVING'
-                    }
+                    <DirectionsRenderer 
+                    directions={directions}
                     destination={userLocation}
-                    /> */}
+                    />
                   <Marker position={location} />
                   <Marker position={userLocation} />
-                  <></>
                 </GoogleMap>
               )}
           </div>

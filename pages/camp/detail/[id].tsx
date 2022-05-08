@@ -2,7 +2,6 @@ import type { NextPage } from "next";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import styles from "styles/Home.module.scss";
-// import Button from "component/Button";
 import {  campsService } from "services";
 import Container from '@mui/material/Container';
 import Header from 'component/Header';
@@ -104,9 +103,11 @@ const CampDetail: NextPage = () => {
               )}
           </div>
           <div style={{ paddingTop: 10, paddingBottom: 25, width: '100%' }}>
-            <Button style={{ textTransform: 'none', fontSize: 16, width: '90%', marginLeft: '5%', padding: 9, borderRadius: 10, backgroundColor: '#5952ff' }} variant="contained"
-              >
-Get Directions     </Button>
+            <Button style={{ textTransform: 'none', fontSize: 16, width: '90%', marginLeft: '5%', padding: 9, borderRadius: 10, backgroundColor: '#5952ff' }}
+            onClick={()=>router.push(`/camp/direction/${id}`)}
+            variant="contained"
+              >Get Directions     
+              </Button>
           </div>
       </Container>
     </main>
