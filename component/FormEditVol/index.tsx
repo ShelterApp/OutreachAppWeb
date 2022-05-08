@@ -144,8 +144,8 @@ const FormEditVol = ({ vol }: any) => {
           onChange={setStatus}
         />
         <TextInput
-          label="Phone"
-          placeholder="Phone"
+          label="Phone Number"
+          placeholder="Phone Number"
           value={phoneNumber}
           onChange={(e:string)=> setPhone(formatPhoneNumber(e.target.value))
           }

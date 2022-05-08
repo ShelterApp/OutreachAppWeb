@@ -13,7 +13,6 @@ import Container from '@mui/material/Container';
 type Inputs = {
   orgCode: string;
   name: string;
-  phone: string;
   email: string;
   password: string;
 };
@@ -27,6 +26,7 @@ const SignUp: NextPage = () => {
   } = useForm<Inputs>();
 
   const [options, setOptions] = useState([])
+  const [phoneNumber, setPhone]= useState<any>('');
 
   useEffect(() => {
     const fetch = async () => {
@@ -42,6 +42,7 @@ const SignUp: NextPage = () => {
     const user = {
       ...data,
       regionId: region ? region.value : "",
+      phone:phoneNumber,
     };
 
     return userService
@@ -65,6 +66,21 @@ const SignUp: NextPage = () => {
   const onChangeCity = (e: any) => {
     setRegion(e);
   };
+
+  const formatPhoneNumber=(value:string)=> {
+    // if input value is falsy eg if the user deletes the input, then just return
+    if (!value) return value;
+  
+    const phoneNumber = value.replace(/[^\d]/g, '');
+    const phoneNumberLength = phoneNumber.length;
+    if (phoneNumberLength < 4) return phoneNumber;
+    if (phoneNumberLength < 7) {
+      return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
+    }
+    return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
+      3,  6
+    )}-${phoneNumber.slice(6, 10)}`;
+  }
 
   return (
     <Container maxWidth="sm">
@@ -98,11 +114,12 @@ const SignUp: NextPage = () => {
             <TextInput
               label="Phone Number"
               placeholder="Phone Number"
-              register={register("phone", { required: true })}
+              value={phoneNumber}
+          onChange={(e:string)=> setPhone(formatPhoneNumber(e.target.value))}
             />
-            {errors.phone && errors.phone.type === "required" && (
-              <ErrorMessage>Please input phone.</ErrorMessage>
-            )}
+           {!phoneNumber.length && (
+          <ErrorMessage>Please input phone.</ErrorMessage>
+        )}
             <TextInput
               label="Email"
               type="email"

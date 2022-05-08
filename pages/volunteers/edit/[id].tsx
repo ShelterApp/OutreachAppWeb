@@ -29,7 +29,7 @@ const Edit: NextPage = () => {
 
   return (
     <main className={styles.mainTop}>
-    <Header title='Update Volunteer' back='/' />
+    <Header title='Update Volunteer' back='/volunteers/' />
     <Container maxWidth="sm">
       <div className={styles.grid}>
         {

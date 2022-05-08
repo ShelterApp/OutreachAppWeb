@@ -30,7 +30,7 @@ const InputPassword = (props: InputPasswordProps) => {
       className={styles.input}
       placeholder={props.placeholder}
       {...props.register}
-      autoComplete='off'
+      autoComplete="new-password"
       endAdornment={
         <InputAdornment position="end">
           <IconButton

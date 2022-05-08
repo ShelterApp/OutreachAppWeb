@@ -107,6 +107,7 @@ const FormCreateOrg = () => {
         )}
         <TextInput
           label="Email"
+          // aut
           placeholder="Email Address"
           register={register("email", {
             required: true,

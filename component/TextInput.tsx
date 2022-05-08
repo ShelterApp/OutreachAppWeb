@@ -30,6 +30,7 @@ const TextInput: React.FC<TextInputProps> = forwardRef((props) => {
           <>
             <input type={props.type || 'text'} defaultValue={props.defaultValue} 
             onChange={props.onChange}
+            autoComplete='off'
             value={props.value} className={styles.input} placeholder={props.placeholder} {...props.register} autoComplete="off" autoFill='off'/>
           </>
         )

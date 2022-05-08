@@ -140,11 +140,17 @@ const Supplies = () => {
   const [options, setOptions] = useState<any[]>([]);
 
   useEffect(() => {
-    const subscription = userService.user.subscribe((x) => setUser(x));
-    if(user) fetchData();
+    const subscription = userService.user.subscribe((x) =>{
+      if(x?.user){
+        setUser(x);
+        fetchData(x);
+      }
+    } );
+    
+    // if(user) fetchData();
     return () => subscription.unsubscribe();
   }, [])
-  const fetchData = async () => {
+  const fetchData = async (user:any) => {
     const res = await suppliesService.list();
     const data = await supplyItemsService.list({organizationId:user.user.organizationId});
     const items = data.items.map((i: any) => ({ _id: i.supplyId._id, name: i.supplyId.name, qty: i.qty}));
