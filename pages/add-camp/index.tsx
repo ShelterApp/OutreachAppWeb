@@ -14,7 +14,7 @@ import styles from "styles/Home.module.scss";
 const initCampDetails: CampDetailsProps = {
   description: "",
   name: "",
-  numOfPeople: 1,
+  numOfPeople: 0,
   numOfPet: 0,
   type: 1,
   address: '',

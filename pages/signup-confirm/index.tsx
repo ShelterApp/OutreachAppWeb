@@ -6,6 +6,7 @@ import styles from "styles/Home.module.scss";
 import { useState, useEffect,useRef } from "react";
 import { useRouter } from "next/router";
 import { userService, alertService } from "services";
+import Button from "component/Button";
 
 const SignupConfirm: NextPage = () => {
   const router = useRouter();
@@ -18,7 +19,10 @@ const SignupConfirm: NextPage = () => {
   },[token]);
   const init =  () => {
     firstTime.current=true;
-    if (firstTime.current && token?.length) {
+    console.log(token);
+    if (firstTime.current && token?.length && loading) {
+    console.log('token',token);
+
       setTimeout(async () => {
         const result = await userService.confirmEmail({
           token
@@ -27,7 +31,7 @@ const SignupConfirm: NextPage = () => {
         
         if (result.message == 'bad_confirmation_token') {
            alertService.error('Invalid token. Please try again!');
-        } else if (result.code == 204) {
+        } else if (result.status == 204) {
           alertService.success('Verify your email successful. Please login to access our website.')
           router.push("/login");
         }else{
@@ -35,9 +39,6 @@ const SignupConfirm: NextPage = () => {
         }
         setLoading(false);
       }, 1000);
-    }else if(token){
-      setLoading(false);
-      alertService.error('Not found your request.');
     }
   };
   return (
@@ -55,7 +56,10 @@ const SignupConfirm: NextPage = () => {
               </div>
               <div>Veryfing your email</div>
             </>
-          ) : null}
+          ) : 
+        <Button text=" Return Home" onClick={() => router.push("/")} />
+
+          }
         </div>
       </main>
     </div>

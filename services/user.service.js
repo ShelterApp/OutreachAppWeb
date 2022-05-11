@@ -80,7 +80,7 @@ async function resetPassword(data) {
 async function confirmEmail(token) {
   try {
     const res = await axios.post(`/auth/confirm-email`, token);
-    return res.data;
+    return res;
   } catch (error) {
     return error.response.data;
   }
