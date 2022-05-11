@@ -29,7 +29,6 @@ const UpdateProfile: NextPage = () => {
       regionId: region ? region.value : "",
     };
     const res = await userService.update(user);
-    console.log(res);
     if (res && res._id) {
       alertService.success("Your profile was updated successful.");
     } else {

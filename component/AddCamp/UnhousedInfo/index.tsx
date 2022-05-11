@@ -78,7 +78,6 @@ const UnhousedInfo = ({
         homeless: data[`homeless-${index}`]
       }
     })
-    console.log(list)
 
     onSubmit(list);
     setLoading(false);

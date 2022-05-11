@@ -42,7 +42,6 @@ const Index: NextPage = () => {
 
   const onSubmit = async () => {
     setLoading(true)
-    console.log(list)
     const items = list.map((o: any) => ({supplyId: o.supplyId, qty: Math.floor(o.qty)}))
     const params = {
       organizationId: organizationId,

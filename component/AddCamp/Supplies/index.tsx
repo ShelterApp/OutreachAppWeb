@@ -149,7 +149,6 @@ const BasicTabs = ({ supplyItems, supplies, add, remove, current_tab, dropSuppli
 }
 
 const SupplyItem = ({tab, obj, add, remove, supply, updateQty}: any) => {
-  // console.log(obj)
   const [quantity, setQuantity] = useState<number>(supply ? supply.qty : 0)
   const handlePlus = () => {
     if (quantity >= 0) {

@@ -19,9 +19,7 @@ const SignupConfirm: NextPage = () => {
   },[token]);
   const init =  () => {
     firstTime.current=true;
-    console.log(token);
     if (firstTime.current && token?.length && loading) {
-    console.log('token',token);
 
       setTimeout(async () => {
         const result = await userService.confirmEmail({

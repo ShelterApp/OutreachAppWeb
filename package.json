@@ -3,7 +3,7 @@
     "private": true,
     "scripts": {
         "dev": "next dev -p 1234",
-        "build": "next build && next export",
+        "build": "next build && next export && firebase deploy",
         "start": "next start -p 1234",
         "lint": "next lint --fix"
     },
