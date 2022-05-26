@@ -2,7 +2,6 @@
 /* eslint-disable react/prop-types */
 import React, {
   forwardRef,
-
 } from 'react'
 import styles from './Component.module.scss'
 import InputPassword from "./InputPassword";
@@ -16,6 +15,7 @@ export interface TextInputProps   {
   value?: string;
   label?: string;
   onChange?:Function;
+  readOnly?:boolean;
 }
 const TextInput: React.FC<TextInputProps> = forwardRef((props) => {
   return (
@@ -30,8 +30,10 @@ const TextInput: React.FC<TextInputProps> = forwardRef((props) => {
           <>
             <input type={props.type || 'text'} defaultValue={props.defaultValue} 
             onChange={props.onChange}
-            autoComplete='off'
-            value={props.value} className={styles.input} placeholder={props.placeholder} {...props.register} autoComplete="off" autoFill='off'/>
+            {...props}
+            value={props.value} className={styles.input}
+            style={{backgroundColor:props.readOnly?'#cec8c8': 'white'}}
+            placeholder={props.placeholder} {...props.register} autoComplete="off" autoFill='off'/>
           </>
         )
       }

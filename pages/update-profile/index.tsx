@@ -51,7 +51,7 @@ const UpdateProfile: NextPage = () => {
           phone: user.phone,
           email: user.email,
         });
-        setRegion(regions.find((opt: any) => opt.value === user.regionId));
+        setRegion(regions.find((opt: any) => opt.label === user.regionId.name));
       }
     }
 
@@ -98,6 +98,7 @@ const UpdateProfile: NextPage = () => {
             <TextInput
               label="Email"
               type="email"
+              readOnly={true}
               register={register("email", {
                 required: true,
                 pattern:

@@ -71,7 +71,7 @@ const CampDetail: NextPage = () => {
 
   return (
     <main className={styles.mainTop}>
-      <Header title='Camp Details' back='/' />
+      <Header title='Camp Description' back='/' />
       <Container maxWidth="sm">
       <div style={{ width: '100%', flexDirection: 'row', display: 'flex', paddingTop: 10 }}>
           <div style={{ fontSize: 20, }}><strong> Camp Type: </strong> {campType[camp?.type]}</div>

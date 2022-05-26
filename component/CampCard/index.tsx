@@ -14,6 +14,16 @@ const CampCard = ({camp, handleOpenAlert, edit}: any) => {
   const clickedit = () => {
     edit(camp._id)
   }
+
+  const optionsType = 
+  {
+    1:'Camps',
+    3:'Camp with Pets',
+    5:'RV',
+    7:'Safe Parking',
+    9:'Other'
+  };
+
   const card = (
     <React.Fragment>
       <CardContent>
@@ -51,6 +61,13 @@ const CampCard = ({camp, handleOpenAlert, edit}: any) => {
           camp.description && (
             <Typography variant="body2">
               <b>Description:</b> {camp.description}
+            </Typography>
+          )
+        }
+        {
+          camp.type && (
+            <Typography variant="body2">
+              <b>Camp Type:</b> {optionsType[camp.type]}
             </Typography>
           )
         }

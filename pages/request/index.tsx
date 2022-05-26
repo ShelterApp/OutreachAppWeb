@@ -75,7 +75,7 @@ const Request: NextPage = () => {
 
   const renderItem = (item: any, index: number) => {
     let distance = 0;
-    const reportText = (user.user._id == item.createdBy?._id ? `Self Reported ` : `Reported by ${item.name} `) + `${moment(item.updatedAt).fromNow()}`;
+    const reportText = (user.user._id == item.createdBy?._id && item.type==1 ? `Self Reported ` : `Reported by ${item.name} `) + `${moment(item.updatedAt).fromNow()}`;
     if (item.location?.coordinates && location) distance = getDistanceFromLatLonInKm(item.location.coordinates[1], item.location.coordinates[0], location[0], location[1]);
     if (item.type == 3) return <div key={index} style={{ paddingTop: 5 }}>
       <Link href={`/request/detail/${item._id}`} passHref>
@@ -88,7 +88,9 @@ const Request: NextPage = () => {
         </div>
       </Link>
 
-      {!!item.requestInfo.supplies[0]?.supplyName && <div style={{ paddingTop: 7, paddingLeft: 10, }}> Locking for {item.requestInfo.supplies[0]?.supplyName}</div>}
+      {/* {!!item.requestInfo.supplies[0]?.supplyName && <div style={{ paddingTop: 7, paddingLeft: 10, }}> Looking for {item.requestInfo.supplies[0]?.supplyName}</div>} */}
+      <div style={{ paddingTop: 7, paddingLeft: 10,}}> {item.type == 3 ? `Requested ` : `I'm looking for`} {item.description}</div>
+
       <div style={{ paddingTop: 7, paddingLeft: 10, }}>{reportText}</div>
       <div style={{ paddingTop: 10, paddingBottom: 5 }}>
         <Button style={{ textTransform: 'none', fontSize: 16, width: 180, margin: 'auto', padding: '5px 10px', borderRadius: 8, backgroundColor: '#5952ff',display:'block' }} variant="contained"
@@ -107,7 +109,7 @@ const Request: NextPage = () => {
       </div>}
         </div>
       </Link>
-      <div style={{ paddingTop: 7, paddingLeft: 10, }}> Locking for {item.requestInfo.cate?.parentCateName}</div>
+      <div style={{ paddingTop: 7, paddingLeft: 10,}}> {item.type == 3 ? `Requested ` : `I'm looking for`} {item.description}</div>
       <div style={{ paddingTop: 7, paddingLeft: 10, }}>{reportText}</div>
       <div style={{ paddingTop: 10, paddingBottom: 5 }}>
       <Button style={{ textTransform: 'none', fontSize: 16, width: 180, margin: 'auto', padding: '5px 10px', borderRadius: 8, backgroundColor: '#5952ff',display:'block' }} variant="contained"

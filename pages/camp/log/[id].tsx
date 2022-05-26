@@ -43,7 +43,7 @@ const CampLog: NextPage = () => {
 
   return (
     <main className={styles.mainTop}>
-      <Header title='Camp Log' back='/' />
+      <Header title='Camp Details' back='/' />
       <Container maxWidth="sm">
         <div style={{ width: '100%', flexDirection: 'row', display: 'flex', paddingTop: 5,justifyContent:'space-between' }}>
           <div style={{ fontSize: 20, padding: '7px 0px' }}><strong> Message </strong></div>

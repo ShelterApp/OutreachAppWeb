@@ -73,7 +73,7 @@ const Index: NextPage = () => {
                 ...o,
                 status: status ? status.label : '',
                 lastedLoginAt: o.lastedLoginAt ? dayjs(o.lastedLoginAt).format("MMMM DD, YYYY") : 'No data',
-                createdBy: o.createdBy ? o.createdBy.name : 'No data'
+                createdBy: o.createdBy ? o.createdBy.name : 'Signup'
               }
               return rec;
             })

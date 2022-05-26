@@ -79,6 +79,12 @@ const CampDetails = ({ onSubmit, previousBack, defaultValues, isNew }: CampDetai
     const _optHasPet: any = defaultValues.numOfPet > 0 ? {label: 'Yes', value: true} : {label: 'No', value: false};
     setHasPet(_optHasPet)
   }, [])
+  const onChangeType= (e:any)=>{
+    if(e.value===3){
+    setHasPet( {label: 'Yes', value: true});
+    }
+    setType(e);
+  }
 
   return (
     <main className={styles.mainTop} style={{ position: 'relative', height: '100%', }}>
@@ -99,7 +105,7 @@ const CampDetails = ({ onSubmit, previousBack, defaultValues, isNew }: CampDetai
             placeholder="Select Type"
             options={optionsType}
             value={type}
-            onChange={setType}
+            onChange={(e)=>onChangeType(e)}
           />
           <label className={stylesComponent.label}>Description of the Camp</label>
           <textarea

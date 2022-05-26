@@ -39,7 +39,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     const path = url.split("?")[0];
     const notAuthorizedPath = ['/login/', "/sign-up", "/sign-up/", '/forgot-password/', 'help-screen/','/forgotpassword/','resetpassword'];
     const authorizedPath = ["/request/detail/", "/request/","/update-profile/", "/update-password/", "/organizations/add/", "/organizations/", "/volunteers/add/", "/volunteers/edit/", "/volunteers/",
-     '/add-camp/','/camp/detail/','/camp/direction/','/camp/log/','/camp/report/','/my-claims/','/manage-request/','/manage-camps/', '/events/', '/events/add/','/my-work/','/supply-items/',
+     '/add-camp/','/camp/detail/','/camp/direction/','/camp/log/','/camp/report/','/my-claims/','/manage-request/','/manage-camps/','/manage-camps/edit/', '/events/', '/events/add/','/my-work/','/supply-items/',
     '/drop-supplies/','/request-supplies/', '/my-events/','/about/','/terms-of-use','/privacy-policy','/my-dashboard','/all-inventory', '/events/list/','/fulfill'];
     const publicPaths: any[] = [] ;
 

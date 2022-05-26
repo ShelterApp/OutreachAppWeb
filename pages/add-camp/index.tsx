@@ -5,7 +5,7 @@ import AddNewCamp from "component/AddCamp/AddNewCamp";
 import CampDetails from "component/AddCamp/CampDetails";
 import UnhousedInfo from "component/AddCamp/UnhousedInfo";
 import Supplies from "component/AddCamp/Supplies";
-import { alertService, campsService } from "services";
+import { userService, campsService,alertService } from "services";
 import { useRouter } from "next/router";
 import { CampDetailsProps, PeopleProps } from "common/interface";
 import { getLocationAPIMap } from "services/map.service";
@@ -89,19 +89,31 @@ const AddCamp: NextPage = () => {
   const [zoom, setZoom] = useState(12);
   const [dropSupplies, setDropSupplies] = useState<any[]>([]);
   const [requestSupplies, setRequestSupplies] = useState<any[]>([]);
-  const router = useRouter();
+  // const router = useRouter();
 
   useEffect(() => {
+    console.log('123');
+    
     navigator.geolocation.getCurrentPosition((position) => {
+      console.log('123');
       if (position.coords){
         setCenter({
           lat :position.coords.latitude,
           lng: position.coords.longitude
         })
-      }else {
+      }
+    }, (error)=>{
+      console.log(error);
+      const user = userService.userValue;
+      if(user.user.regionId) {
+        setCenter({
+          lat : user.user.regionId.lat,
+          lng: user.user.regionId.lng,
+        })
+      }else{
         setCenter(_center)
       }
-    });
+    },{timeout:5000});
   }, []);
 
   const createCamp = async () => {
@@ -118,9 +130,10 @@ const AddCamp: NextPage = () => {
       },
       requestSupplies: requestSupplies,
       dropSupplies: dropSupplies,
-      type: 1,
       status: 1
     }
+    console.log(data);
+    
     const res = await campsService.create(data);
     if (res.statusCode && res.message) {
       alertService.error(res.message)

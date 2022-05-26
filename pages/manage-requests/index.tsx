@@ -89,7 +89,7 @@ const ManageRequest: NextPage = () => {
         </div>
       </Link>
 
-      {!!item.requestInfo.supplies[0]?.supplyName && <div style={{ paddingTop: 7, paddingLeft: 10, }}> Locking for {item.requestInfo.supplies[0]?.supplyName}</div>}
+      {!!item.requestInfo.supplies[0]?.supplyName && <div style={{ paddingTop: 7, paddingLeft: 10, }}> Looking for {item.requestInfo.supplies[0]?.supplyName}</div>}
       <div style={{ paddingTop: 7, paddingLeft: 10, }}>{reportText}</div>
       <div style={{ paddingTop: 10, paddingBottom: 5,display:'flex',justifyContent:'space-around', }}>
         {item.status==3 && <Button style={{ textTransform: 'none', fontSize: 16, width: '30%',  padding: 9, borderRadius: 10, backgroundColor: '#5952ff' }} variant="contained"
@@ -116,7 +116,7 @@ const ManageRequest: NextPage = () => {
       </div>}
         </div>
       </Link>
-      <div style={{ paddingTop: 7, paddingLeft: 10, }}> Locking for {item.requestInfo.cate?.parentCateName}</div>
+      <div style={{ paddingTop: 7, paddingLeft: 10, }}> Looking for {item.requestInfo.cate?.parentCateName}</div>
       <div style={{ paddingTop: 7, paddingLeft: 10, }}>{reportText}</div>
       <div style={{ paddingTop: 10, paddingBottom: 5,display:'flex',justifyContent:'space-around', }}>
         {item.status==3 && <Button style={{ textTransform: 'none', fontSize: 16, width: '30%',  padding: 9, borderRadius: 10, backgroundColor: '#5952ff' }} variant="contained"

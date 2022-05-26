@@ -91,7 +91,7 @@ const SupplyItem = ({ tab, obj, add, remove, supply, updateQty }: any) => {
   return (
     <Grid container spacing={2} style={{ borderBottom: '1px solid gray' }}>
       <Grid item xs={6}>
-        <FormControlLabel control={<Checkbox checked={checked} onChange={(e) => onCheck(e.target.checked)} />} label={obj.name} />
+        <FormControlLabel control={<Checkbox checked={checked} onChange={(e) => onCheck(e.target.checked)} />} label={`${obj.name} (${obj.qty})`} />
       </Grid>
       <Grid item xs={6} style={{ display: 'flex', alignItems: 'center' }}>
         <RemoveIcon className="cursor-pointer" fontSize="small" onClick={() => handleRemove()} />
