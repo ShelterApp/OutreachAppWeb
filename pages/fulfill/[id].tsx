@@ -153,7 +153,6 @@ const Supplies = () => {
   }
   const onSubmit = async () => {
     const res = await requestService.fullFill(id,{ supplies: requestSupplies });
-    console.log(res);
     if (res.message) {
       alertService.error(res.message);
     }else if(res.status==204){

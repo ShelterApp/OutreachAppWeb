@@ -24,7 +24,7 @@ const Index: NextPage = () => {
   }, []);
 
   const fetchData = async (keyword?:string) => {
-    const res = await userService.list({ userType: "Volunteer" ,keyword});
+    const res = await userService.list({ keyword});
     setList(res.items);
   };
 

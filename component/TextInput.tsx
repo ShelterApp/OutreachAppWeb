@@ -33,7 +33,7 @@ const TextInput: React.FC<TextInputProps> = forwardRef((props) => {
             {...props}
             value={props.value} className={styles.input}
             style={{backgroundColor:props.readOnly?'#cec8c8': 'white'}}
-            placeholder={props.placeholder} {...props.register} autoComplete="off" autoFill='off'/>
+            placeholder={props.placeholder} {...props.register} autoComplete="off" autofill='off'/>
           </>
         )
       }

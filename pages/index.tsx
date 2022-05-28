@@ -77,7 +77,6 @@ const Home: NextPage = () => {
     const subscription = userService.user.subscribe((x: any) =>{
       if(x && x.user){
       setUser(x);
-      console.log(x.user);
         setCenter({
           lat:x.user.regionId.lat,
           lng: x.user.regionId.lng,

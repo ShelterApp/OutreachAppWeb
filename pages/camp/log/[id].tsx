@@ -19,7 +19,6 @@ const CampLog: NextPage = () => {
       const res = await campsService.getLog(id);
       if (res.results){
         setCamp(res.results)
-        // console.log(res);
       } 
     }
 

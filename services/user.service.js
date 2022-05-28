@@ -88,7 +88,6 @@ async function confirmEmail(token) {
 async function changePassword(data) {
   try {
     const res = await axios.put(`/profile/change-password`, data);
-    console.log(res);
     return res;
   } catch (error) {
     return error.response.data;

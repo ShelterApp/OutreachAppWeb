@@ -80,7 +80,6 @@ const FormCreateVol = () => {
   const [region, setRegion] = useState<any>(null);
   const [status, setStatus] = useState<any>(null);
   // const [role, setRole] = useState<any>(null);
-  // const [phoneNumber, setPhone]= useState<any>('');
   const [organization, setOrganization] = useState<any>();
   const [organizations, setOrganizations] = useState([])
 

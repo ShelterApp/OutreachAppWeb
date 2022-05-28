@@ -25,7 +25,6 @@ const SignupConfirm: NextPage = () => {
         const result = await userService.confirmEmail({
           token
         });
-        console.log(result);
         
         if (result.message == 'bad_confirmation_token') {
            alertService.error('Invalid token. Please try again!');

@@ -73,7 +73,6 @@ const FormEditVol = ({ vol }: any) => {
   const [region, setRegion] = useState<any>();
   const [status, setStatus] = useState<any>(statuses[0]);
   const [role, setRole] = useState<any>(roles[0]);
-  const [phoneNumber, setPhone]= useState<any>('');
 
   useEffect(() => {
     const fetch = async () => {
@@ -89,7 +88,7 @@ const FormEditVol = ({ vol }: any) => {
         });
         setRole(roles.find(r => r.value === vol.userType))
         setStatus(statuses.find(r => r.value === vol.status))
-        setRegion(regions.find((opt: any) => opt.value === vol.regionId._id));
+        setRegion(regions.find((opt: any) => opt.value === vol.regionId?._id));
       }
     }
 

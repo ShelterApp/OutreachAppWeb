@@ -141,7 +141,6 @@ const EditCamp: NextPage = () => {
       },
       address: address
     }
-    console.log(data)
 
     const res = await campsService.update(id, data);
     if (res.statusCode && res.message) {

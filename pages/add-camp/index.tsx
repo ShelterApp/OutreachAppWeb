@@ -92,10 +92,8 @@ const AddCamp: NextPage = () => {
   // const router = useRouter();
 
   useEffect(() => {
-    console.log('123');
     
     navigator.geolocation.getCurrentPosition((position) => {
-      console.log('123');
       if (position.coords){
         setCenter({
           lat :position.coords.latitude,
@@ -132,7 +130,6 @@ const AddCamp: NextPage = () => {
       dropSupplies: dropSupplies,
       status: 1
     }
-    console.log(data);
     
     const res = await campsService.create(data);
     if (res.statusCode && res.message) {

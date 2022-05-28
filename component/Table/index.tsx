@@ -12,10 +12,11 @@ interface TableProps {
 
 const Table = ({ list, names, cols, edit, handleOpenAlert }: TableProps) => {
   const getValue = (obj: any, name: string) => {
-    let keys = name.split('.')
+    const keys = name.split('.')
     let _obj = {...obj}
+    
     keys.forEach(key => {
-      _obj = _obj[key]
+      _obj = _obj?_obj[key]:''
     })
     return _obj;
   }
@@ -45,7 +46,7 @@ const Table = ({ list, names, cols, edit, handleOpenAlert }: TableProps) => {
                         </td>
                       )
                     }
-                    let value = getValue(obj, name)
+                    const value = getValue(obj, name)
                     return <td data-label={cols[i]} key={i}>{value}</td>
                   })
                 }

@@ -40,7 +40,6 @@ const UpdateProfile: NextPage = () => {
 
   const [options, setOptions] = useState([])
   const [region, setRegion] = useState<any>();
-  const [phoneNumber, setPhone]= useState<any>('');
 
   useEffect(() => {
     const fetch = async () => {
@@ -54,7 +53,6 @@ const UpdateProfile: NextPage = () => {
           phone: user.phone,
           email: user.email,
         });
-        setPhone(user.phone);
         setRegion(regions.find((opt: any) => opt.label === user.regionId.name));
       }
     }

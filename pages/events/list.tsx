@@ -40,7 +40,6 @@ const Index: NextPage = () => {
 
   const join = async (id: string) => {
     const res = await eventsService.join(id);
-    console.log(res)
     if (res && res.statusCode === 400) {
       alertService.error(res.message)
     } else {

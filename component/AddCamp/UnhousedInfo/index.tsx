@@ -152,25 +152,18 @@ const NestedComponent = ({ index, obj }: { index: number, obj: PeopleProps }) =>
         <TextInput
           label="Name"
           placeholder="Name"
-          register={register(`name-${index}`, { required: true })}
+          register={register(`name-${index}`, )}
         />
-        {errors[`name-${index}`] &&
-          errors[`name-${index}`].type === "required" && (
-            <ErrorMessage>Please input name.</ErrorMessage>
-          )}
+      
         <TextInput
           label="Age"
           placeholder="Estimated age"
           register={register(`age-${index}`, {
-            required: true,
             min: 1,
             max: 100,
           })}
           type="number"
         />
-        {errors[`age-${index}`] && errors[`age-${index}`].type === "required" && (
-          <ErrorMessage>Please input age.</ErrorMessage>
-        )}
         {errors[`age-${index}`] && errors[`age-${index}`].type === "min" && (
           <ErrorMessage>Please input age is invalid.</ErrorMessage>
         )}
@@ -179,57 +172,34 @@ const NestedComponent = ({ index, obj }: { index: number, obj: PeopleProps }) =>
         )}
         <SelectComponent
           label='Gender'
-          {...register(`gender-${index}`, {
-            required: true
-          })}
+          {...register(`gender-${index}`)}
           options={genderOption}
         />
-        {errors[`gender-${index}`] && errors[`gender-${index}`].type === "required" && (
-          <ErrorMessage>Please input gender.</ErrorMessage>
-        )}
         <SelectComponent
           label='Race'
-          {...register(`race-${index}`, {
-            required: true
-          })}
+          {...register(`race-${index}`)}
           options={raceOption}
         />
-        {errors[`race-${index}`] && errors[`race-${index}`].type === "required" && (
-          <ErrorMessage>Please input race.</ErrorMessage>
-        )}
         <SelectComponent
           label='Disabled?'
-          {...register(`disabled-${index}`, {
-            required: true
-          })}
+          {...register(`disabled-${index}`, )}
           options={disabledOption}
         />
-        {errors[`disabled-${index}`] && errors[`disabled-${index}`].type === "required" && (
-          <ErrorMessage>Please input disabled.</ErrorMessage>
-        )}
         <SelectComponent
           label='Homeless'
-          {...register(`homeless-${index}`, {
-            required: true
-          })}
+          {...register(`homeless-${index}`, )}
           options={optionsHomeless}
         />
-        {errors[`homeless-${index}`] && errors[`homeless-${index}`].type === "required" && (
-          <ErrorMessage>Please input homeless.</ErrorMessage>
-        )}
+        
         {
           watch(`homeless-${index}`) === 'Yes' && (
             <>
               <SelectComponent
                 label='Unhoused Since'
-                {...register(`unhouseSince-${index}`, {
-                  required: true
-                })}
+                {...register(`unhouseSince-${index}`)}
                 options={unhouseSinceOption}
               />
-              {errors[`unhouseSince-${index}`] && errors[`unhouseSince-${index}`].type === "required" && (
-                <ErrorMessage>Please input unhouseSince.</ErrorMessage>
-              )}
+             
             </>
           )
         }
@@ -238,6 +208,7 @@ const NestedComponent = ({ index, obj }: { index: number, obj: PeopleProps }) =>
   );
 };
 
+// eslint-disable-next-line react/display-name
 const SelectComponent = React.forwardRef<
   HTMLSelectElement,
   { label: string, options: any[] } & ReturnType<UseFormRegister<Inputs>>
