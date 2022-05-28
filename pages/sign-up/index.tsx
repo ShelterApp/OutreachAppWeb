@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { userService, alertService,regionsService } from "services";
 import Container from '@mui/material/Container';
+import {formatPhoneNumber} from 'helpers/function';
 
 type Inputs = {
   orgCode: string;
@@ -22,11 +23,11 @@ const SignUp: NextPage = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<Inputs>();
 
   const [options, setOptions] = useState([])
-  const [phoneNumber, setPhone]= useState<any>('');
 
   useEffect(() => {
     const fetch = async () => {
@@ -42,7 +43,6 @@ const SignUp: NextPage = () => {
     const user = {
       ...data,
       regionId: region ? region.value : "",
-      phone:phoneNumber,
     };
 
     return userService
@@ -66,21 +66,6 @@ const SignUp: NextPage = () => {
   const onChangeCity = (e: any) => {
     setRegion(e);
   };
-
-  const formatPhoneNumber=(value:string)=> {
-    // if input value is falsy eg if the user deletes the input, then just return
-    if (!value) return value;
-  
-    const phoneNumber = value.replace(/[^\d]/g, '');
-    const phoneNumberLength = phoneNumber.length;
-    if (phoneNumberLength < 4) return phoneNumber;
-    if (phoneNumberLength < 7) {
-      return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
-    }
-    return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
-      3,  6
-    )}-${phoneNumber.slice(6, 10)}`;
-  }
 
   return (
     <Container maxWidth="sm">
@@ -112,14 +97,20 @@ const SignUp: NextPage = () => {
               <ErrorMessage>Please input name.</ErrorMessage>
             )}
             <TextInput
-              label="Phone Number"
-              placeholder="Phone Number"
-              value={phoneNumber}
-          onChange={(e:string)=> setPhone(formatPhoneNumber(e.target.value))}
-            />
-           {!phoneNumber.length && (
-          <ErrorMessage>Please input phone.</ErrorMessage>
-        )}
+              label="Phone"
+              placeholder="Volunteer Phone"
+              register={register("phone", { 
+                required: true,
+                onChange:(e)=>setValue('phone',formatPhoneNumber(e.target.value)),
+                minLength:14,
+            })}
+               />
+              {errors.phone && errors.phone.type === "required" &&(
+                <ErrorMessage>Please input phone.</ErrorMessage>
+              )}
+              {errors.phone && errors.phone.type === "minLength" &&(
+                <ErrorMessage>Please input valid phone.</ErrorMessage>
+              )}
             <TextInput
               label="Email"
               type="email"

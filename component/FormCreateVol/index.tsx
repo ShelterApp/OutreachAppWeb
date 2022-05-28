@@ -7,7 +7,7 @@ import styles from "styles/Home.module.scss";
 import { alertService, organizationService, regionsService, userService } from "services";
 import { useRouter } from "next/router";
 import Select from "component/Select";
-
+import {formatPhoneNumber} from 'helpers/function';
 const statuses = [
   {label: 'Active', value: 1},
   {label: 'Inactive', value: 0}
@@ -36,6 +36,7 @@ const FormCreateVol = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     reset,
     formState: { errors },
   } = useForm<Inputs>({
@@ -59,13 +60,11 @@ const FormCreateVol = () => {
     setLoading(true);
     const params = {
       ...data,
-      phone:phoneNumber,
       status: status?.value,
       userType: 'Volunteer',
       organizationId: organization.value,
       regionId: region.value
     }
-
     const res = await userService.create(params)
     if (res.statusCode && res.message) {
       alertService.error(res.message)
@@ -81,7 +80,7 @@ const FormCreateVol = () => {
   const [region, setRegion] = useState<any>(null);
   const [status, setStatus] = useState<any>(null);
   // const [role, setRole] = useState<any>(null);
-  const [phoneNumber, setPhone]= useState<any>('');
+  // const [phoneNumber, setPhone]= useState<any>('');
   const [organization, setOrganization] = useState<any>();
   const [organizations, setOrganizations] = useState([])
 
@@ -90,29 +89,13 @@ const FormCreateVol = () => {
       const res = await regionsService.list();
       const regions = res.items.map((region: any) => ({value: region._id, label: region.name}));
       setOptions(regions)
-      // setRegion(regions[0])
       const orgs = await organizationService.list();
       const optOrgs = orgs.items.map((org: any) => ({value: org._id, label: org.name}));
       setOrganizations(optOrgs)
-      // setOrganization(optOrgs[0])
     }
 
     fetch();
   }, []);
-
-  const formatPhoneNumber=(value:string)=> {
-    if (!value) return value;
-  
-    const phoneNumber = value.replace(/[^\d]/g, '');
-    const phoneNumberLength = phoneNumber.length;
-    if (phoneNumberLength < 4) return phoneNumber;
-    if (phoneNumberLength < 7) {
-      return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
-    }
-    return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
-      3,  6
-    )}-${phoneNumber.slice(6, 10)}`;
-  }
 
   return (
     <React.Fragment>
@@ -120,7 +103,7 @@ const FormCreateVol = () => {
         <TextInput
           label="Name"
           placeholder="Volunteer Name"
-          register={register("name", { required: true })}
+          register={register("name", { required: true, })}
         />
         {errors.name && errors.name.type === "required" && (
           <ErrorMessage>Please input name.</ErrorMessage>
@@ -128,12 +111,17 @@ const FormCreateVol = () => {
         <TextInput
           label="Phone"
           placeholder="Volunteer Phone"
-          value={phoneNumber}
-          onChange={(e:string)=> setPhone(formatPhoneNumber(e.target.value))}
-          // register={register("phone", { required: true })}
+          register={register("phone", { 
+            required: true,
+            onChange:(e)=>setValue('phone',formatPhoneNumber(e.target.value)),
+            minLength:14,
+           })}
         />
-        {!phoneNumber.length && (
+        {errors.phone && errors.phone.type === "required" &&(
           <ErrorMessage>Please input phone.</ErrorMessage>
+        )}
+        {errors.phone && errors.phone.type === "minLength" &&(
+          <ErrorMessage>Please input valid phone.</ErrorMessage>
         )}
         <TextInput
           label="Email"

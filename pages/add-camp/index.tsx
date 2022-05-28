@@ -6,7 +6,7 @@ import CampDetails from "component/AddCamp/CampDetails";
 import UnhousedInfo from "component/AddCamp/UnhousedInfo";
 import Supplies from "component/AddCamp/Supplies";
 import { userService, campsService,alertService } from "services";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 import { CampDetailsProps, PeopleProps } from "common/interface";
 import { getLocationAPIMap } from "services/map.service";
 import styles from "styles/Home.module.scss";

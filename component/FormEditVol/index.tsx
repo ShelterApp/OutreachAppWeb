@@ -9,6 +9,7 @@ import { alertService, regionsService, userService } from "services";
 import { useRouter } from "next/router";
 import Select from "component/Select";
 import dayjs from "dayjs";
+import {formatPhoneNumber} from 'helpers/function';
 
 const statuses = [
   {label: 'Active', value: 1},
@@ -37,6 +38,7 @@ const FormEditVol = ({ vol }: any) => {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: defaultValues
@@ -51,7 +53,7 @@ const FormEditVol = ({ vol }: any) => {
     const params = {
       ...data,
       status: status.value,
-      phone:phoneNumber,
+      // phone:phoneNumber,
       userType: role.value,
       regionId: region.value
     }
@@ -85,7 +87,6 @@ const FormEditVol = ({ vol }: any) => {
           name: vol.name,
           phone: vol.phone
         });
-        setPhone(vol.phone)
         setRole(roles.find(r => r.value === vol.userType))
         setStatus(statuses.find(r => r.value === vol.status))
         setRegion(regions.find((opt: any) => opt.value === vol.regionId._id));
@@ -93,23 +94,8 @@ const FormEditVol = ({ vol }: any) => {
     }
 
     fetch();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [vol]);
 
-  const formatPhoneNumber=(value:string)=> {
-    // if input value is falsy eg if the user deletes the input, then just return
-    if (!value) return value;
-  
-    const phoneNumber = value.replace(/[^\d]/g, '');
-    const phoneNumberLength = phoneNumber.length;
-    if (phoneNumberLength < 4) return phoneNumber;
-    if (phoneNumberLength < 7) {
-      return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
-    }
-    return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
-      3,  6
-    )}-${phoneNumber.slice(6, 10)}`;
-  }
 
   return (
     <React.Fragment>
@@ -144,15 +130,19 @@ const FormEditVol = ({ vol }: any) => {
           onChange={setStatus}
         />
         <TextInput
-          label="Phone Number"
-          placeholder="Phone Number"
-          value={phoneNumber}
-          onChange={(e:string)=> setPhone(formatPhoneNumber(e.target.value))
-          }
-          // register={register("phone", { required: true })}
+          label="Phone"
+          placeholder="Volunteer Phone"
+          register={register("phone", { 
+            required: true,
+            onChange:(e)=>setValue('phone',formatPhoneNumber(e.target.value)),
+            minLength:14,
+           })}
         />
-        {!phoneNumber.length && (
+        {errors.phone && errors.phone.type === "required" &&(
           <ErrorMessage>Please input phone.</ErrorMessage>
+        )}
+        {errors.phone && errors.phone.type === "minLength" &&(
+          <ErrorMessage>Please input valid phone.</ErrorMessage>
         )}
         <label className={stylesComponent.label}>Email</label>
         <input disabled className={stylesComponent.input} value={vol.email}/>

@@ -16,6 +16,7 @@ import Container from "@mui/material/Container";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import stylesComponent from "component/Component.module.scss";
+import {formatPhoneNumber} from 'helpers/function';
 
 interface SelectType {
   value: string;
@@ -53,9 +54,6 @@ const HelpScreen: NextPage = () => {
   const [sizeCate, setSizeCate] = useState<SelectType>();
   const [checked, setChecked] = useState<boolean>(false);
   const [location, setLocation] = useState([] as number[]);
-  const [phoneNumber, setPhone]= useState<any>('');
-
-  // const [error,setError]=useState('');
 
   useEffect(() => {
     const fetch = async () => {
@@ -77,7 +75,6 @@ const HelpScreen: NextPage = () => {
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     const item = {
         ...data,
-        phone: phoneNumber,
         cate: {
           parentCateId: parentCate?.value,
           parentCateName: parentCate?.label || "",
@@ -89,7 +86,6 @@ const HelpScreen: NextPage = () => {
       };
       const user = userService && userService.userValue? userService.userValue.user:null;
     if (user && user._id) item.createdBy = user._id;
-      console.log(item);
     if (!item.cate.parentCateId) {
       return alertService.error("Error. Please check again");
     }
@@ -107,20 +103,6 @@ const HelpScreen: NextPage = () => {
     sendRequest(item);
   };
 
-  const formatPhoneNumber=(value:string)=> {
-    if (!value) return value;
-  
-    const phoneNumber = value.replace(/[^\d]/g, '');
-    const phoneNumberLength = phoneNumber.length;
-    if (phoneNumberLength < 4) return phoneNumber;
-    if (phoneNumberLength < 7) {
-      return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
-    }
-    return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
-      3,  6
-    )}-${phoneNumber.slice(6, 10)}`;
-  }
-
   const sendRequest = async (item: Inputs) => {
     return requestService
       .create(item)
@@ -133,7 +115,8 @@ const HelpScreen: NextPage = () => {
           setValue("note", "");
           setValue("name", "");
           setValue("email", "");
-          setPhone("");
+          setValue("phone", "");
+
         } else {
           alertService.error(res.message);
           return;
@@ -209,11 +192,20 @@ const HelpScreen: NextPage = () => {
               <ErrorMessage>Please input email.</ErrorMessage>
             )}
             <TextInput
-              label="Phone Number"
-              placeholder="Phone Number"
-              value={phoneNumber}
-              onChange={(e:string)=> setPhone(formatPhoneNumber(e.target.value))}
-            />
+              label="Phone"
+              placeholder="Volunteer Phone"
+              register={register("phone", { 
+                required: true,
+                onChange:(e)=>setValue('phone',formatPhoneNumber(e.target.value)),
+                minLength:14,
+            })}
+               />
+              {errors.phone && errors.phone.type === "required" &&(
+                <ErrorMessage>Please input phone.</ErrorMessage>
+              )}
+              {errors.phone && errors.phone.type === "minLength" &&(
+                <ErrorMessage>Please input valid phone.</ErrorMessage>
+              )}
            
             <Select
               label="I'm Looking For"

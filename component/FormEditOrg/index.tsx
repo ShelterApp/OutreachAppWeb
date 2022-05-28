@@ -8,6 +8,7 @@ import styles from "styles/Home.module.scss";
 import { alertService, organizationService } from "services";
 import { useRouter } from "next/router";
 import dayjs from "dayjs";
+import {formatPhoneNumber} from 'helpers/function';
 
 type Inputs = {
   name: string;
@@ -31,29 +32,14 @@ const FormEditOrg = ({ org }: any) => {
   const router = useRouter();
   const {
     register,
+    setValue,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: defaultValues
   });
-  // eslint-disable-next-line
   const [loading, setLoading] = useState(false);
-  const [phoneNumber, setPhone]= useState<any>('');
-
-  const formatPhoneNumber=(value:string)=> {
-    if (!value) return value;
-  
-    const phoneNumber = value.replace(/[^\d]/g, '');
-    const phoneNumberLength = phoneNumber.length;
-    if (phoneNumberLength < 4) return phoneNumber;
-    if (phoneNumberLength < 7) {
-      return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
-    }
-    return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
-      3,  6
-    )}-${phoneNumber.slice(6, 10)}`;
-  }
 
   const submit = async (data: any, e: any) => {
     setLoading(true);
@@ -71,17 +57,15 @@ const FormEditOrg = ({ org }: any) => {
 
   useEffect(() => {
     if (org && org._id) {
-      setPhone(org.phone)
       reset({
         name: org.name,
         description: org.description,
         address: org.address,
-        // phone: org.phone,
+        phone: org.phone,
         email: org.email,
         code:org.code,
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [org]);
 
   return (
@@ -114,10 +98,19 @@ const FormEditOrg = ({ org }: any) => {
         )}
         <TextInput
           label="Phone"
-          placeholder="Phone"
-          value={phoneNumber}
-          onChange={(e:string)=> setPhone(formatPhoneNumber(e.target.value))}
+          placeholder="Volunteer Phone"
+          register={register("phone", { 
+            required: true,
+            onChange:(e)=>setValue('phone',formatPhoneNumber(e.target.value)),
+            minLength:14,
+           })}
         />
+        {errors.phone && errors.phone.type === "required" &&(
+          <ErrorMessage>Please input phone.</ErrorMessage>
+        )}
+        {errors.phone && errors.phone.type === "minLength" &&(
+          <ErrorMessage>Please input valid phone.</ErrorMessage>
+        )}
         <TextInput
           label="Email"
           placeholder="Email Address"

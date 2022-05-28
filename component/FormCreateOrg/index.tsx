@@ -7,6 +7,7 @@ import Button from "component/Button";
 import styles from "styles/Home.module.scss";
 import { alertService, organizationService } from "services";
 import { useRouter } from "next/router";
+import {formatPhoneNumber} from 'helpers/function';
 
 type Inputs = {
   name: string;
@@ -31,18 +32,18 @@ const FormCreateOrg = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: defaultValues
   });
   // eslint-disable-next-line
   const [loading, setLoading] = useState(false);
-  const [phoneNumber, setPhone]= useState<any>('');
 
   const submit = async (data: any, e: any) => {
     setLoading(true);
     e.preventDefault();
-    data.phone=phoneNumber;
+    // data.phone=phoneNumber;
     const org = await organizationService.create(data)
     if (org.statusCode && org.message) {
       alertService.error(org.message)
@@ -53,20 +54,6 @@ const FormCreateOrg = () => {
     }
     setLoading(false);
   };
-
-  const formatPhoneNumber=(value:string)=> {
-    if (!value) return value;
-  
-    const phoneNumber = value.replace(/[^\d]/g, '');
-    const phoneNumberLength = phoneNumber.length;
-    if (phoneNumberLength < 4) return phoneNumber;
-    if (phoneNumberLength < 7) {
-      return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
-    }
-    return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
-      3,  6
-    )}-${phoneNumber.slice(6, 10)}`;
-  }
 
   return (
     <React.Fragment>
@@ -98,16 +85,21 @@ const FormCreateOrg = () => {
         )}
         <TextInput
           label="Phone"
-          placeholder="Phone"
-          value={phoneNumber}
-          onChange={(e:string)=> setPhone(formatPhoneNumber(e.target.value))}
+          placeholder="Volunteer Phone"
+          register={register("phone", { 
+            required: true,
+            onChange:(e)=>setValue('phone',formatPhoneNumber(e.target.value)),
+            minLength:14,
+           })}
         />
-         {!phoneNumber.length && (
+        {errors.phone && errors.phone.type === "required" &&(
           <ErrorMessage>Please input phone.</ErrorMessage>
+        )}
+        {errors.phone && errors.phone.type === "minLength" &&(
+          <ErrorMessage>Please input valid phone.</ErrorMessage>
         )}
         <TextInput
           label="Email"
-          // aut
           placeholder="Email Address"
           register={register("email", {
             required: true,

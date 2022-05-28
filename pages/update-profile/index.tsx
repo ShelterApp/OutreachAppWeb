@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { userService, alertService, regionsService } from "services";
 import Container from '@mui/material/Container';
 import Header from 'component/Header';
+import {formatPhoneNumber} from 'helpers/function';
 
 type Inputs = {
   name: string;
@@ -18,6 +19,7 @@ type Inputs = {
 
 const UpdateProfile: NextPage = () => {
   const {
+    setValue,
     register,
     handleSubmit,
     formState: { errors },
@@ -38,6 +40,7 @@ const UpdateProfile: NextPage = () => {
 
   const [options, setOptions] = useState([])
   const [region, setRegion] = useState<any>();
+  const [phoneNumber, setPhone]= useState<any>('');
 
   useEffect(() => {
     const fetch = async () => {
@@ -51,6 +54,7 @@ const UpdateProfile: NextPage = () => {
           phone: user.phone,
           email: user.email,
         });
+        setPhone(user.phone);
         setRegion(regions.find((opt: any) => opt.label === user.regionId.name));
       }
     }
@@ -83,18 +87,19 @@ const UpdateProfile: NextPage = () => {
             </div>
             <TextInput
               label="Phone"
-              placeholder="Update Phone"
+              placeholder="Volunteer Phone"
               register={register("phone", { 
                 required: true,
-                pattern:/^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g
-               })}
-            />
-             {errors.phone && errors.phone.type === "pattern" && (
-              <ErrorMessage>Phone number must be valid.</ErrorMessage>
-            )}
-            {errors.phone && errors.phone.type === "required" && (
-              <ErrorMessage>Please input phone.</ErrorMessage>
-            )}
+                onChange:(e)=>setValue('phone',formatPhoneNumber(e.target.value)),
+                minLength:14,
+            })}
+               />
+              {errors.phone && errors.phone.type === "required" &&(
+                <ErrorMessage>Please input phone.</ErrorMessage>
+              )}
+              {errors.phone && errors.phone.type === "minLength" &&(
+                <ErrorMessage>Please input valid phone.</ErrorMessage>
+              )}
             <TextInput
               label="Email"
               type="email"
