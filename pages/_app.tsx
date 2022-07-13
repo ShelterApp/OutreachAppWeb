@@ -49,13 +49,16 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
 
     if (!userService.userValue) {
+
       // user not login
-      if (authorizedPath.includes(path)) {
+      if ( authorizedPath.filter(e=>path.includes(e)).length ) {
+        console.log('router.asPath',router.asPath);
+        
         // user must login
         setAuthorized(false);
         router.push({
           pathname: "/login",
-          query: { returnUrl: router.asPath },
+          query: { returnUrl: path },
         });
         return;
       }

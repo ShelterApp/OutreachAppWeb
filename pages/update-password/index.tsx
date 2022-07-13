@@ -7,6 +7,7 @@ import Button from "component/Button";
 import { userService, alertService } from "services";
 import Container from '@mui/material/Container';
 import Header from 'component/Header';
+import { useRouter } from 'next/router'
 
 type Inputs = {
   confirmPassword: string;
@@ -22,6 +23,8 @@ const UpdatePassword: NextPage = () => {
     watch,
     reset
   } = useForm<Inputs>();
+  const router = useRouter();
+
   const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
     const user = {
       ...data,
@@ -30,9 +33,12 @@ const UpdatePassword: NextPage = () => {
       alertService.error("The new password and confimation password do not match.");
     }
     const res = await userService.changePassword(user);
-    if (res && res.status==204) {
+    console.log(res);
+    if (res && (res.status==204|| res.status==200)) {
       alertService.success("Your password was updated successful.");
       reset({oldPassword:'',newPassword:'',confirmPassword:''});
+      router.push('/');
+
     } else {
       alertService.error(res.message);
     }

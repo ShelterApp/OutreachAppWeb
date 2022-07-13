@@ -32,6 +32,8 @@ const Login: NextPage = () => {
         }
         // get return url from query parameters or default to '/'
         const returnUrl = router.query.returnUrl?.toString() || "/";
+        console.log(returnUrl);
+        
         router.push(returnUrl);
       })
       .catch(() => {

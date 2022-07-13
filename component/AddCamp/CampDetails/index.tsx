@@ -10,7 +10,7 @@ import stylesComponent from "component/Component.module.scss";
 import TextInput from "component/TextInput";
 import Select from "component/Select";
 import { CampDetailsProps } from 'common/interface';
-
+import { countries} from 'helpers/function';
 interface CampDetailsPageProps {
   onSubmit: Function;
   previousBack: Function;
@@ -35,6 +35,7 @@ const CampDetails = ({ onSubmit, previousBack, defaultValues, isNew }: CampDetai
     let form = {
       ...data,
       type: type.value,
+      country:country.value,
       status:status.value ,
     }
     if(!hasPet.value) {
@@ -67,6 +68,7 @@ const CampDetails = ({ onSubmit, previousBack, defaultValues, isNew }: CampDetai
 
   const [hasPet, setHasPet] = useState({label: 'No', value: false})
   const [type, setType] = useState(optionsType[0]);
+  const [country,setCountry]=useState(countries[0]);
   const [status, setStatus] = useState(statusOptions[0]);
 
   useEffect(() => {
@@ -75,6 +77,9 @@ const CampDetails = ({ onSubmit, previousBack, defaultValues, isNew }: CampDetai
 
     const _status: any = statusOptions.find((opt: any) => opt.value === defaultValues.status)
     setStatus(_status)
+
+    const _country: any = countries.find((opt: any) => opt.value === defaultValues.country)
+    setCountry(_country);
 
     const _optHasPet: any = defaultValues.numOfPet > 0 ? {label: 'Yes', value: true} : {label: 'No', value: false};
     setHasPet(_optHasPet)
@@ -113,10 +118,34 @@ const CampDetails = ({ onSubmit, previousBack, defaultValues, isNew }: CampDetai
             className={stylesComponent.input}
             placeholder="Description of the Camp"
           />
-          <TextInput
+           <Select
+            label="Country"
+            placeholder="Select Country"
+            options={countries}
+            value={country}
+            onChange={(e)=>setCountry(e)}
+          />
+
+           <TextInput
+            label="State"
+            placeholder="State"
+            register={register("state", { required: false })}
+          />
+           <TextInput
+            label="City"
+            placeholder="City"
+            register={register("city", { required: false })}
+          />
+           <TextInput
             label="Address"
             placeholder="Address"
             register={register("address", { required: false })}
+          />
+          <TextInput
+            label="Zip"
+            placeholder="Zip"
+            type='number'
+            register={register("postcode", { required: false })}
           />
           <TextInput
             label="Number of People"

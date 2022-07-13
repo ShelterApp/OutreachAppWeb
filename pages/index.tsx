@@ -14,6 +14,7 @@ import Button from '@mui/material/Button';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {  faCampground,faHandsHelping } from "@fortawesome/free-solid-svg-icons";
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import { useRouter } from 'next/router'
 
 // const center = ;
 const customStyles = {
@@ -68,12 +69,18 @@ const Home: NextPage = () => {
     //return '/icon/camps.svg';
      if(type==1 ||type== 9) return '/icon/camps.svg';
      else if(type==3) return '/icon/Pets.svg';
-     else if(type==5 || type==7) return '/icon/RV_Camp.svg';
+     else if(type==5 ) return '/icon/RV_Camp.svg';
     // return '/icon/Frame_14.svg';
-    // // else if(type==7) return '/icon/'
+     else if(type==7) return '/icon/packing.svg';
   }
+  const router = useRouter();
+
 
   useEffect(() => {
+    // if (window.location.pathname != router.pathname) {
+    //   router.push(`/${window.location.pathname}`)
+    // }
+
     const subscription = userService.user.subscribe((x: any) =>{
       if(x && x.user){
       setUser(x);

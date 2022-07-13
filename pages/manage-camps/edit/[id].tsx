@@ -15,7 +15,12 @@ const initCampDetails: CampDetailsProps = {
   numOfPet: 0,
   type: 1,
   address: "",
-  status: 1
+  status: 1,
+  country:'US',
+  postcode:0,
+  county:'',
+  state:'',
+  city:'',
 }
 
 const initPeople: PeopleProps = {
@@ -45,7 +50,12 @@ const EditCamp: NextPage = () => {
           numOfPet: res.numOfPet,
           type: res.type,
           address: res.address,
-          status: res.status
+          status: res.status,
+          country:res.country,
+          county:res.county,
+          city:res.city,
+          state:res.state,
+          postcode:res.postcode,
         })
         setCenter({
           lat: res.location.coordinates[1],
@@ -73,13 +83,24 @@ const EditCamp: NextPage = () => {
 
   const onSubmit = async (i: number) => {
     const locationMap = await getLocationAPIMap(center);
-    let address = "";
+    let address = "",country='',state='',postcode='',county='';
     if (locationMap.results && locationMap.results[0]) {
-      address = locationMap.results[0]?.formatted_address;
+      const dataAddress=locationMap.results[0].address_components;
+      dataAddress.forEach((element:any) => {
+        if(!campDetails.country &&  element.types.includes('country')) country=element.short_name;
+        if(!campDetails.state && element.types.includes('administrative_area_level_1')) state=element.long_name;
+        if(!campDetails.county && element.types.includes('administrative_area_level_2')) county=element.long_name;
+        if(!campDetails.address &&element.types.includes('locality')) address=element.long_name;
+        if(!campDetails.postcode && element.types.includes('postal_code')) postcode = parseInt(element.short_name) ;
+      });
+      locationMap.results[1].address_components.forEach((element:any) => {
+        if(element.types.includes('postal_code')) postcode = parseInt(element.short_name);
+      })
     }
     setCampDetails({
       ...campDetails,
-      address: address
+       address,
+       state,postcode,county,country
     })
     setStep(i)
   }
@@ -123,11 +144,11 @@ const EditCamp: NextPage = () => {
   const [zoom, setZoom] = useState(15);
 
   const createCamp = async (list: PeopleProps[], camp: any) => {
-    const locationMap = await getLocationAPIMap(center);
-    let address = "";
-    if (locationMap.results && locationMap.results[0]) {
-      address = locationMap.results[0]?.formatted_address;
-    }
+    // const locationMap = await getLocationAPIMap(center);
+    // const address = "";
+    // if (locationMap.results && locationMap.results[0]) {
+    //   address = locationMap.results[0]?.formatted_address;
+    // }
     const data = {
       ...camp,
       people: [...list],
@@ -139,7 +160,8 @@ const EditCamp: NextPage = () => {
           center.lng, center.lat
         ]
       },
-      address: address
+      postcode:parseInt(camp.postcode), 
+      // address: address
     }
 
     const res = await campsService.update(id, data);

@@ -193,16 +193,16 @@ const HelpScreen: NextPage = () => {
             )}
             <TextInput
               label="Phone"
-              placeholder="Volunteer Phone"
+              placeholder="Phone Number"
               register={register("phone", { 
-                required: true,
+                // required: true,
                 onChange:(e)=>setValue('phone',formatPhoneNumber(e.target.value)),
                 minLength:14,
             })}
                />
-              {errors.phone && errors.phone.type === "required" &&(
+              {/* {errors.phone && errors.phone.type === "required" &&(
                 <ErrorMessage>Please input phone.</ErrorMessage>
-              )}
+              )} */}
               {errors.phone && errors.phone.type === "minLength" &&(
                 <ErrorMessage>Please input valid phone.</ErrorMessage>
               )}
@@ -234,14 +234,14 @@ const HelpScreen: NextPage = () => {
             )}
             <label className={stylesComponent.label}>Note</label>
             <textarea
-              {...register("note", { required: true })}
+              {...register("note")}
               className={stylesComponent.input}
               rows={5}
               placeholder="Any other details you would like to add"
             />
-            {errors.note && errors.note.type === "required" && (
+            {/* {errors.note && errors.note.type === "required" && (
               <ErrorMessage>Please input description.</ErrorMessage>
-            )}
+            )} */}
 
             {!!location.length &&<FormControlLabel
               control={

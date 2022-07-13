@@ -119,6 +119,7 @@ const Supplies = () => {
   }, [user])
   const fetchData = async () => {
     const res = await suppliesService.list();
+    console.log(user.user);
     const data = await supplyItemsService.list({organizationId:user.user.organizationId});
     const items = data.items.map((i: any) => ({ _id: i.supplyId._id, name: i.supplyId.name, qty: i.qty }));
     setSupplyItems(items);
