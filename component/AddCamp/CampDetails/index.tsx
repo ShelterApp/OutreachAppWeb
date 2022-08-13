@@ -26,27 +26,6 @@ const CampDetails = ({ onSubmit, previousBack, defaultValues, isNew }: CampDetai
   } = useForm<CampDetailsProps>({
     defaultValues: defaultValues
   });
-  // eslint-disable-next-line
-  const [loading, setLoading] = useState(false);
-
-  const submit = (data: any, e: any) => {
-    setLoading(true);
-    e.preventDefault();
-    let form = {
-      ...data,
-      type: type.value,
-      country:country.value,
-      status:status.value ,
-    }
-    if(!hasPet.value) {
-      form =Object.assign({numOfPet: 0,
-        // status: isNew ? 1 : status.value 
-      },form)  
-    }
-     onSubmit(form)
-    setLoading(false);
-  };
-
   const options = [
     {label: 'Yes', value: true},
     {label: 'No', value: false}
@@ -70,6 +49,30 @@ const CampDetails = ({ onSubmit, previousBack, defaultValues, isNew }: CampDetai
   const [type, setType] = useState(optionsType[0]);
   const [country,setCountry]=useState(countries[0]);
   const [status, setStatus] = useState(statusOptions[0]);
+  // eslint-disable-next-line
+  const [loading, setLoading] = useState(false);
+
+  const submit = (data: any, e: any) => {
+    setLoading(true);
+    console.log(country,type);
+    
+    e.preventDefault();
+    let form = {
+      ...data,
+      type: type.value,
+      country:country ?country.value: 'US',
+      status:status.value ,
+    }
+    if(!hasPet.value) {
+      form =Object.assign({numOfPet: 0,
+        // status: isNew ? 1 : status.value 
+      },form)  
+    }
+     onSubmit(form)
+    setLoading(false);
+  };
+
+
 
   useEffect(() => {
     const _opt: any = optionsType.find((opt: any) => opt.value === defaultValues.type)
@@ -132,19 +135,24 @@ const CampDetails = ({ onSubmit, previousBack, defaultValues, isNew }: CampDetai
             register={register("state", { required: false })}
           />
            <TextInput
+            label="County"
+            placeholder="County"
+            register={register("county", { required: false })}
+          />
+           <TextInput
             label="City"
             placeholder="City"
             register={register("city", { required: false })}
           />
            <TextInput
-            label="Address"
+            label="Detail address"
             placeholder="Address"
             register={register("address", { required: false })}
           />
           <TextInput
             label="Zip"
             placeholder="Zip"
-            type='number'
+            type='string'
             register={register("postcode", { required: false })}
           />
           <TextInput

@@ -64,6 +64,12 @@ const Header = ({ title,displaySearch, user, back, onClick, onChangeSearch }: Bu
       <Divider />
       <List>
         {routeSideMenu[user.userType].map(({ text, link }: any, index: number) => (
+          text=='Donate'?
+          <a href={link} target='_blank' rel="noreferrer">
+            <ListItem button>
+              <ListItemText primary={text} />
+            </ListItem>
+          </a>:
           <Link href={link ? link : '#'} passHref key={index}>
             <ListItem button onClick={() => text == 'Logout' ? logout() : null}>
               <ListItemText primary={text} />
@@ -175,8 +181,8 @@ const routeSideMenu: any = {
     { text: "All Organizations Dashboard", link: "/all-inventory" },
     { text: "Update Profile", link: "/update-profile" },
     { text: "Update Password", link: "/update-password" },
-    { text: "Show Tutorial", link: "#" },
-    { text: "Donate", link: "#" },
+    // { text: "Show Tutorial", link: "#" },
+    { text: "Donate", link: "https://www.paypal.com/fundraiser/charity/3945196" },
     { text: "Terms of Use", link: "terms-of-use" },
     { text: "Privacy Policy", link: "/privacy-policy" },
     { text: "About Outreach App", link: "/about" },
@@ -196,8 +202,8 @@ const routeSideMenu: any = {
     { text: "My Events", link: "/my-events" },
     { text: "Update Profile", link: "/update-profile" },
     { text: "Update Password", link: "/update-password" },
-    { text: "Show Tutorial", link: "#" },
-    { text: "Donate", link: "#" },
+    // { text: "Show Tutorial", link: "#" },
+    { text: "Donate", link: "https://www.paypal.com/fundraiser/charity/3945196" },
     { text: "Terms of Use", link: "terms-of-use" },
     { text: "Privacy Policy", link: "/privacy-policy" },
     { text: "About Outreach App", link: "/about" },
@@ -211,8 +217,8 @@ const routeSideMenu: any = {
     { text: "My Events", link: "/my-events" },
     { text: "Update Profile", link: "/update-profile" },
     { text: "Update Password", link: "/update-password" },
-    { text: "Show Tutorial", link: "#" },
-    { text: "Donate", link: "#" },
+    // { text: "Show Tutorial", link: "#" },
+    { text: "Donate", link: "https://www.paypal.com/fundraiser/charity/3945196" },
     { text: "Terms of Use", link: "terms-of-use" },
     { text: "Privacy Policy", link: "/privacy-policy" },
     { text: "About Outreach App", link: "/about" },

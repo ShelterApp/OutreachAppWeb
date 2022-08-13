@@ -10,6 +10,7 @@ import { userService, campsService,alertService } from "services";
 import { CampDetailsProps, PeopleProps } from "common/interface";
 import { getLocationAPIMap } from "services/map.service";
 import styles from "styles/Home.module.scss";
+import { useRouter } from "next/router";
 
 const initCampDetails: CampDetailsProps = {
   description: "",
@@ -18,7 +19,9 @@ const initCampDetails: CampDetailsProps = {
   numOfPet: 0,
   type: 1,
   address: '',
-  status: 1
+  status: 1,
+  city:'',
+  state:'',
 }
 
 const initPeople: PeopleProps = {
@@ -32,18 +35,30 @@ const initPeople: PeopleProps = {
 }
 
 const AddCamp: NextPage = () => {
+  const router = useRouter();
   const [step, setStep] = useState<number>(1);
 
   const onSubmit = async (i: number) => {
     const locationMap = await getLocationAPIMap(center);
-    let address = "";
+    let address = "",postcode='',state='',county='',city='';
     if (locationMap.results && locationMap.results[0]) {
-      address = locationMap.results[0]?.formatted_address;
+      // address = locationMap.results[0]?.formatted_address;
+      locationMap.results[0].address_components.forEach((element:any) => {
+        if(element.types.includes('postal_code')) postcode=element.long_name;
+        if(element.types.includes('administrative_area_level_1')) state=element.long_name;
+        if(element.types.includes('administrative_area_level_2')) county=element.long_name;
+        if(element.types.includes('locality')) city=element.long_name;
+        if(element.types.includes('route')) address=element.long_name;
+
+      });
     }
     setCampDetails({
       ...campDetails,
-      address: address
+      address: address,
+      postcode,state,county,city
     })
+    //  console.log(city,county);
+    
     setStep(i)
   }
 

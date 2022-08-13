@@ -53,7 +53,7 @@ const CampCard = ({camp, handleOpenAlert, edit}: any) => {
         {
           camp.address && (
             <Typography variant="body2">
-              <b>City:</b> {camp.address}
+              <b>Address:</b> {camp.address} - {camp.city} - {camp.state}
             </Typography>
           )
         }

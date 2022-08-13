@@ -11,7 +11,7 @@ const formatPhoneNumber=(value:string)=> {
     3,  6
   )}-${phoneNumber.slice(6, 10)}`;
 }
-const countries= [ 
+const countries = [ 
   {label: "United States", value: "US"}, 
   {label: "Afghanistan", value: "AF"}, 
   {label: "land Islands", value: "AX"}, 

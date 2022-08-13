@@ -17,6 +17,7 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import stylesComponent from "component/Component.module.scss";
 import {formatPhoneNumber} from 'helpers/function';
+import { useRouter } from 'next/router'
 
 interface SelectType {
   value: string;
@@ -54,6 +55,7 @@ const HelpScreen: NextPage = () => {
   const [sizeCate, setSizeCate] = useState<SelectType>();
   const [checked, setChecked] = useState<boolean>(false);
   const [location, setLocation] = useState([] as number[]);
+  const router = useRouter();
 
   useEffect(() => {
     const fetch = async () => {
@@ -108,7 +110,7 @@ const HelpScreen: NextPage = () => {
       .create(item)
       .then((res) => {
         if (res._id) {
-          alertService.success("Your request has been sent.");
+          alertService.success("Your request has been sent to Outreach Team");
           setParentCate({ value: "", label: "" });
           setSubCate({ value: "", label: "" });
           setSizeCate({ value: "", label: "" });
@@ -116,7 +118,7 @@ const HelpScreen: NextPage = () => {
           setValue("name", "");
           setValue("email", "");
           setValue("phone", "");
-
+          router.push(`/`);
         } else {
           alertService.error(res.message);
           return;

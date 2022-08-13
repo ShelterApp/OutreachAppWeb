@@ -17,7 +17,7 @@ const initCampDetails: CampDetailsProps = {
   address: "",
   status: 1,
   country:'US',
-  postcode:0,
+  postcode: '',
   county:'',
   state:'',
   city:'',
@@ -42,7 +42,8 @@ const EditCamp: NextPage = () => {
     const fetch = async () => {
       const res = await campsService.get(id);
       if (res && res._id) {
-        setRecord(res)
+        setRecord(res);
+        console.log(res);
         setCampDetails({
           description: res.description,
           name: res.name,
@@ -83,24 +84,30 @@ const EditCamp: NextPage = () => {
 
   const onSubmit = async (i: number) => {
     const locationMap = await getLocationAPIMap(center);
-    let address = "",country='',state='',postcode='',county='';
+    let address = "",country='',state='',postcode='',county='',city='';
     if (locationMap.results && locationMap.results[0]) {
       const dataAddress=locationMap.results[0].address_components;
       dataAddress.forEach((element:any) => {
         if(!campDetails.country &&  element.types.includes('country')) country=element.short_name;
         if(!campDetails.state && element.types.includes('administrative_area_level_1')) state=element.long_name;
         if(!campDetails.county && element.types.includes('administrative_area_level_2')) county=element.long_name;
-        if(!campDetails.address &&element.types.includes('locality')) address=element.long_name;
-        if(!campDetails.postcode && element.types.includes('postal_code')) postcode = parseInt(element.short_name) ;
+        if(!campDetails.address && element.types.includes('route')) address=element.long_name;
+        if(!campDetails.city && element.types.includes('locality')) city=element.long_name;
+        if(!campDetails.postcode && element.types.includes('postal_code')) postcode = element.short_name ;
       });
-      locationMap.results[1].address_components.forEach((element:any) => {
-        if(element.types.includes('postal_code')) postcode = parseInt(element.short_name);
-      })
+      // locationMap.results[1].address_components.forEach((element:any) => {
+      //   if(element.types.includes('postal_code')) postcode = parseInt(element.short_name);
+      // })
     }
+    
     setCampDetails({
       ...campDetails,
-       address,
-       state,postcode,county,country
+       address:campDetails.address || address,
+       state:campDetails.state||state ,
+       postcode:campDetails.postcode ||postcode ,
+       city:campDetails.city ||city ,
+       county:campDetails.county ||county 
+       ,country:campDetails.country ||country ,
     })
     setStep(i)
   }

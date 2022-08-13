@@ -18,7 +18,7 @@ export interface CampDetailsProps {
   status: number;
   country:string,
   county:string,
-  postcode:number,
+  postcode:string,
   city:string,
   state:string,
 

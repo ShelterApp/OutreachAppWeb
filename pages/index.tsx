@@ -14,7 +14,7 @@ import Button from '@mui/material/Button';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {  faCampground,faHandsHelping } from "@fortawesome/free-solid-svg-icons";
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
-import { useRouter } from 'next/router'
+// import { useRouter } from 'next/router'
 
 // const center = ;
 const customStyles = {
@@ -73,7 +73,7 @@ const Home: NextPage = () => {
     // return '/icon/Frame_14.svg';
      else if(type==7) return '/icon/packing.svg';
   }
-  const router = useRouter();
+  // const router = useRouter();
 
 
   useEffect(() => {
