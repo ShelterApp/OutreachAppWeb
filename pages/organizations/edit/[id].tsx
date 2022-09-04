@@ -20,7 +20,6 @@ const Edit: NextPage = () => {
         setOrg(org)
         return;
       }
-
       router.push('/404')
     }
 
@@ -29,7 +28,7 @@ const Edit: NextPage = () => {
 
   return (
     <main className={styles.mainTop}>
-      <Header title='Update Organization' back='/' />
+      <Header title='Update Organization' back='/organizations' />
       <Container maxWidth="sm">
         <div className={styles.grid}>
         {

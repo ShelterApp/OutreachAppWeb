@@ -98,7 +98,7 @@ const SignUp: NextPage = () => {
             )}
             <TextInput
               label="Phone"
-              placeholder="Volunteer Phone"
+              placeholder="Phone Number"
               register={register("phone", { 
                 required: true,
                 onChange:(e)=>setValue('phone',formatPhoneNumber(e.target.value)),

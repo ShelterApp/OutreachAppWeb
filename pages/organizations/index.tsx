@@ -19,7 +19,8 @@ const Index: NextPage = () => {
 
   const fetchData = async (condition?:any) => {
     const res = await organizationService.list(condition);
-    setOrgs(res.items);
+    setOrgs(res.items.map(item=>
+      ({...item, address: `${item.address}, ${item.city}`})));
   };
 
   const onChangeSearch=(e:string)=>{

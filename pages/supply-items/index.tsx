@@ -72,7 +72,7 @@ const Index: NextPage = () => {
 
   return (
     <main className={styles.mainTop}>
-      <Header title="Manage Supply Items" back="/" />
+      <Header title="Manage Your Supply Quantity" back="/" />
       <Container maxWidth="sm" style={{margin: 'auto'}}>
         <Grid container className={'mt-2'}>
           <Grid className='text-center' item xs={6}>

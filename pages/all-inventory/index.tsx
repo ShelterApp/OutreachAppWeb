@@ -28,7 +28,7 @@ const MyDashboard: NextPage = () => {
 
   return (
     <main className={styles.mainTop}>
-      <Header title={`All Orgn's Inventory`} back='/' />
+      <Header title={`All Organizations Inventory`} back='/' />
       <Container maxWidth="sm">
         <div style={{ paddingTop: 30 }} />
         <Select

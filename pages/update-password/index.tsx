@@ -33,7 +33,6 @@ const UpdatePassword: NextPage = () => {
       alertService.error("The new password and confimation password do not match.");
     }
     const res = await userService.changePassword(user);
-    console.log(res);
     if (res && (res.status==204|| res.status==200)) {
       alertService.success("Your password was updated successful.");
       reset({oldPassword:'',newPassword:'',confirmPassword:''});

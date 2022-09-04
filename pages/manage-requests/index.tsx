@@ -7,9 +7,9 @@ import Header from 'component/Header';
 import Button from '@mui/material/Button';
 import Link from "next/link";
 import moment from 'moment';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCampground, faHandsHelping } from "@fortawesome/free-solid-svg-icons";
-import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faCampground, faHandsHelping } from "@fortawesome/free-solid-svg-icons";
+// import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 
 
 const containerStyle: any = {
@@ -78,10 +78,10 @@ const ManageRequest: NextPage = () => {
     let distance = 0;
     const reportText = (user.user._id == item.createdBy?._id ? `Self Reported ` : `Reported by ${item.name} `) + `${moment(item.updatedAt).fromNow()}`;
     if (item.location?.coordinates && location) distance = getDistanceFromLatLonInKm(item.location.coordinates[1], item.location.coordinates[0], location[0], location[1]);
-    if (item.type == 3) return <div key={index} style={{ paddingTop: 5 }}>
+    if (item.type == 3) return <div key={index} style={{ paddingTop: 10 }}>
       <Link href={`/request/detail/${item._id}`} passHref>
         <div
-          style={{ fontSize: 20, paddingLeft: 10, fontWeight: 'bold', position: 'relative' }}>
+          style={{ fontSize: 20, paddingLeft: 15, fontWeight: 'bold', position: 'relative' }}>
           {item.name}
           {!!distance && <div style={{ position: 'absolute', right: 10, top: 0 }}>
             {distance} Miles
@@ -89,8 +89,8 @@ const ManageRequest: NextPage = () => {
         </div>
       </Link>
 
-      {!!item.requestInfo.supplies[0]?.supplyName && <div style={{ paddingTop: 7, paddingLeft: 10, }}> Looking for {item.requestInfo.supplies[0]?.supplyName}</div>}
-      <div style={{ paddingTop: 7, paddingLeft: 10, }}>{reportText}</div>
+      {!!item.requestInfo.supplies[0]?.supplyName && <div style={{ paddingTop: 7, paddingLeft: 15, }}> Looking for {item.requestInfo.supplies[0]?.supplyName}</div>}
+      <div style={{ paddingTop: 7, paddingLeft: 15, }}>{reportText}</div>
       <div style={{ paddingTop: 10, paddingBottom: 5,display:'flex',justifyContent:'space-around', }}>
         {item.status==3 && <Button style={{ textTransform: 'none', fontSize: 16, width: '30%',  padding: 9, borderRadius: 10, backgroundColor: '#5952ff' }} variant="contained"
           onClick={() => updateRequest(item._id,1)} >
@@ -107,17 +107,17 @@ const ManageRequest: NextPage = () => {
       </div>
       {index != data.length - 1 && <div style={{ width: '100%', height: 2, backgroundColor: 'grey', marginTop: 10 }} />}
     </div>;
-    return <div key={index} style={{ paddingTop: 5 }}>
+    return <div key={index} style={{ paddingTop: 10 }}>
       <Link href={`/request/detail/${item._id}`} passHref>
-        <div style={{ fontSize: 20, paddingLeft: 10, fontWeight: 'bold', position: 'relative' }}>
+        <div style={{ fontSize: 20, paddingLeft: 15, fontWeight: 'bold', position: 'relative' }}>
           {item.name}
           {!!distance && <div style={{ position: 'absolute', right: 10, top: 0 }}>
             {distance} Miles
       </div>}
         </div>
       </Link>
-      <div style={{ paddingTop: 7, paddingLeft: 10, }}> Looking for {item.requestInfo.cate?.parentCateName}</div>
-      <div style={{ paddingTop: 7, paddingLeft: 10, }}>{reportText}</div>
+      <div style={{ paddingTop: 7, paddingLeft: 15, }}> Looking for {item.requestInfo.cate?.parentCateName}</div>
+      <div style={{ paddingTop: 7, paddingLeft: 15, }}>{reportText}</div>
       <div style={{ paddingTop: 10, paddingBottom: 5,display:'flex',justifyContent:'space-around', }}>
         {item.status==3 && <Button style={{ textTransform: 'none', fontSize: 16, width: '30%',  padding: 9, borderRadius: 10, backgroundColor: '#5952ff' }} variant="contained"
           onClick={() => updateRequest(item._id,1)} >
@@ -143,7 +143,7 @@ const ManageRequest: NextPage = () => {
           {!!data && data.map((item, index) => renderItem(item, index))}
         </div>
         <div className={styles.bottomTicky}>
-          <div style={{ height: 40, width: '100%', backgroundColor: '#cdcad1', borderTopColor: 'f6f3f3', borderWidth: 1, paddingTop: 3 }}>
+          <div style={{ height: 50, width: '100%', backgroundColor: '#cdcad1', borderTopColor: 'f6f3f3', borderWidth: 1, paddingTop: 8 }}>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', }}>
               <Button style={{ textTransform: 'none', width: '30%', borderRadius: 20, color: indexType == 3 ? 'white' : '#5952FF', backgroundColor: indexType == 3 ? '#5952FF' : 'white' }} variant='contained'
                 onClick={() => getData(3)} >
@@ -159,7 +159,7 @@ const ManageRequest: NextPage = () => {
         </Button>
             </div>
           </div>
-          <div className={styles.bottomTab}>
+          {/* <div className={styles.bottomTab}>
           <Link href='/request' passHref>
           <div style={{height:'100%', flexDirection:'column',
           minWidth:70,
@@ -192,7 +192,7 @@ const ManageRequest: NextPage = () => {
           <div style={{textAlign:'center',width:'100%'}}>Events</div>
           </div>
           </Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </main>

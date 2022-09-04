@@ -11,6 +11,7 @@ import InputDate from "component/InputDate";
 import InputTime from "component/InputTime";
 import Grid from '@mui/material/Grid';
 import dayjs from 'dayjs';
+import {formatPhoneNumber} from 'helpers/function';
 
 type Inputs = {
   title: string;
@@ -39,6 +40,7 @@ const FormCreateEvent = ({onSubmit, data}: FormProps) => {
   const {
     register,
     handleSubmit,
+    setValue,
     reset,
     formState: { errors },
   } = useForm<Inputs>({
@@ -150,11 +152,16 @@ const FormCreateEvent = ({onSubmit, data}: FormProps) => {
         {errors.address && errors.address.type === "required" && (
           <ErrorMessage>Please input address.</ErrorMessage>
         )}
-        <TextInput
+         <TextInput
           label="Contact Number"
           placeholder="Contact Number"
-          register={register("contactPhone", { required: true })}
+          register={register("contactPhone", { 
+            required: true,
+            onChange:(e)=>setValue('contactPhone',formatPhoneNumber(e.target.value)),
+            minLength:14,
+           })}
         />
+
         {errors.contactPhone && errors.contactPhone.type === "required" && (
           <ErrorMessage>Please input contact number.</ErrorMessage>
         )}
@@ -175,8 +182,8 @@ const FormCreateEvent = ({onSubmit, data}: FormProps) => {
           <ErrorMessage>Please input email.</ErrorMessage>
         )}
         <TextInput
-          label="Max Attended"
-          placeholder="Max attended"
+          label="Max Attendees"
+          placeholder="Max Attendees"
           register={register("maxAttended", { required: true, min: 0 })}
           type='number'
         />

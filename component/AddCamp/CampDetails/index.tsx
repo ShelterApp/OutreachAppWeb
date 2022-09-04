@@ -54,7 +54,6 @@ const CampDetails = ({ onSubmit, previousBack, defaultValues, isNew }: CampDetai
 
   const submit = (data: any, e: any) => {
     setLoading(true);
-    console.log(country,type);
     
     e.preventDefault();
     let form = {

@@ -21,7 +21,11 @@ const CampLog: NextPage = () => {
     }
     const res =await campsService.changeStatus(id, req);
     if(res._id)
-    alertService.success('Camp Status was updated successful!')
+    {
+      router.push('/').then(() => {
+        alertService.success('Camp Status was updated successful!')
+      })
+    }
   }
 
   return (

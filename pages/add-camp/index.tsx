@@ -57,7 +57,6 @@ const AddCamp: NextPage = () => {
       address: address,
       postcode,state,county,city
     })
-    //  console.log(city,county);
     
     setStep(i)
   }

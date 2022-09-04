@@ -37,13 +37,13 @@ function MyApp({ Component, pageProps }: AppProps) {
     // setUser(userService.userValue);
     // const publicPaths = ["/" ,"/login", "/sign-up", "/update-profile" ,"/forgot-password"];
     const path = url.split("?")[0];
-    const notAuthorizedPath = ['/login/', "/sign-up", "/sign-up/", '/forgot-password/', 'help-screen/','/forgotpassword/','resetpassword'];
+    const notAuthorizedPath = ['/login/', "/sign-up", "/sign-up/", '/forgot-password/', 'help-screen/','/forgotpassword/','/resetpassword'];
     const authorizedPath = ["/request/detail/", "/request/","/update-profile/", "/update-password/", "/organizations/add/", "/organizations/", "/volunteers/add/", "/volunteers/edit/", "/volunteers/",
      '/add-camp/','/camp/detail/','/camp/direction/','/camp/log/','/camp/report/','/my-claims/','/manage-request/','/manage-camps/','/manage-camps/edit/', '/events/', '/events/add/','/my-work/','/supply-items/',
     '/drop-supplies/','/request-supplies/', '/my-events/','/about/','/terms-of-use','/privacy-policy','/my-dashboard','/all-inventory', '/events/list/','/fulfill'];
-    const publicPaths: any[] = [] ;
+    // const publicPaths: any[] = [] ;
 
-    if (publicPaths.includes(path)) {
+    if (notAuthorizedPath.includes(path)) {
       setAuthorized(true);
       return;
     }
@@ -52,7 +52,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 
       // user not login
       if ( authorizedPath.filter(e=>path.includes(e)).length ) {
-        console.log('router.asPath',router.asPath);
         
         // user must login
         setAuthorized(false);
@@ -66,10 +65,12 @@ function MyApp({ Component, pageProps }: AppProps) {
       // user login
       if (notAuthorizedPath.includes(path)) {
         // redirect to home page
+        
         setAuthorized(false);
         router.push({
           pathname: "/",
-        });
+        }); 
+        
         return;
       }
       await userService.getProfile();

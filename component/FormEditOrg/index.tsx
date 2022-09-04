@@ -9,6 +9,9 @@ import { alertService, organizationService } from "services";
 import { useRouter } from "next/router";
 import dayjs from "dayjs";
 import {formatPhoneNumber} from 'helpers/function';
+import { Country, State, City }  from 'country-state-city';
+import { countries} from 'helpers/function';
+import Select from "component/Select";
 
 type Inputs = {
   name: string;
@@ -17,6 +20,7 @@ type Inputs = {
   address: string;
   phone: string;
   code:string;
+  postcode:string;
 };
 
 const defaultValues: any = {
@@ -26,6 +30,7 @@ const defaultValues: any = {
   phone: "",
   email: "",
   code:'',
+  postcode:'',
 };
 
 const FormEditOrg = ({ org }: any) => {
@@ -41,14 +46,29 @@ const FormEditOrg = ({ org }: any) => {
   });
   const [loading, setLoading] = useState(false);
 
+  const [country,setCountry]=useState(countries[0]);
+  const [listState,setListState]=useState(State.getStatesOfCountry('US').map(item=>({
+    label:item.name,
+    value:item.isoCode
+  })));
+  const [state,setState]=useState({value:'',label:''});
+  const [cities,setCities]=useState([]);
+  const [city,setCity]=useState({value:'',label:''});
+  const listCountry= Country.getAllCountries().map((item:any)=>
+  ({label:item.name,value:item.isoCode }));
+
   const submit = async (data: any, e: any) => {
     setLoading(true);
     e.preventDefault();
+    data.state=state.value;
+    data.city=city.label;
+    data.country=country.value;
     const res = await organizationService.update(org._id, data)
+
     if (res.statusCode && res.message) {
       alertService.error(res.message)
     } else {
-      router.push('/organizations/').then(() => {
+      router.push('/organizations').then(() => {
         alertService.success('Organization was updated successful!')
       })
     }
@@ -64,7 +84,23 @@ const FormEditOrg = ({ org }: any) => {
         phone: org.phone,
         email: org.email,
         code:org.code,
+        postcode:org.postcode,
       });
+      // console.log(org.city,City.getCity (org.state));
+      setCountry({
+        label: Country?.getCountryByCode(org.country)?.name,
+        value:org.country
+      });
+      setState({
+        label: State?.getStateByCodeAndCountry(org.state,org.country)?.name,
+        value:org.state});
+        setCities(City?.getCitiesOfState(org.country,org.state).map(item=>({
+          label:item.name,
+          value:item.name
+        })))
+      setCity({
+        label:org.city,
+        value:org.city});
     }
   }, [org]);
 
@@ -73,7 +109,7 @@ const FormEditOrg = ({ org }: any) => {
       <form name="form_org" onSubmit={handleSubmit(submit)}>
         <TextInput
           label="Name"
-          placeholder="Name"
+          placeholder="Organization Name"
           register={register("name", { required: true })}
         />
         {errors.name && errors.name.type === "required" && (
@@ -88,17 +124,63 @@ const FormEditOrg = ({ org }: any) => {
         {errors.description && errors.description.type === "required" && (
           <ErrorMessage>Please input description.</ErrorMessage>
         )}
+         <Select
+            label="Country"
+            placeholder="Select Country"
+            options={listCountry}
+            value={country}
+            onChange={(e)=>{
+              setCountry(e);
+              setListState(State.getStatesOfCountry(e.value).map(item=>({
+                label:item.name,
+                value:item.isoCode
+              })));
+              setState('');
+              setCity('');
+                }
+              }
+          />
+          <Select
+            label="State"
+            placeholder="Select State"
+            options={listState}
+            value={state}
+            onChange={(e)=>{
+              setState(e);
+              setCity('');
+              const data= City.getCitiesOfState(country.value,e.value).map(item=>({
+                label:item.name,
+                value:item.stateCode
+              }));
+              setCities(data);
+            }}
+            />
+             <Select
+            label="City"
+            placeholder="Select City"
+            options={cities}
+            value={city}
+            onChange={(e)=>{
+              setCity(e);
+            }}
+            />
         <TextInput
-          label="Address"
+          label="Detail Address"
           placeholder="Address"
           register={register("address", { required: true })}
         />
         {errors.address && errors.address.type === "required" && (
           <ErrorMessage>Please input address.</ErrorMessage>
         )}
+         <TextInput
+            label="Zip"
+            placeholder="Zip"
+            type='string'
+            register={register("postcode", { required: false })}
+          />
         <TextInput
           label="Phone"
-          placeholder="Volunteer Phone"
+          placeholder="Phone Number"
           register={register("phone", { 
             required: true,
             onChange:(e)=>setValue('phone',formatPhoneNumber(e.target.value)),

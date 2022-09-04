@@ -19,6 +19,7 @@ type Inputs = {
   address: string;
   phone: string;
   password: string;
+  postcode:string;
 };
 
 const defaultValues: any = {
@@ -28,6 +29,8 @@ const defaultValues: any = {
   phone: "",
   email: "",
   password: "",
+  postcode:'',
+
 };
 
 const FormCreateOrg = () => {
@@ -60,17 +63,17 @@ const FormCreateOrg = () => {
     data.state=state.value;
     data.city=city.value;
     data.country=country.value;
-console.log(data);
+// console.log(data);
 
-    // const org = await organizationService.create(data)
-    // if (org.statusCode && org.message) {
-    //   alertService.error(org.message)
-    // } else {
-    //   router.push('/organizations/').then(() => {
-    //     alertService.success('Organization was created successful!')
-    //   })
-    // }
-    // setLoading(false);
+    const org = await organizationService.create(data)
+    if (org.statusCode && org.message) {
+      alertService.error(org.message)
+    } else {
+      router.push('/organizations/').then(() => {
+        alertService.success('Organization was created successful!')
+      })
+    }
+    setLoading(false);
   };
 
   return (
@@ -119,7 +122,7 @@ console.log(data);
               setCity('');
               const data= City.getCitiesOfState(country.value,e.value).map(item=>({
                 label:item.name,
-                value:item.stateCode
+                value:item.name
               }));
               setCities(data);
             }}
@@ -141,9 +144,15 @@ console.log(data);
         {errors.address && errors.address.type === "required" && (
           <ErrorMessage>Please input address.</ErrorMessage>
         )}
+           <TextInput
+            label="Zip"
+            placeholder="Zip"
+            type='string'
+            register={register("postcode", { required: false })}
+          />
         <TextInput
           label="Phone"
-          placeholder="Volunteer Phone"
+          placeholder="Phone Number"
           register={register("phone", { 
             required: true,
             onChange:(e)=>setValue('phone',formatPhoneNumber(e.target.value)),

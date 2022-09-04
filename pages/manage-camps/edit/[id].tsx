@@ -43,7 +43,6 @@ const EditCamp: NextPage = () => {
       const res = await campsService.get(id);
       if (res && res._id) {
         setRecord(res);
-        console.log(res);
         setCampDetails({
           description: res.description,
           name: res.name,
@@ -167,7 +166,7 @@ const EditCamp: NextPage = () => {
           center.lng, center.lat
         ]
       },
-      postcode:parseInt(camp.postcode), 
+      postcode:camp.postcode?.toString(), 
       // address: address
     }
 

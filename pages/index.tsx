@@ -14,7 +14,7 @@ import Button from '@mui/material/Button';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {  faCampground,faHandsHelping } from "@fortawesome/free-solid-svg-icons";
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
-// import { useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 
 // const center = ;
 const customStyles = {
@@ -40,6 +40,8 @@ const Home: NextPage = () => {
     lat: 32.965557,
     lng: -96.71583
   });
+  const router = useRouter();
+
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: process.env.NEXT_PUBLIC_APIKEY_MAP
@@ -77,12 +79,13 @@ const Home: NextPage = () => {
 
 
   useEffect(() => {
-    // if (window.location.pathname != router.pathname) {
-    //   router.push(`/${window.location.pathname}`)
-    // }
+    if (window.location.pathname != router.pathname) {
+      router.push(`/${window.location.pathname}`)
+    }
 
     const subscription = userService.user.subscribe((x: any) =>{
       if(x && x.user){
+      getCamp(0);
       setUser(x);
         setCenter({
           lat:x.user.regionId.lat,
@@ -91,7 +94,6 @@ const Home: NextPage = () => {
       }
       
     } );
-      getCamp(0);
     return () => subscription.unsubscribe();
   }, []);
 
